@@ -1,61 +1,79 @@
-<!DOCTYPE html><html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="description" content="Interactive NHS clinical audit and BadgerNet data-quality benchmark across 24 Level 3 Neonatal Intensive Care Units (NICUs) in England (2017/18 to 2023/24)."><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%23005EB8'/%3E%3Ctext x='50' y='66' font-family='Segoe UI,Arial,sans-serif' font-weight='800' font-size='44' fill='%23fff' text-anchor='middle'%3ENICU%3C/text%3E%3C/svg%3E">
+<!DOCTYPE html><html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="description" content="Interactive NHS clinical audit and BadgerNet data-quality benchmark across 24 Level 3 Neonatal Intensive Care Units (NICUs) in England (2017/18 to 2023/24)."><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23005EB8'/%3E%3Ctext x='50' y='65' font-family='Segoe UI,Arial,sans-serif' font-weight='800' font-size='42' fill='%23fff' text-anchor='middle'%3ENICU%3C/text%3E%3C/svg%3E">
 <title>NHS Neonatal Intensive Care Outcomes &amp; BadgerNet Data Quality (2023/24)</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
 <style>
 :root{
-  --bg:#f0f4f8;
+  --bg:#f1f5f9;
   --surface:#ffffff;
-  --surface-2:#f7f9fc;
+  --surface-2:#f8fafc;
+  --surface-3:#eef2f6;
   --nhs-blue:#005eb8;
   --nhs-dark:#003087;
-  --nhs-bright:#0072ce;
-  --nhs-teal:#00857c;
-  --nhs-aqua:#00a499;
-  --nhs-yellow:#ffb81c;
-  --ink:#0b2545;
-  --txt:#1e3a5f;
-  --mut:#52667a;
-  --line:#d8e2ec;
-  --grid:#e9eff5;
-  --gbg:#e3f5ec;
-  --gtx:#006637;
-  --gbd:#8fd6b2;
-  --obg:#fff1e6;
-  --otx:#9c3d00;
-  --obd:#f7b98c;
-  --nbg:#e8f1fa;
-  --ntx:#004b93;
-  --bm:#dce6f2;
-  --sel:#eef6ff;
-  --coral:#d95f02;
+  --nhs-bright:#0284c7;
+  --nhs-teal:#0d9488;
+  --nhs-aqua:#14b8a6;
+  --nhs-indigo:#4f46e5;
+  --nhs-yellow:#f59e0b;
+  --ink:#0f172a;
+  --txt:#334155;
+  --mut:#64748b;
+  --line:#e2e8f0;
+  --grid:#f1f5f9;
+  /* Vibrant Emerald for positive status */
+  --gbg:#ecfdf5;
+  --gtx:#047857;
+  --gbd:#6ee7b7;
+  /* Crisp Warm Amber/Rose for below-benchmark status */
+  --obg:#fff1f2;
+  --otx:#be123c;
+  --obd:#fda4af;
+  --wbg:#fffbeb;
+  --wtx:#b45309;
+  --wbd:#fcd34d;
+  --nbg:#eff6ff;
+  --ntx:#1d4ed8;
+  --nbd:#bfdbfe;
+  --bm:#e2e8f0;
+  --odn-row:#e0f2fe;
+  --sel:#e0f2fe;
+  --coral:#e11d48;
   color-scheme:light;
   box-sizing:border-box;
 }
 :root[data-theme="dark"]{
-  --bg:#0b131e;
-  --surface:#132030;
-  --surface-2:#192a3e;
-  --nhs-blue:#2b88d8;
+  --bg:#09101d;
+  --surface:#111c2d;
+  --surface-2:#17253b;
+  --surface-3:#1e2f4a;
+  --nhs-blue:#38bdf8;
   --nhs-dark:#0f294a;
-  --nhs-bright:#4ba0f0;
-  --nhs-teal:#22b8cf;
-  --nhs-aqua:#20c997;
-  --nhs-yellow:#ffd43b;
-  --ink:#f0f6fc;
-  --txt:#c9d8e8;
-  --mut:#8ba0b5;
-  --line:#253951;
-  --grid:#1c2d42;
-  --gbg:#103828;
-  --gtx:#7ee2b8;
-  --gbd:#236347;
-  --obg:#3d2210;
-  --otx:#ffbe85;
-  --obd:#7a431d;
-  --nbg:#16304d;
-  --ntx:#8ec5ff;
-  --bm:#1f3249;
-  --sel:#1a3352;
-  --coral:#ff8742;
+  --nhs-bright:#60a5fa;
+  --nhs-teal:#2dd4bf;
+  --nhs-aqua:#34d399;
+  --nhs-indigo:#818cf8;
+  --nhs-yellow:#fbbf24;
+  --ink:#f8fafc;
+  --txt:#cbd5e1;
+  --mut:#94a3b8;
+  --line:#233554;
+  --grid:#192841;
+  /* Vibrant translucent Emerald in dark mode */
+  --gbg:rgba(16,185,129,.16);
+  --gtx:#34d399;
+  --gbd:rgba(52,211,153,.38);
+  /* Vibrant translucent Rose-Coral in dark mode (no muddy brown) */
+  --obg:rgba(244,63,94,.16);
+  --otx:#fb7185;
+  --obd:rgba(251,113,133,.38);
+  --wbg:rgba(245,158,11,.16);
+  --wtx:#fbbf24;
+  --wbd:rgba(251,191,36,.38);
+  --nbg:rgba(56,189,248,.15);
+  --ntx:#7dd3fc;
+  --nbd:rgba(56,189,248,.35);
+  --bm:#1e2f4a;
+  --odn-row:#163052;
+  --sel:rgba(56,189,248,.16);
+  --coral:#fb7185;
   color-scheme:dark;
 }
 *{box-sizing:border-box}
@@ -70,11 +88,11 @@ body{
 }
 /* NHS Top Service Header */
 header{
-  background:linear-gradient(135deg,#003087 0%,#005eb8 65%,#0072ce 100%);
+  background:linear-gradient(125deg,#002663 0%,#005eb8 58%,#0d9488 100%);
   color:#fff;
   padding:16px 24px;
-  border-bottom:4px solid var(--nhs-aqua);
-  box-shadow:0 4px 16px rgba(0,48,135,.15);
+  border-bottom:3px solid #2dd4bf;
+  box-shadow:0 6px 20px rgba(0,38,99,.18);
 }
 .hdr-in{
   max-width:1680px;
@@ -93,24 +111,24 @@ header{
   font-style:italic;
   font-size:20px;
   letter-spacing:.5px;
-  padding:3px 10px;
-  border-radius:4px;
+  padding:4px 11px;
+  border-radius:6px;
   line-height:1.1;
   flex-shrink:0;
   margin-top:2px;
-  box-shadow:0 2px 6px rgba(0,0,0,.15);
+  box-shadow:0 3px 8px rgba(0,0,0,.18);
 }
 .nhs-lozenge small{
   display:block;
   font-style:normal;
   font-size:8.5px;
-  font-weight:700;
-  color:#00857c;
-  letter-spacing:.08em;
+  font-weight:800;
+  color:#0d9488;
+  letter-spacing:.09em;
   text-transform:uppercase;
 }
-h1{margin:0;font-size:22px;font-weight:700;letter-spacing:-.01em;color:#fff}
-.lede{margin:4px 0 0;color:#dbeafe;font-size:12.5px;max-width:960px;line-height:1.4}
+h1{margin:0;font-size:22px;font-weight:800;letter-spacing:-.015em;color:#fff}
+.lede{margin:4px 0 0;color:#e0f2fe;font-size:12.5px;max-width:960px;line-height:1.45}
 .hdr-meta{
   display:flex;
   gap:10px;
@@ -118,18 +136,18 @@ h1{margin:0;font-size:22px;font-weight:700;letter-spacing:-.01em;color:#fff}
   flex-wrap:wrap;
 }
 .audit-badge{
-  background:rgba(255,255,255,.12);
-  border:1px solid rgba(255,255,255,.28);
-  backdrop-filter:blur(4px);
+  background:rgba(255,255,255,.14);
+  border:1px solid rgba(255,255,255,.3);
+  backdrop-filter:blur(6px);
   color:#fff;
-  padding:6px 12px;
-  border-radius:8px;
+  padding:7px 14px;
+  border-radius:9px;
   font-size:11.5px;
-  line-height:1.3;
+  line-height:1.35;
   text-align:right;
 }
 .audit-badge b{display:block;font-size:13px;color:#fff}
-.audit-badge span{color:#bae6fd;font-size:10.5px}
+.audit-badge span{color:#a5f3fc;font-size:10.5px;font-weight:500}
 
 /* Container */
 .wrap{
@@ -145,21 +163,21 @@ h1{margin:0;font-size:22px;font-weight:700;letter-spacing:-.01em;color:#fff}
 .ctrl-bar{
   background:var(--surface);
   border:1px solid var(--line);
-  border-radius:10px;
-  padding:10px 16px;
+  border-radius:12px;
+  padding:11px 16px;
   display:flex;
   justify-content:space-between;
   align-items:center;
   gap:12px;
   flex-wrap:wrap;
-  box-shadow:0 1px 3px rgba(11,37,69,.04);
+  box-shadow:0 2px 8px rgba(15,23,42,.04);
 }
 .ctrl-left{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.odn-pills{display:flex;gap:5px;flex-wrap:wrap;align-items:center}
-.odn-pills span.lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--mut);margin-right:4px}
+.odn-pills{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.odn-pills span.lbl{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--mut);margin-right:4px}
 .pill{
   font:600 11.5px/1.2 inherit;
-  padding:5px 10px;
+  padding:6px 11px;
   border-radius:999px;
   border:1px solid var(--line);
   background:var(--surface-2);
@@ -167,30 +185,37 @@ h1{margin:0;font-size:22px;font-weight:700;letter-spacing:-.01em;color:#fff}
   cursor:pointer;
   transition:all .15s ease;
 }
-.pill:hover{border-color:var(--nhs-blue);color:var(--nhs-blue)}
-.pill.act{background:var(--nhs-blue);border-color:var(--nhs-blue);color:#fff;box-shadow:0 2px 6px rgba(0,94,184,.25)}
+.pill:hover{border-color:var(--nhs-blue);color:var(--nhs-blue);transform:translateY(-1px)}
+.pill.act{
+  background:linear-gradient(135deg,#005eb8,#0d9488);
+  border-color:transparent;
+  color:#fff;
+  box-shadow:0 3px 10px rgba(13,148,136,.3);
+}
 .pick{font-weight:600;font-size:12px;color:var(--ink);display:flex;align-items:center;gap:6px}
 .pick select,.search-in{
-  font:500 12px inherit;
-  padding:5px 10px;
+  font:600 12px inherit;
+  padding:6px 10px;
   border:1px solid var(--line);
-  border-radius:6px;
+  border-radius:7px;
   background:var(--surface-2);
   color:var(--ink);
+  outline:none;
 }
-.search-in{width:175px}
+.pick select:focus,.search-in:focus{border-color:var(--nhs-blue);box-shadow:0 0 0 2px var(--nbg)}
+.search-in{width:180px}
 .btn{
   font:600 12px inherit;
   cursor:pointer;
   border:1px solid var(--line);
   background:var(--surface-2);
   color:var(--ink);
-  border-radius:6px;
-  padding:5px 11px;
+  border-radius:7px;
+  padding:6px 12px;
   transition:all .15s;
 }
 .btn:hover{border-color:var(--nhs-blue);color:var(--nhs-blue)}
-.btn-reset{background:var(--nbg);color:var(--ntx);border-color:var(--nhs-blue)}
+.btn-reset{background:var(--nbg);color:var(--ntx);border-color:var(--nbd)}
 
 /* Clinical Banner Strip */
 .headline{
@@ -201,26 +226,27 @@ h1{margin:0;font-size:22px;font-weight:700;letter-spacing:-.01em;color:#fff}
   flex-wrap:wrap;
   background:var(--surface);
   border:1px solid var(--line);
-  border-left:5px solid var(--nhs-aqua);
-  border-radius:10px;
-  padding:10px 16px;
+  border-left:5px solid var(--nhs-teal);
+  border-radius:12px;
+  padding:11px 16px;
   font-size:13.5px;
   color:var(--ink);
-  box-shadow:0 1px 3px rgba(11,37,69,.04);
+  box-shadow:0 2px 8px rgba(15,23,42,.04);
 }
 .headline-left{display:flex;align-items:center;gap:12px;min-width:0;flex:1}
 .headline .tag{
   background:var(--nbg);
   color:var(--ntx);
-  padding:3px 8px;
-  border-radius:4px;
+  border:1px solid var(--nbd);
+  padding:4px 9px;
+  border-radius:6px;
   font-size:10.5px;
-  letter-spacing:.07em;
+  letter-spacing:.06em;
   text-transform:uppercase;
   font-weight:800;
   white-space:nowrap;
 }
-.headline p{margin:0;line-height:1.4}
+.headline p{margin:0;line-height:1.45}
 .hn{color:var(--nhs-blue);font-weight:700}
 .mut{color:var(--mut)}
 
@@ -233,30 +259,34 @@ h1{margin:0;font-size:22px;font-weight:700;letter-spacing:-.01em;color:#fff}
 .kb{
   background:var(--surface);
   border:1px solid var(--line);
-  border-top:3px solid var(--nhs-blue);
-  border-radius:10px;
-  padding:11px 14px 9px;
+  border-top:3.5px solid var(--nhs-blue);
+  border-radius:12px;
+  padding:12px 14px 10px;
   display:flex;
   flex-direction:column;
   justify-content:space-between;
-  box-shadow:0 2px 6px rgba(11,37,69,.04);
+  box-shadow:0 3px 10px rgba(15,23,42,.05);
   min-width:0;
 }
-.kb.teal{border-top-color:var(--nhs-aqua)}
-.kb.amber{border-top-color:var(--coral)}
+.kb.c-sky{border-top-color:#0ea5e9}
+.kb.c-teal{border-top-color:#10b981}
+.kb.c-blue{border-top-color:#3b82f6}
+.kb.c-indigo{border-top-color:#8b5cf6}
+.kb.c-rose{border-top-color:#f43f5e}
+.kb.c-amber{border-top-color:#f59e0b}
 .kb-top{display:flex;justify-content:space-between;align-items:flex-start;gap:6px}
-.kb-cat{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--mut)}
-.kb-rk{font-size:10px;font-weight:700;padding:1px 6px;border-radius:4px;background:var(--nbg);color:var(--ntx);white-space:nowrap}
-.kb-title{font-size:12px;font-weight:600;color:var(--txt);margin:2px 0 4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.kb-val-row{display:flex;align-items:baseline;justify-content:space-between;gap:6px}
+.kb-cat{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--mut)}
+.kb-rk{font-size:10px;font-weight:700;padding:2px 6px;border-radius:5px;background:var(--nbg);color:var(--ntx);border:1px solid var(--nbd);white-space:nowrap}
+.kb-title{font-size:12px;font-weight:600;color:var(--txt);margin:3px 0 5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kb-val-row{display:flex;align-items:baseline;justify-content:space-between;gap:6px;flex-wrap:wrap}
 .kb b{font-size:26px;line-height:1.1;color:var(--ink);font-weight:800;letter-spacing:-.02em}
-.kb em{font-style:normal;font-weight:700;font-size:11px;padding:2px 6px;border-radius:4px;display:inline-block;margin-top:4px}
-.up{background:var(--gbg);color:var(--gtx)}
-.dn{background:var(--obg);color:var(--otx)}
-.kb small{display:block;color:var(--mut);font-size:10.5px;margin-top:4px;line-height:1.25}
-.kb svg{margin-top:6px;height:22px;width:100%;display:block}
+.kb em{font-style:normal;font-weight:700;font-size:10.5px;padding:2px 6px;border-radius:5px;display:inline-block}
+.up{background:var(--gbg);color:var(--gtx);border:1px solid var(--gbd)}
+.dn{background:var(--obg);color:var(--otx);border:1px solid var(--obd)}
+.kb small{display:block;color:var(--mut);font-size:10.5px;margin-top:5px;line-height:1.25}
+.kb svg{margin-top:6px;height:24px;width:100%;display:block}
 
-/* Main 2-Column Split: Left Benchmark Matrix (1.5fr) | Right Scorecard + Trend (1fr) */
+/* Main 2-Column Split: Left Benchmark Matrix (1.52fr) | Right Scorecard + Trend (1fr) */
 .main-grid{
   display:grid;
   grid-template-columns:1.52fr 1fr;
@@ -277,7 +307,7 @@ h1{margin:0;font-size:22px;font-weight:700;letter-spacing:-.01em;color:#fff}
   min-width:0;
   display:flex;
   flex-direction:column;
-  box-shadow:0 2px 8px rgba(11,37,69,.04);
+  box-shadow:0 3px 10px rgba(15,23,42,.04);
 }
 .card-hdr{
   display:flex;
@@ -292,12 +322,12 @@ h1{margin:0;font-size:22px;font-weight:700;letter-spacing:-.01em;color:#fff}
   content:"";
   display:inline-block;
   width:4px;
-  height:15px;
-  background:var(--nhs-aqua);
+  height:16px;
+  background:linear-gradient(180deg,var(--nhs-blue),var(--nhs-aqua));
   border-radius:2px;
 }
 .card h2 small{color:var(--mut);font-weight:500;font-size:12px}
-.cap{margin:0 0 10px;color:var(--mut);font-size:11.5px;line-height:1.4}
+.cap{margin:0 0 10px;color:var(--mut);font-size:11.5px;line-height:1.45}
 
 /* Legend Pills */
 .lg{display:flex;gap:12px;align-items:center;flex-wrap:wrap;font-size:11px;font-weight:600;color:var(--txt)}
@@ -305,10 +335,10 @@ h1{margin:0;font-size:22px;font-weight:700;letter-spacing:-.01em;color:#fff}
 .lg i{display:inline-block;width:12px;height:12px;border-radius:3px}
 
 /* Modern Clinical Table */
-.tbw{overflow:auto;flex:1;border:1px solid var(--line);border-radius:8px}
+.tbw{overflow:auto;border:1px solid var(--line);border-radius:9px}
 table{border-collapse:collapse;width:100%;font-size:12px;min-width:760px}
 th{
-  background:var(--nhs-dark);
+  background:linear-gradient(180deg,#0f294a 0%,#0b1e38 100%);
   color:#fff;
   font-weight:600;
   padding:9px 7px;
@@ -319,18 +349,18 @@ th{
   z-index:2;
   line-height:1.2;
   user-select:none;
-  border-bottom:2px solid var(--nhs-aqua);
+  border-bottom:2px solid #2dd4bf;
   font-size:11.5px;
 }
 th:first-child{text-align:left;padding-left:10px}
-th.s:after{content:"\00a0\25BC";font-size:9px;color:var(--nhs-yellow)}
-th.s.a:after{content:"\00a0\25B2";font-size:9px;color:var(--nhs-yellow)}
+th.s:after{content:"\00a0\25BC";font-size:9px;color:#fbbf24}
+th.s.a:after{content:"\00a0\25B2";font-size:9px;color:#fbbf24}
 td{
   padding:5px 7px;
   white-space:nowrap;
   text-align:right;
   border-bottom:1px solid var(--grid);
-  height:29px;
+  height:30px;
   vertical-align:middle;
 }
 td:first-child{
@@ -339,20 +369,20 @@ td:first-child{
   color:var(--ink);
   font-weight:600;
 }
-.u-cell{display:flex;align-items:center;gap:6px}
+.u-cell{display:flex;align-items:center;gap:7px}
 .ods-tag{
   font-size:9.5px;
-  font-weight:700;
-  padding:1px 5px;
-  border-radius:3px;
-  background:var(--surface-2);
-  border:1px solid var(--line);
-  color:var(--mut);
-  min-width:30px;
+  font-weight:800;
+  padding:1.5px 5px;
+  border-radius:4px;
+  background:var(--nbg);
+  border:1px solid var(--nbd);
+  color:var(--ntx);
+  min-width:32px;
   text-align:center;
 }
-.odn-sub{font-size:10px;color:var(--mut);font-weight:400;margin-left:2px}
-tbody tr{cursor:pointer;transition:background .1s}
+.odn-sub{font-size:10px;color:var(--mut);font-weight:500;margin-left:3px}
+tbody tr{cursor:pointer;transition:background .12s}
 tbody tr:nth-child(even){background:var(--surface-2)}
 tbody tr:hover{background:var(--sel)}
 tbody tr:hover .u-name{text-decoration:underline;color:var(--nhs-blue)}
@@ -362,28 +392,61 @@ tbody tr:hover .u-name{text-decoration:underline;color:var(--nhs-blue)}
   align-items:center;
   justify-content:flex-end;
   gap:3px;
-  padding:2px 6px;
-  border-radius:5px;
-  font-weight:600;
+  padding:2px 7px;
+  border-radius:6px;
+  font-weight:700;
   font-size:11.5px;
-  min-width:58px;
+  min-width:60px;
 }
 td.g .mpill{background:var(--gbg);color:var(--gtx);border:1px solid var(--gbd)}
 td.o .mpill{background:var(--obg);color:var(--otx);border:1px solid var(--obd)}
-td.n .mpill{color:var(--txt)}
+td.n .mpill{color:var(--txt);background:var(--surface-3);border:1px solid transparent}
 tr.sel{background:var(--sel)!important}
 tr.sel td{font-weight:700;border-top:1.5px solid var(--nhs-blue);border-bottom:1.5px solid var(--nhs-blue)}
 tr.sel td:first-child{box-shadow:inset 4px 0 var(--nhs-blue)}
 tbody tr:focus-visible{outline:2px solid var(--nhs-blue);outline-offset:-2px}
+tr.odn-av td{
+  background:var(--odn-row);
+  color:var(--ink);
+  font-weight:700;
+  border-top:2px solid var(--nhs-teal);
+  cursor:default;
+}
 tr.av td{
   background:var(--bm);
   color:var(--ink);
   font-weight:700;
-  border-top:2px solid var(--nhs-dark);
+  border-top:2px solid var(--nhs-blue);
   cursor:default;
   position:sticky;
   bottom:0;
 }
+
+/* Dynamic Regional / Peer Spotlight Strip below table when filtered */
+.peer-strip{
+  margin-top:12px;
+  padding-top:12px;
+  border-top:1px solid var(--line);
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+.peer-hdr{display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:700;color:var(--ink)}
+.peer-hdr small{font-weight:500;color:var(--mut)}
+.peer-bars{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px}
+.p-card{
+  background:var(--surface-2);
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:8px 10px;
+  cursor:pointer;
+  transition:all .15s;
+}
+.p-card:hover,.p-card.act{border-color:var(--nhs-blue);background:var(--sel)}
+.p-top{display:flex;justify-content:space-between;align-items:center;gap:6px;font-size:11.5px;font-weight:700;color:var(--ink);margin-bottom:4px}
+.p-sub{font-size:10px;color:var(--mut);display:flex;justify-content:space-between;margin-bottom:5px}
+.p-bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden}
+.p-fill{height:100%;border-radius:3px}
 
 /* Right Scorecard & Clinical Highlights */
 .score-grid{
@@ -396,16 +459,17 @@ tr.av td{
   background:var(--surface-2);
   border:1px solid var(--line);
   border-radius:8px;
-  padding:7px 10px;
+  padding:8px 10px;
 }
-.sc-top{display:flex;justify-content:space-between;font-size:11px;font-weight:600;color:var(--txt);margin-bottom:4px}
-.sc-bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;position:relative}
-.sc-fill{height:100%;border-radius:3px}
-.hi ul{margin:0;padding-left:16px;display:grid;gap:7px;font-size:12px;line-height:1.4}
+.sc-top{display:flex;justify-content:space-between;font-size:11px;font-weight:600;color:var(--txt);margin-bottom:5px}
+.sc-top b{color:var(--ink);font-weight:800}
+.sc-bar{height:7px;background:var(--line);border-radius:4px;overflow:hidden;position:relative}
+.sc-fill{height:100%;border-radius:4px}
+.hi ul{margin:0;padding-left:16px;display:grid;gap:7px;font-size:12px;line-height:1.45}
 .hi li::marker{color:var(--nhs-aqua)}
 .hi li b{color:var(--ink)}
-.hi .g{color:var(--gtx);background:var(--gbg);padding:0 4px;border-radius:3px;font-weight:700}
-.hi .o{color:var(--otx);background:var(--obg);padding:0 4px;border-radius:3px;font-weight:700}
+.hi .g{color:var(--gtx);background:var(--gbg);border:1px solid var(--gbd);padding:0 5px;border-radius:4px;font-weight:700}
+.hi .o{color:var(--otx);background:var(--obg);border:1px solid var(--obd);padding:0 5px;border-radius:4px;font-weight:700}
 
 /* Bottom 2-Column Analytical Charts */
 .bottom-charts{
@@ -413,8 +477,8 @@ tr.av td{
   grid-template-columns:1.22fr 1fr;
   gap:14px;
 }
-.chart-card{height:445px}
-.trend-card{height:310px;flex:1}
+.chart-card{height:450px}
+.trend-card{height:315px;flex:1}
 .ch{position:relative;flex:1;min-height:0}
 .ch svg{display:block}
 .k{display:flex;gap:4px 14px;flex-wrap:wrap;font-size:11px;color:var(--txt);margin-bottom:4px}
@@ -428,8 +492,8 @@ tr.av td{
   border-top:1px dashed var(--line);
   font-size:11px;
 }
-.nut-hdr{display:flex;justify-content:space-between;margin-bottom:4px;font-weight:600;color:var(--ink)}
-.nut-bar{display:flex;height:10px;border-radius:5px;overflow:hidden;background:var(--line)}
+.nut-hdr{display:flex;justify-content:space-between;margin-bottom:5px;font-weight:600;color:var(--ink);flex-wrap:wrap;gap:4px}
+.nut-bar{display:flex;height:10px;border-radius:5px;overflow:hidden;background:var(--line);gap:1px}
 
 /* Methodology & Validation Accordion */
 .meth summary{font-size:13.5px;color:var(--nhs-blue);font-weight:700;cursor:pointer;user-select:none}
@@ -498,7 +562,7 @@ footer a{color:var(--nhs-blue)}
     </div>
     <div class="ctrl-left">
       <input type="search" id="q" class="search-in" placeholder="Filter unit or ODS code..." aria-label="Filter unit or ODS code">
-      <label class="pick">Unit focus: <select id="pk"><option value="">All 24 Level 3 NICUs (Benchmark)</option></select></label>
+      <label class="pick">Unit focus: <select id="pk"></select></label>
       <button id="rs" class="btn btn-reset" hidden>Reset view</button>
       <button id="th" class="btn">Dark mode</button>
     </div>
@@ -513,7 +577,7 @@ footer a{color:var(--nhs-blue)}
     <div class="lg">
       <span><i style="background:var(--gbg);border:1px solid var(--gbd)"></i>▲ Better than NICU average</span>
       <span><i style="background:var(--obg);border:1px solid var(--obd)"></i>▼ Behind NICU average</span>
-      <span><i style="background:var(--bm)"></i>Comparison benchmark</span>
+      <span><i style="background:var(--bm)"></i>Benchmark row</span>
     </div>
   </div>
 
@@ -528,6 +592,7 @@ footer a{color:var(--nhs-blue)}
       </div>
       <p class="cap">Click any column header to sort or click a neonatal unit row to inspect its 7-year clinical trajectory, cohort dumbbell gaps, and gestational acuity profile. Pills show performance beyond &plusmn;0.5 pt of the National NICU average (for late-onset infection, lower is better).</p>
       <div class="tbw"><table id="tb"></table></div>
+      <div class="peer-strip" id="peerStrip"></div>
     </div>
 
     <div class="right-stack">
@@ -624,14 +689,71 @@ const C=[
 ],LOW={unemp:1};
 
 let sel=null,odnF='',qStr='',sk='work',asc=false;
-const E=()=>sel?U.find(x=>x.u==sel):RG,cs=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
-const good=(k,d)=>LOW[k]?d<=0:d>=0,pt=d=>(d>=0?'+':'−')+Math.abs(d*100).toFixed(1)+' pt',rk=k=>[...U].sort((a,b)=>LOW[k]?a[k]-b[k]:b[k]-a[k]).findIndex(x=>x.u==sel)+1;
+const cs=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const good=(k,d)=>LOW[k]?d<=0:d>=0,pt=d=>(d>=0?'+':'−')+Math.abs(d*100).toFixed(1)+' pt';
+const rk=(k,uName=sel,pool=U)=>[...pool].sort((a,b)=>LOW[k]?a[k]-b[k]:b[k]-a[k]).findIndex(x=>x.u==uName)+1;
+
+/* Build dynamic pooled profile when an ODN region is selected (e.g. Yorkshire & Humber 4 units) */
+function makeOdnPool(odnName){
+  const grp=U.filter(x=>x.odn==odnName);
+  const nSum=grp.reduce((a,x)=>a+x.n,0),kSum=grp.reduce((a,x)=>a+x.k,0),snSum=grp.reduce((a,x)=>a+x.sn,0);
+  const wAvg=k=>grp.reduce((a,x)=>a+x[k]*x.k,0)/kSum;
+  const tr=[0,1,2].map(m=>Y.map((_,yi)=>grp.reduce((a,x)=>a+x.tr[m][yi]*x.k,0)/kSum));
+  const sj={};
+  D.subj.forEach(([sName])=>{
+    let w=0,kn=0;
+    grp.forEach(x=>{if(x.sj[sName]){w+=x.sj[sName][0]*x.sj[sName][1];kn+=x.sj[sName][1]}});
+    sj[sName]=[kn?w/kn:0,kn];
+  });
+  const sal=D.sal.map((_,bi)=>grp.reduce((a,x)=>a+(x.sal?x.sal[bi]*x.sn:0),0)/snSum);
+  const skArr=[0,1,2].map(si=>grp.reduce((a,x)=>a+x.sk[si]*x.k,0)/kSum);
+  return {
+    u:`${odnName} ODN (${grp.length} NICUs)`,
+    odn:odnName,
+    ods:`${grp.length} units`,
+    isOdn:true,
+    count:grp.length,
+    n:nSum,k:kSum,sn:snSum,
+    resp:kSum/nSum,
+    pub:grp.reduce((a,x)=>a+x.pub*x.n,0)/nSum,
+    work:wAvg('work'),
+    study:wAvg('study'),
+    unemp:wAvg('unemp'),
+    hs:wAvg('hs'),
+    agree:wAvg('agree'),
+    tr,sj,sal,sk:skArr
+  };
+}
+
+const E=()=>sel?U.find(x=>x.u==sel):odnF?makeOdnPool(odnF):RG;
+const isFocus=()=>!!(sel||odnF);
+
+/* Synchronise the Unit Focus dropdown so it ONLY lists units in the active ODN region */
+function syncDropdown(){
+  const pool=odnF?U.filter(x=>x.odn==odnF):U;
+  const topLabel=odnF?`All ${pool.length} ${odnF} NICUs (ODN Pool)`:'All 24 Level 3 NICUs (National Benchmark)';
+  $('pk').innerHTML=`<option value="">${topLabel}</option>`+[...pool].sort((a,b)=>a.u.localeCompare(b.u,'en')).map(x=>`<option value="${x.u}">${x.u} (${x.ods}${odnF?'':' · '+x.odn})</option>`).join('');
+  $('pk').value=sel||'';
+}
+
+function renderPills(){
+  const counts={};U.forEach(x=>{counts[x.odn]=(counts[x.odn]||0)+1});
+  const topOdns=['Yorkshire & Humber','London South','London North Central & East','London North West','North West','Northern','East of England','Thames Valley & Wessex','South West','West Midlands','East Midlands'].filter(o=>counts[o]);
+  $('odnPills').innerHTML=`<span class="lbl">ODN Network:</span><button class="pill ${!odnF?'act':''}" data-o="">All England (24)</button>`+topOdns.map(o=>`<button class="pill ${odnF==o?'act':''}" data-o="${o}">${o} (${counts[o]})</button>`).join('');
+  $('odnPills').querySelectorAll('button').forEach(b=>{
+    b.onclick=()=>{
+      odnF=b.dataset.o||'';
+      if(sel&&odnF&&U.find(x=>x.u==sel).odn!=odnF)sel=null;
+      upd();
+    };
+  });
+}
 
 function dl(k){
   const e=E();
-  if(sel){
+  if(isFocus()){
     const d=e[k]-RG[k],g=good(k,d);
-    return `<em class="${g?'up':'dn'}">${d>=0?'▲':'▼'} ${pt(d)} vs Benchmark</em>`;
+    return `<em class="${g?'up':'dn'}">${d>=0?'▲':'▼'} ${pt(d)} vs National</em>`;
   }
   const t=T[k];if(!t)return '';
   const d=t[L]-t[L-1],g=good(k,d);
@@ -642,45 +764,39 @@ function spk(a,c){
   if(!a)return '';
   const mn=Math.min(...a),mx=Math.max(...a),rng=(mx-mn)||1;
   const pts=a.map((v,i)=>(i*100/(a.length-1)).toFixed(1)+','+(20-(v-mn)/rng*16).toFixed(1)).join(' ');
-  return `<svg viewBox="0 0 100 22" preserveAspectRatio="none"><polygon points="${pts} 100,22 0,22" fill="${c}" opacity=".12"/><polyline points="${pts}" fill="none" stroke="${c}" stroke-width="2" vector-effect="non-scaling-stroke"/></svg>`;
-}
-
-function renderPills(){
-  const counts={};U.forEach(x=>{counts[x.odn]=(counts[x.odn]||0)+1});
-  const topOdns=['Yorkshire & Humber','London South','London North Central & East','North West','Northern','East of England','Thames Valley & Wessex','South West','West Midlands','East Midlands'].filter(o=>counts[o]);
-  $('odnPills').innerHTML=`<span class="lbl">ODN Network:</span><button class="pill ${!odnF?'act':''}" data-o="">All England (24)</button>`+topOdns.map(o=>`<button class="pill ${odnF==o?'act':''}" data-o="${o}">${o} (${counts[o]})</button>`).join('');
-  $('odnPills').querySelectorAll('button').forEach(b=>{
-    b.onclick=()=>{odnF=b.dataset.o||'';if(sel&&odnF&&U.find(x=>x.u==sel).odn!=odnF)sel=null;upd()};
-  });
+  return `<svg viewBox="0 0 100 24" preserveAspectRatio="none"><polygon points="${pts} 100,24 0,24" fill="${c}" opacity=".16"/><polyline points="${pts}" fill="none" stroke="${c}" stroke-width="2.2" vector-effect="non-scaling-stroke"/></svg>`;
 }
 
 function kp(){
-  const e=E();
-  $('ent').textContent=sel?`${e.ods} · ${e.odn} ODN`:'National Benchmark (24 NICUs)';
+  const e=E(),odnPool=odnF?U.filter(x=>x.odn==odnF):U;
+  $('ent').textContent=sel?`${e.ods} · ${e.odn} ODN`:odnF?`${odnF} ODN (${e.count} NICUs)`:'National Benchmark (24 NICUs)';
   $('rs').hidden=!sel&&!odnF&&!qStr;
-  const R3=[['on-time normothermia','work'],['deferred cord clamping','study'],['breastmilk at discharge','hs']].map(([n,k])=>{const v=U.map(x=>x[k]);return[n,Math.min(...v),Math.max(...v)]}).sort((a,b)=>(b[2]-b[1])-(a[2]-a[1]))[0];
+  const R3=[['on-time normothermia','work'],['deferred cord clamping','study'],['breastmilk at discharge','hs']].map(([n,k])=>{const v=odnPool.map(x=>x[k]);return[n,Math.min(...v),Math.max(...v)]}).sort((a,b)=>(b[2]-b[1])-(a[2]-a[1]))[0];
   $('lede2').innerHTML=sel
-    ?`<b>${e.u}</b> ranks <b class="hn">#${rk('resp')} of 24</b> on BadgerNet completeness (${P(e.resp)}), <b class="hn">#${rk('work')}</b> on normothermia (${P(e.work)}), <b class="hn">#${rk('unemp')}</b> on low late-onset infection (${P(e.unemp)}) and <b class="hn">#${rk('hs')}</b> on breastmilk at discharge (${P(e.hs)}).`
-    :`Across all 24 Level 3 NICUs, <b class="hn">${P(RG.work)}</b> of admissions achieve 1-hour normothermia and <b class="hn">${P(RG.unemp)}</b> develop late-onset infection; units vary most on ${R3[0]} (<b class="hn">${P(R3[1])}</b> to <b class="hn">${P(R3[2])}</b>).`;
+    ?`<b>${e.u}</b> ranks <b class="hn">#${rk('resp')} of 24</b> nationally${odnF?` (<b class="hn">#${rk('resp',sel,odnPool)} of ${odnPool.length}</b> in ${odnF})`:''} on BadgerNet completeness (${P(e.resp)}), <b class="hn">#${rk('work')}</b> on normothermia (${P(e.work)}), <b class="hn">#${rk('unemp')}</b> on low late-onset infection (${P(e.unemp)}) and <b class="hn">#${rk('hs')}</b> on breastmilk (${P(e.hs)}).`
+    :odnF
+      ?`Across the <b>${odnPool.length} ${odnF} Level 3 NICUs</b>, <b class="hn">${P(e.work)}</b> achieve 1-hour normothermia (vs ${P(RG.work)} nationally) and <b class="hn">${P(e.unemp)}</b> develop late-onset infection (vs ${P(RG.unemp)}); click any of the ${odnPool.length} hospitals below to focus.`
+      :`Across all 24 Level 3 NICUs, <b class="hn">${P(RG.work)}</b> of admissions achieve 1-hour normothermia and <b class="hn">${P(RG.unemp)}</b> develop late-onset infection; units vary most on ${R3[0]} (<b class="hn">${P(R3[1])}</b> to <b class="hn">${P(R3[2])}</b>).`;
 
+  const rkBadge=k=>sel?(odnF?`#${rk(k,sel,odnPool)}/${odnPool.length} ODN · #${rk(k)}/24`:`Rank #${rk(k)}/24`):odnF?`${odnPool.length} ODN Units`:'National Pool';
   const cards=[
-    {cat:'Episode Capture',t:'Validated Episodes',val:N(e.k),sub:`of ${N(e.n)} admissions recorded`,rk:sel?`ODS: ${e.ods}`:'24 Level 3 NICUs',dl:`<em class="up">${P(e.resp)} validated</em>`,sp:spk(T.resp,'#005eb8'),cl:''},
-    {cat:'Data Quality',t:'BadgerNet Completeness',k:'resp',sub:`Raw submission: ${P(e.pub)} (incl. <4h TC)`,sp:spk(T.resp,'#00857c'),cl:'teal'},
-    {cat:'Thermal Care (<1h)',t:'On-Time Normothermia',k:'work',sub:'Target range: 36.5°C–37.5°C',sp:spk(sel?e.tr[0]:T.work,'#005eb8'),cl:''},
-    {cat:'Delivery Room',t:'Deferred Cord Clamping',k:'study',sub:'Clamped >=1 min after birth',sp:spk(sel?e.tr[1]:T.study,'#00857c'),cl:'teal'},
-    {cat:'Infection Control',t:'Late-Onset Infection',k:'unemp',sub:'Bloodstream / CSF >72h (lower better)',sp:spk(sel?e.tr[2]:T.unemp,'#d95f02'),cl:'amber'},
-    {cat:'Nutrition & Follow-up',t:'Breastmilk at Discharge',k:'hs',sub:`2-year follow-up recorded: ${P(e.agree)}`,sp:spk(T.hs,'#005eb8'),cl:''}
+    {cat:'Episode Capture',t:'Validated Episodes',val:N(e.k),sub:`of ${N(e.n)} admissions recorded`,rk:sel?`ODS: ${e.ods}`:odnF?`${e.count} NICUs`:'24 Level 3 NICUs',dl:`<em class="up">${P(e.resp)} validated</em>`,sp:spk(T.resp,'#0ea5e9'),cl:'c-sky'},
+    {cat:'Data Quality',t:'BadgerNet Completeness',k:'resp',sub:`Raw submission: ${P(e.pub)} (incl. <4h TC)`,sp:spk(T.resp,'#10b981'),cl:'c-teal'},
+    {cat:'Thermal Care (<1h)',t:'On-Time Normothermia',k:'work',sub:'Target range: 36.5°C–37.5°C',sp:spk(isFocus()?e.tr[0]:T.work,'#3b82f6'),cl:'c-blue'},
+    {cat:'Delivery Room',t:'Deferred Cord Clamping',k:'study',sub:'Clamped >=1 min after birth',sp:spk(isFocus()?e.tr[1]:T.study,'#8b5cf6'),cl:'c-indigo'},
+    {cat:'Infection Control',t:'Late-Onset Infection',k:'unemp',sub:'Bloodstream / CSF >72h (lower better)',sp:spk(isFocus()?e.tr[2]:T.unemp,'#f43f5e'),cl:'c-rose'},
+    {cat:'Nutrition & Follow-up',t:'Breastmilk at Discharge',k:'hs',sub:`2-year follow-up recorded: ${P(e.agree)}`,sp:spk(T.hs,'#f59e0b'),cl:'c-amber'}
   ];
   $('kp').innerHTML=cards.map(c=>{
     if(!c.k)return `<div class="kb ${c.cl}"><div class="kb-top"><span class="kb-cat">${c.cat}</span><span class="kb-rk">${c.rk}</span></div><div class="kb-title">${c.t}</div><div class="kb-val-row"><b>${c.val}</b>${c.dl}</div><small>${c.sub}</small>${c.sp}</div>`;
-    return `<div class="kb ${c.cl}"><div class="kb-top"><span class="kb-cat">${c.cat}</span><span class="kb-rk">${sel?'Rank #'+rk(c.k)+'/24':'National Pool'}</span></div><div class="kb-title">${c.t}</div><div class="kb-val-row"><b>${P(e[c.k])}</b>${dl(c.k)}</div><small>${c.sub}</small>${c.sp}</div>`;
+    return `<div class="kb ${c.cl}"><div class="kb-top"><span class="kb-cat">${c.cat}</span><span class="kb-rk">${rkBadge(c.k)}</span></div><div class="kb-title">${c.t}</div><div class="kb-val-row"><b>${P(e[c.k])}</b>${dl(c.k)}</div><small>${c.sub}</small>${c.sp}</div>`;
   }).join('');
 }
 
 function tb(){
   const q=qStr.trim().toLowerCase();
   const pool=U.filter(x=>(!odnF||x.odn==odnF)&&(!q||x.u.toLowerCase().includes(q)||x.ods.toLowerCase().includes(q)||x.odn.toLowerCase().includes(q)));
-  $('tbCount').textContent=`(${pool.length} of 24 units shown)`;
+  $('tbCount').textContent=odnF?`(${pool.length} ${odnF} units shown)`:`(${pool.length} of 24 units shown)`;
   const rows=[...pool].sort((a,b)=>sk=='u'?(asc?1:-1)*a.u.localeCompare(b.u,'en'):(asc?1:-1)*(a[sk]-b[sk]));
   const cl=(k,x)=>{if(k=='u'||k=='k')return '';const d=x[k]-RG[k];return Math.abs(d)<.005?' class="n"':good(k,d)?' class="g"':' class="o"'};
   const td=(k,x)=>{
@@ -689,31 +805,54 @@ function tb(){
     const d=x[k]-RG[k],m=Math.abs(d)<.005;
     return `<td${cl(k,x)} title="${pt(d)} vs National NICU average"><span class="mpill">${m?'':d>0?'▲ ':'▼ '}${P(x[k])}</span></td>`;
   };
-  $('tb').innerHTML=`<thead><tr>${C.map(c=>`<th data-k="${c[0]}" title="${c[2]||''}" class="${c[0]==sk?'s'+(asc?' a':''):''}">${c[1]}</th>`).join('')}</tr></thead><tbody>`+rows.map(x=>`<tr data-u="${x.u}" tabindex="0" class="${x.u==sel?'sel':''}">${C.map(c=>td(c[0],x)).join('')}</tr>`).join('')+`<tr class="av">${C.map(c=>`<td>${c[0]=='u'?'National Level 3 NICU Benchmark (24 units)':c[0]=='k'?N(RG.k):P(RG[c[0]])}</td>`).join('')}</tr></tbody>`;
+  const odnRow=odnF?(()=>{const op=makeOdnPool(odnF);return `<tr class="odn-av">${C.map(c=>`<td>${c[0]=='u'?`${odnF} ODN Average (${op.count} units)`:c[0]=='k'?N(op.k):P(op[c[0]])}</td>`).join('')}</tr>`})():'';
+  $('tb').innerHTML=`<thead><tr>${C.map(c=>`<th data-k="${c[0]}" title="${c[2]||''}" class="${c[0]==sk?'s'+(asc?' a':''):''}">${c[1]}</th>`).join('')}</tr></thead><tbody>`+rows.map(x=>`<tr data-u="${x.u}" tabindex="0" class="${x.u==sel?'sel':''}">${C.map(c=>td(c[0],x)).join('')}</tr>`).join('')+odnRow+`<tr class="av">${C.map(c=>`<td>${c[0]=='u'?'National Level 3 NICU Benchmark (24 units)':c[0]=='k'?N(RG.k):P(RG[c[0]])}</td>`).join('')}</tr></tbody>`;
+
+  /* Render visual unit comparison cards below the table when filtered (or top 4 units when unfiltered) */
+  const mKey=(sk=='u'||sk=='k')?'work':sk,mName=C.find(c=>c[0]==mKey)[1];
+  const stripUnits=odnF||q?rows:[...U].sort((a,b)=>LOW[mKey]?a[mKey]-b[mKey]:b[mKey]-a[mKey]).slice(0,4);
+  const stripTitle=odnF?`${odnF} ODN Hospital Comparison — ${mName}`:q?`Filtered Units — ${mName}`:`Top 4 National Leaders — ${mName}`;
+  $('peerStrip').innerHTML=`<div class="peer-hdr"><span>${stripTitle}</span><small>Click a card to focus unit &middot; Benchmark: ${P(RG[mKey])}</small></div><div class="peer-bars">`+stripUnits.map(x=>{
+    const d=x[mKey]-RG[mKey],gd=good(mKey,d),col=gd?'var(--nhs-aqua)':'var(--coral)',pctW=mKey=='unemp'?Math.min(100,x[mKey]*1000):x[mKey]*100;
+    return `<div class="p-card ${x.u==sel?'act':''}" data-u="${x.u}"><div class="p-top"><span>${x.u}</span><span style="color:${col}">${P(x[mKey])}</span></div><div class="p-sub"><span>ODS: ${x.ods} &middot; ${N(x.k)} episodes</span><span>${pt(d)} vs Nat.</span></div><div class="p-bar"><div class="p-fill" style="width:${pctW.toFixed(1)}%;background:${col}"></div></div></div>`;
+  }).join('')+'</div>';
+  $('peerStrip').querySelectorAll('.p-card').forEach(card=>{
+    card.onclick=()=>{sel=sel==card.dataset.u?null:card.dataset.u;upd()};
+  });
 }
 
 function hi(){
   const e=E(),B=k=>[...U].sort((a,b)=>LOW[k]?a[k]-b[k]:b[k]-a[k]),g=t=>`<span class="g">${t}</span>`,o=t=>`<span class="o">${t}</span>`,li=(a,b)=>`<li><b>${a}</b> ${b}</li>`;
-  $('scSub').textContent=sel?`${e.u} vs National Target`:'National NICU Pool';
+  $('scSub').textContent=sel?`${e.u} vs National Target`:odnF?`${odnF} ODN vs National`:'National NICU Pool';
   const bars=[
-    ['BadgerNet Validation',e.resp,RG.resp,'#00857c'],
-    ['1h Normothermia',e.work,RG.work,'#005eb8'],
-    ['Breastmilk at Discharge',e.hs,RG.hs,'#0072ce'],
-    ['2-Year Follow-Up Logged',e.agree,RG.agree,'#00a499']
+    ['BadgerNet Validation',e.resp,RG.resp,'#10b981'],
+    ['1h Normothermia',e.work,RG.work,'#3b82f6'],
+    ['Breastmilk at Discharge',e.hs,RG.hs,'#0ea5e9'],
+    ['2-Year Follow-Up Logged',e.agree,RG.agree,'#8b5cf6']
   ];
-  $('scGrid').innerHTML=bars.map(([lbl,val,ref,col])=>`<div class="sc-box"><div class="sc-top"><span>${lbl}</span><b>${P(val)}</b></div><div class="sc-bar" title="Benchmark: ${P(ref)}"><div class="sc-fill" style="width:${(val*100).toFixed(1)}%;background:${col}"></div></div></div>`).join('');
+  $('scGrid').innerHTML=bars.map(([lbl,val,ref,col])=>`<div class="sc-box"><div class="sc-top"><span>${lbl}</span><b>${P(val)}</b></div><div class="sc-bar" title="National Benchmark: ${P(ref)}"><div class="sc-fill" style="width:${(val*100).toFixed(1)}%;background:${col}"></div></div></div>`).join('');
 
   let h;
   if(sel){
-    const f=(k,a)=>{const d=e[k]-RG[k],gd=good(k,d);return li(a,`${(gd?g:o)(P(e[k]))} vs ${P(RG[k])} benchmark (${pt(d)}); ranked #${rk(k)} of 24.`)};
+    const odnPool=odnF?U.filter(x=>x.odn==odnF):U;
+    const f=(k,a)=>{const d=e[k]-RG[k],gd=good(k,d);return li(a,`${(gd?g:o)(P(e[k]))} vs ${P(RG[k])} benchmark (${pt(d)}); ranked #${rk(k)} of 24 nationally${odnF?` (#${rk(k,sel,odnPool)} of ${odnPool.length} in ${odnF})`:''}.`)};
     h=[
       f('resp','BadgerNet episode quality.'),
       f('work','Admission normothermia.'),
       f('unemp','Late-onset infection (>72h).'),
       li('7-year clinical trajectory.',`Since 2017/18, normothermia moved from ${P(e.tr[0][0])} to ${P(e.tr[0][L])}, cord clamping from ${P(e.tr[1][0])} to ${P(e.tr[1][L])}, and infection from ${P(e.tr[2][0])} to ${P(e.tr[2][L])}.`)
     ];
+  }else if(odnF){
+    const grp=U.filter(x=>x.odn==odnF),bW=[...grp].sort((a,b)=>b.work-a.work),bI=[...grp].sort((a,b)=>a.unemp-b.unemp);
+    const f=(k,a)=>{const d=e[k]-RG[k],gd=good(k,d);return li(a,`${(gd?g:o)(P(e[k]))} across ${odnF} (${pt(d)} vs ${P(RG[k])} national benchmark).`)};
+    h=[
+      f('resp','Regional BadgerNet completeness.'),
+      li('Regional normothermia.',`${(e.work>=RG.work?g:o)(P(e.work))} pooled across ${grp.length} units, led by <b>${bW[0].u}</b> at ${g(P(bW[0].work))}.`),
+      li('Regional infection control.',`${(e.unemp<=RG.unemp?g:o)(P(e.unemp))} late-onset infection rate, lowest at <b>${bI[0].u}</b> (${g(P(bI[0].unemp))}).`),
+      li('7-year regional trend.',`Normothermia rose from ${P(e.tr[0][0])} in 2017/18 to ${P(e.tr[0][L])} in 2023/24; deferred cord clamping reached ${P(e.tr[1][L])}.`)
+    ];
   }else{
-    const u=B('unemp'),s=B('hs'),q=B('resp');
+    const u=B('unemp'),q=B('resp');
     h=[
       li('BadgerNet validation completeness.',`${g(P(RG.resp))} of episodes pass mandatory checks (led by ${q[0].u} at ${g(P(q[0].resp))}), up from ${P(T.resp[0])} in 2017/18.`),
       li('Thermal care & cord management.',`${g(P(RG.work))} achieve 1-hour normothermia and ${P(RG.study)} receive deferred cord clamping.`),
@@ -729,19 +868,19 @@ const SV=(w,h,b,l)=>`<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" rol
 const fit=(id,f)=>{const el=$(id);el.innerHTML=f(Math.max(160,el.clientWidth),Math.max(110,el.clientHeight))},SP=['Normothermia','Cord clamping','Late infection'];
 
 function trend(w,h){
-  const e=E(),ml=38,mr=w<500?105:148,mt=10,mb=24,pw=w-ml-mr,ph=h-mt-mb,X=i=>ml+i*pw/L,V=v=>mt+ph-v*ph,col=[cs('--nhs-blue'),cs('--nhs-teal'),cs('--coral')];
+  const e=E(),foc=isFocus(),ml=38,mr=w<500?105:148,mt=10,mb=24,pw=w-ml-mr,ph=h-mt-mb,X=i=>ml+i*pw/L,V=v=>mt+ph-v*ph,col=['#3b82f6','#10b981','#f43f5e'];
   let s=[0,.25,.5,.75,1].map(v=>`<line x1="${ml}" x2="${ml+pw}" y1="${V(v)}" y2="${V(v)}" style="stroke:var(--grid)"/>`+tx(ml-6,V(v)+4,v*100+'%','text-anchor="end" style="fill:var(--mut)" font-size="10"')).join('')+Y.map((y,i)=>pw/L>=48||i%2==0?tx(X(i),h-6,y.slice(2),'text-anchor="middle" style="fill:var(--txt)" font-size="10.5"'):'').join('');
   const ln=(a,c,d,k)=>`<polyline points="${a.map((v,i)=>X(i)+','+V(v)).join(' ')}" fill="none" stroke="${c}" stroke-width="${k}" ${d?'stroke-dasharray="4 3"':''} stroke-linejoin="round"/>`;
-  if(sel)[T.work,T.study,T.unemp].forEach((a,k)=>s+=ln(a,col[k],1,1.4));
+  if(foc)[T.work,T.study,T.unemp].forEach((a,k)=>s+=ln(a,col[k],1,1.4));
   e.tr.forEach((a,k)=>{
-    s+=(k<2?`<polygon points="${a.map((v,i)=>X(i)+','+V(v)).join(' ')} ${X(L)},${V(0)} ${X(0)},${V(0)}" fill="${col[k]}" opacity=".07"/>`:'')+ln(a,col[k],0,2.5)+a.map((v,i)=>`<circle cx="${X(i)}" cy="${V(v)}" r="3.5" fill="${col[k]}" stroke="var(--surface)" stroke-width="1.2"><title>${SP[k]} ${Y[i]}: ${P(v)}</title></circle>`).join('')+tx(X(L)+8,V(a[L])+4,(w<500?['Normo.','Cord','Infect.']:SP)[k]+' '+P(a[L]),`style="fill:${col[k]};font-weight:700" font-size="11"`);
+    s+=(k<2?`<polygon points="${a.map((v,i)=>X(i)+','+V(v)).join(' ')} ${X(L)},${V(0)} ${X(0)},${V(0)}" fill="${col[k]}" opacity=".09"/>`:'')+ln(a,col[k],0,2.5)+a.map((v,i)=>`<circle cx="${X(i)}" cy="${V(v)}" r="3.6" fill="${col[k]}" stroke="var(--surface)" stroke-width="1.3"><title>${SP[k]} ${Y[i]}: ${P(v)}</title></circle>`).join('')+tx(X(L)+8,V(a[L])+4,(w<500?['Normo.','Cord','Infect.']:SP)[k]+' '+P(a[L]),`style="fill:${col[k]};font-weight:700" font-size="11"`);
   });
   return SV(w,h,s,'Line chart of on-time normothermia, deferred cord clamping and late-onset infection rates, 2017/18 to 2023/24');
 }
 
 /* Cleveland Lollipop / Dumbbell Variance Chart across 16 Clinical Cohorts */
 function subj(w,h){
-  const e=E(),s=D.subj,it=s.map(x=>{const r=sel?e.sj[x[0]]:null;return{n:x[0],val:sel?(r?r[0]:0):x[1],ref:sel?x[1]:RG.work,k:sel?(r?r[1]:0):D.subjk[x[0]],ok:!sel||!!(r&&r[1]>=23)}});
+  const e=E(),foc=isFocus(),s=D.subj,it=s.map(x=>{const r=foc?e.sj[x[0]]:null;return{n:x[0],val:foc?(r?r[0]:0):x[1],ref:foc?x[1]:RG.work,k:foc?(r?r[1]:0):D.subjk[x[0]],ok:!foc||!!(r&&r[1]>=23)}});
   const nw=Math.min(195,w*.38),vw=52,pl=nw+vw+8,pw=w-pl-24,mt=6,mb=30,rh=(h-mt-mb)/it.length;
   const X=v=>pl+Math.max(0,Math.min(1,(v-.55)/.45))*pw,mc=Math.floor(nw/6.1);
   let o='';
@@ -752,25 +891,25 @@ function subj(w,h){
   it.forEach((x,i)=>{
     const y=mt+i*rh,cy=y+rh/2,gp=x.val-x.ref,c=!x.ok||Math.abs(gp)<.005?'var(--mut)':gp>0?'var(--nhs-aqua)':'var(--coral)';
     const x0=X(x.ref),x1=X(x.val);
-    const tip=x.n+'\n'+(x.ok?(sel?`${e.u}: ${P(x.val)} normothermia (${pt(gp)} vs cohort benchmark ${P(x.ref)})`:`${P(x.val)} normothermia (${pt(gp)} vs overall NICU average)`):'Too few episodes (<23)')+'\n'+N(x.k)+' validated episodes'+(x.ok&&sel&&x.k<50?'\nSmall cohort (<50): rounded to nearest 5, indicative only':'');
-    o+=`<g><title>${esc(tip)}</title><rect x="0" y="${y}" width="${w}" height="${rh}" fill="${i%2?'transparent':'var(--surface-2)'}" opacity=".5"/>`
+    const tip=x.n+'\n'+(x.ok?(foc?`${e.u}: ${P(x.val)} normothermia (${pt(gp)} vs cohort benchmark ${P(x.ref)})`:`${P(x.val)} normothermia (${pt(gp)} vs overall NICU average)`):'Too few episodes (<23)')+'\n'+N(x.k)+' validated episodes'+(x.ok&&foc&&x.k<50?'\nSmall cohort (<50): rounded to nearest 5, indicative only':'');
+    o+=`<g><title>${esc(tip)}</title><rect x="0" y="${y}" width="${w}" height="${rh}" fill="${i%2?'transparent':'var(--surface-2)'}" opacity=".55"/>`
       +tx(4,cy+4,esc(snr(x.n).length>mc?snr(x.n).slice(0,mc-1)+'…':snr(x.n)),'style="fill:var(--ink);font-weight:500"')
-      +tx(nw+vw,cy+4,x.ok?P(x.val)+(sel&&x.k<50?'*':''):'too few','text-anchor="end" style="fill:var(--ink);font-weight:700"');
+      +tx(nw+vw,cy+4,x.ok?P(x.val)+(foc&&x.k<50?'*':''):'too few','text-anchor="end" style="fill:var(--ink);font-weight:700"');
     if(x.ok){
-      o+=`<line x1="${x0}" x2="${x1}" y1="${cy}" y2="${cy}" stroke="${c}" stroke-width="2.5"/>`;
-      if(sel)o+=`<circle cx="${x0}" cy="${cy}" r="3.2" fill="var(--surface)" stroke="var(--mut)" stroke-width="1.5"/>`;
-      o+=`<circle cx="${x1}" cy="${cy}" r="4.5" fill="${c}"/>`;
+      o+=`<line x1="${x0}" x2="${x1}" y1="${cy}" y2="${cy}" stroke="${c}" stroke-width="2.6"/>`;
+      if(foc)o+=`<circle cx="${x0}" cy="${cy}" r="3.3" fill="var(--surface)" stroke="var(--mut)" stroke-width="1.6"/>`;
+      o+=`<circle cx="${x1}" cy="${cy}" r="4.6" fill="${c}"/>`;
     }
     o+='</g>';
   });
-  o+=tx(pl+pw/2,h-3,sel?'Dumbbell: hollow dot = National NICU cohort rate · solid dot = '+e.u:'Lollipop stem from National NICU average ('+P(RG.work)+')','text-anchor="middle" style="fill:var(--mut)" font-size="10"');
+  o+=tx(pl+pw/2,h-3,foc?'Dumbbell: hollow dot = National NICU cohort rate · solid dot = '+e.u:'Lollipop stem from National NICU average ('+P(RG.work)+')','text-anchor="middle" style="fill:var(--mut)" font-size="10"');
   return SV(w,h,o,'Cleveland lollipop and dumbbell chart of normothermia rate by clinical cohort');
 }
 
 /* 3-Tier Gestational Age Acuity Profile + Discharge Nutrition Strip */
 function sal(w,h){
-  const e=E(),a=D.sal,r=a.map(x=>x[1]),cmp=sel&&e.sn>=23,lb=x=>x[0].replace(' wks','w').replace('–','-'),ml=36,mt=16,mb=34,pw=w-ml-6,ph=h-mt-mb,top=Math.ceil(Math.max(...r,...(cmp?e.sal:[0]),.01)*20)/20,bw=pw/a.length,V=v=>mt+ph-v/top*ph;
-  const tierCol=i=>i<5?'var(--nhs-aqua)':i<10?'var(--nhs-blue)':'#8aa2c1';
+  const e=E(),foc=isFocus(),a=D.sal,r=a.map(x=>x[1]),cmp=foc&&e.sn>=23,lb=x=>x[0].replace(' wks','w').replace('–','-'),ml=36,mt=16,mb=34,pw=w-ml-6,ph=h-mt-mb,top=Math.ceil(Math.max(...r,...(cmp?e.sal:[0]),.01)*20)/20,bw=pw/a.length,V=v=>mt+ph-v/top*ph;
+  const tierCol=i=>i<5?'#10b981':i<10?'#3b82f6':'#8b5cf6';
   let o='';const st=top>.3?.1:.05;
   for(let v=0;v<=top+1e-9;v+=st){
     o+=`<line x1="${ml}" x2="${ml+pw}" y1="${V(v)}" y2="${V(v)}" style="stroke:var(--grid)"/>`+tx(ml-5,V(v)+4,Math.round(v*100)+'%','text-anchor="end" style="fill:var(--mut)" font-size="10"');
@@ -787,38 +926,37 @@ function sal(w,h){
 }
 
 function heads(){
-  const e=E(),a=D.sal,r=a.map(x=>x[1]),cmp=sel&&e.sn>=23,key=(c,x)=>`<span><i style="background:${c}"></i>${x}</span>`;
+  const e=E(),foc=isFocus(),a=D.sal,r=a.map(x=>x[1]),cmp=foc&&e.sn>=23,key=(c,x)=>`<span><i style="background:${c}"></i>${x}</span>`;
   const f32=v=>v.slice(0,5).reduce((q,y)=>q+y,0),f37=v=>v.slice(0,10).reduce((q,y)=>q+y,0);
-  $('t1').textContent=sel?'\u2013 '+e.u:'\u2013 24 Level 3 NICUs (2017/18–2023/24)';
-  $('k1').textContent=(sel?'Solid = '+e.u+', dashed = National NICU. ':'')+'Babies achieving both normothermia and cord clamping count in both.';
-  $('t2').textContent=sel?'Normothermia by Clinical Pathway \u2013 '+e.u:'Normothermia by Clinical Pathway (16 Cohorts)';
-  $('t2s').textContent=sel?'dumbbell gap vs cohort benchmark':'24 Level 3 NICUs pooled';
-  $('k2').textContent=sel?'Hollow dot = National NICU · Solid dot = '+e.u+' (* = <50 episodes, indicative)':'Dashed line = National NICU average ('+P(RG.work)+')';
-  $('t3').textContent=!sel?`\u2013 ${P(f37(r))} preterm (<37w) · ${P(f32(r))} very preterm (<32w)`:cmp?`\u2013 ${e.u}: ${P(f37(e.sal))} preterm (<37w) vs ${P(f37(r))} benchmark`:'';
-  $('k3').innerHTML=(cmp?key('var(--bm)','National NICU'):'')+key('var(--nhs-aqua)','Extreme/Very Preterm (<32w)')+key('var(--nhs-blue)','Moderate/Late Preterm (32–36w)')+key('#8aa2c1','Term (37w+)');
+  $('t1').textContent=foc?'\u2013 '+e.u:'\u2013 24 Level 3 NICUs (2017/18–2023/24)';
+  $('k1').textContent=(foc?'Solid = '+e.u+', dashed = National NICU. ':'')+'Babies achieving both normothermia and cord clamping count in both.';
+  $('t2').textContent=foc?'Normothermia by Clinical Pathway \u2013 '+e.u:'Normothermia by Clinical Pathway (16 Cohorts)';
+  $('t2s').textContent=foc?'dumbbell gap vs cohort benchmark':'24 Level 3 NICUs pooled';
+  $('k2').textContent=foc?'Hollow dot = National NICU · Solid dot = '+e.u+' (* = <50 episodes, indicative)':'Dashed line = National NICU average ('+P(RG.work)+')';
+  $('t3').textContent=!foc?`\u2013 ${P(f37(r))} preterm (<37w) · ${P(f32(r))} very preterm (<32w)`:cmp?`\u2013 ${e.u}: ${P(f37(e.sal))} preterm (<37w) vs ${P(f37(r))} benchmark`:'';
+  $('k3').innerHTML=(cmp?key('var(--bm)','National NICU'):'')+key('#10b981','Extreme/Very Preterm (<32w)')+key('#3b82f6','Moderate/Late Preterm (32–36w)')+key('#8b5cf6','Term (37w+)');
 
   const skArr=e.sk||D.sk;
-  $('nutStrip').innerHTML=`<div class="nut-hdr"><span>Discharge Nutrition Breakdown (${sel?e.u:'National NICU'})</span><span><b>${P(skArr[0])}</b> Maternal breastmilk &middot; <b>${P(skArr[1])}</b> Donor/formula &middot; <b>${P(skArr[2])}</b> Complex/non-oral</span></div><div class="nut-bar"><div style="width:${(skArr[0]*100).toFixed(1)}%;background:var(--nhs-aqua)" title="Maternal breastmilk: ${P(skArr[0])}"></div><div style="width:${(skArr[1]*100).toFixed(1)}%;background:var(--nhs-blue)" title="Donor milk or formula: ${P(skArr[1])}"></div><div style="width:${(skArr[2]*100).toFixed(1)}%;background:var(--coral)" title="Complex non-oral nutrition: ${P(skArr[2])}"></div></div>`;
+  $('nutStrip').innerHTML=`<div class="nut-hdr"><span>Discharge Nutrition Breakdown (${foc?e.u:'National NICU'})</span><span><b>${P(skArr[0])}</b> Maternal breastmilk &middot; <b>${P(skArr[1])}</b> Donor/formula &middot; <b>${P(skArr[2])}</b> Complex/non-oral</span></div><div class="nut-bar"><div style="width:${(skArr[0]*100).toFixed(1)}%;background:#10b981" title="Maternal breastmilk: ${P(skArr[0])}"></div><div style="width:${(skArr[1]*100).toFixed(1)}%;background:#3b82f6" title="Donor milk or formula: ${P(skArr[1])}"></div><div style="width:${(skArr[2]*100).toFixed(1)}%;background:#f43f5e" title="Complex non-oral nutrition: ${P(skArr[2])}"></div></div>`;
 }
 
 function charts(){heads();fit('c1',trend);fit('c2',subj);fit('c3',sal)}
 let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(charts,120)});
 
 function upd(){
-  $('pk').value=sel||'';
+  syncDropdown();
   renderPills();
   kp();tb();hi();charts();
 }
 
 $('tb').onclick=ev=>{
-  const h=ev.target.closest('th'),r=ev.target.closest('tbody tr:not(.av)');
+  const h=ev.target.closest('th'),r=ev.target.closest('tbody tr:not(.av):not(.odn-av)');
   if(h){const k=h.dataset.k;asc=k==sk?!asc:k=='u';sk=k;tb()}
   else if(r){sel=sel==r.dataset.u?null:r.dataset.u;upd()}
 };
-$('pk').innerHTML+=[...U].sort((a,b)=>a.u.localeCompare(b.u,'en')).map(x=>`<option value="${x.u}">${x.u} (${x.ods} · ${x.odn})</option>`).join('');
 $('pk').onchange=ev=>{sel=ev.target.value||null;upd()};
 $('q').oninput=ev=>{qStr=ev.target.value||'';tb();$('rs').hidden=!sel&&!odnF&&!qStr};
-$('tb').onkeydown=ev=>{const r=ev.target.closest('tbody tr:not(.av)');if(r&&ev.key=='Enter'){sel=r.dataset.u;upd()}};
+$('tb').onkeydown=ev=>{const r=ev.target.closest('tbody tr:not(.av):not(.odn-av)');if(r&&ev.key=='Enter'){sel=r.dataset.u;upd()}};
 $('rs').onclick=()=>{sel=null;odnF='';qStr='';$('q').value='';upd()};
 $('th').onclick=()=>{const d=document.documentElement.dataset.theme=='dark';document.documentElement.dataset.theme=d?'light':'dark';$('th').textContent=d?'Dark mode':'Light mode';upd()};
 upd();
