@@ -1,64 +1,65 @@
-"""Adds 7-year per-unit clinical trends, episode pathway breakdowns, and discharge nutrition tiers to dash/data2.json."""
+"""Adds 5-year per-unit clinical trends, indicator counts, and first-feed nutrition shares to dash/data2.json."""
 import pandas as pd, json, os
 
 d = json.load(open('dash/data.json'))
-P = pd.read_csv('out/Dim_Unit.csv', dtype=str)
-nm = dict(zip(P.ODS_Code, P.Unit))
-a = pd.read_csv('dash/Dash_Episodes.csv', dtype={'ODS_Code': str})
-o = pd.read_csv('dash/Dash_Nutrition.csv', dtype={'ODS_Code': str})
-
-W = [
-    'Normothermia + deferred cord clamping',
-    'Normothermia + immediate clamping (clinical indication)',
-    'Normothermia + cord clamping unrecorded',
-    'Normothermia + postnatal transfer within 24h',
-    'Normothermia + surgical or cardiac co-care',
-]
-S = [
-    'Normothermia + deferred cord clamping',
-    'Admission hypothermia + deferred cord clamping',
-    'Admission hyperthermia + deferred cord clamping',
-    'Stabilisation pathway + deferred cord clamping',
-]
-INF = 'Late-onset bloodstream infection (>72h)'
-
-p = a.pivot_table(index=['ODS_Code', 'Year'], columns='Episode_Category', values='Number', aggfunc='sum').fillna(0)
-k = p['Total with validated BadgerNet records']
-p['work'] = p[W].sum(axis=1) / k
-p['study'] = p[S].sum(axis=1) / k
-p['unemp'] = p[INF] / k
+comp = pd.read_csv('dash/Dash_CompletenessSummary.csv', dtype={'ODS_Code': str})
+ind = pd.read_csv('dash/Dash_ClinicalIndicators.csv', dtype={'ODS_Code': str})
+nut = pd.read_csv('dash/Dash_FirstFeedNutrition.csv', dtype={'ODS_Code': str})
 
 yrs = d['trend']['years']
 Y = d['year']
-mixc = W + [c for c in S if c not in W] + ['Out-of-range temperature without late infection', INF]
-q = o.pivot_table(index=['ODS_Code', 'Year'], columns='Nutrition_Group', values='Number', aggfunc='sum').fillna(0)
 
-def sk(r):
-    t = r['Total'] - r['Unknown']
+comp_y = comp[comp['Year'] == Y].set_index('ODS_Code')
+ind_piv = ind.pivot_table(index=['ODS_Code', 'Year'], columns='Indicator', values='Rate_Sparkline', aggfunc='first')
+ind_num = ind[ind['Year'] == Y].pivot_table(index='ODS_Code', columns='Indicator', values='Numerator', aggfunc='first')
+ind_den = ind[ind['Year'] == Y].pivot_table(index='ODS_Code', columns='Indicator', values='Denominator', aggfunc='first')
+nut_y = nut[nut['Year'] == Y].pivot_table(index='ODS_Code', columns='Feeding_Category', values='Babies', aggfunc='sum').fillna(0)
+
+def feed_shares(r):
+    k = r['Total Known']
+    if k <= 0:
+        return [0.0, 0.0]
     return [
-        round(r['Total receiving maternal breastmilk'] / t, 4),
-        round(r['Total donor milk or formula'] / t, 4),
-        round(r['Total complex non-oral nutrition'] / t, 4),
+        round(float(r['Maternal or Donor Breast Milk'] / k), 4),
+        round(float(r['Not Breast Milk'] / k), 4),
     ]
 
 for u in d['unis']:
-    uk = [i for i, n in nm.items() if n == u['u']][0]
-    u['n'] = int(p.loc[(uk, Y), 'Total admissions'])
-    u['tr'] = [[round(p.loc[(uk, y), m], 4) for y in yrs] for m in ['work', 'study', 'unemp']]
-    u['mix'] = [int(p.loc[(uk, Y), c]) for c in mixc]
-    u['sk'] = sk(q.loc[(uk, Y)])
+    ods = u['ods']
+    u['n'] = int(comp_y.loc[ods, 'Total_Babies'])
+    u['tr'] = [
+        [round(float(ind_piv.loc[(ods, y), ind_key]), 4) for y in yrs]
+        for ind_key in ['SkinToSkinContact1HourTerm', 'GestAgeFormalAntenatalBookingGroup', 'ApgarScore5TermGroup7']
+    ]
+    u['mix'] = [
+        int(ind_num.loc[ods, 'SkinToSkinContact1HourTerm']),
+        int(ind_den.loc[ods, 'SkinToSkinContact1HourTerm'] - ind_num.loc[ods, 'SkinToSkinContact1HourTerm']),
+        int(ind_num.loc[ods, 'GestAgeFormalAntenatalBookingGroup']),
+        int(ind_den.loc[ods, 'GestAgeFormalAntenatalBookingGroup'] - ind_num.loc[ods, 'GestAgeFormalAntenatalBookingGroup']),
+        int(ind_num.loc[ods, 'ApgarScore5TermGroup7']),
+        int(ind_den.loc[ods, 'ApgarScore5TermGroup7'] - ind_num.loc[ods, 'ApgarScore5TermGroup7']),
+    ]
+    u['sk'] = feed_shares(nut_y.loc[ods])
 
-tot = q.xs(Y, level='Year').sum()
-d['sk'] = sk(tot)
-d['mixk'] = mixc
+tot_nut = nut_y.sum()
+d['sk'] = feed_shares(tot_nut)
+d['mixk'] = [
+    'SkinToSkin_Yes',
+    'SkinToSkin_No',
+    'Booking_Early_0_70d',
+    'Booking_Later_71d_plus',
+    'Apgar5_Low_0_6',
+    'Apgar5_Normal_7_10',
+]
 json.dump(d, open('dash/data2.json', 'w'), separators=(',', ':'))
 
-# Cross-check vs published whole-number percentages (Table 6)
-c = pd.read_csv('out/Fact_Episodes_CI.csv', dtype={'ODS_Code': str})
-c = c[(c.Year == Y) & (c.Care_Setting == 'All') & (c.Gestation_Filter == 'All') & (c.Admission_Source == 'All') & (c.Basis == 'Exclude transitional care <4h')]
-pc = c.pivot_table(index='ODS_Code', columns='Episode_Category', values='Percent', aggfunc='first')
-pw = pc[W].sum(axis=1)
-pu = pc[INF]
-mine = p.xs(Y, level='Year')
-print('max |norm diff| pp:', round(((mine.work - pw).abs().max()) * 100, 2), ' max |inf diff| pp:', round(((mine.unemp - pu).abs().max()) * 100, 2))
+# Cross-check exact rates vs whole-number percentages
+ind_lat = ind[ind['Year'] == Y]
+for ind_key, label in [
+    ('SkinToSkinContact1HourTerm', '1-hr skin-to-skin'),
+    ('ApgarScore5TermGroup7', 'Low 5-min Apgar'),
+]:
+    sub = ind_lat[ind_lat['Indicator'] == ind_key]
+    diff = (sub['Rate'] - sub['Whole_Pct'] / 100.0).abs().max() * 100
+    print(f'max |{label} exact vs whole-number %| pp:', round(float(diff), 2))
 print(os.path.getsize('dash/data2.json'))

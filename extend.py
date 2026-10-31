@@ -1,60 +1,53 @@
-"""Adds per-unit clinical cohort normothermia rates, gestational age distributions, and raw BadgerNet submission rates (dash/data3.json)."""
-import pandas as pd, json, re, sys
+"""Adds per-unit MSDS data item completeness rates, gestational age distributions, and raw MSD401 table rates (dash/data3.json)."""
+import pandas as pd, json, sys
 
 DATA = sys.argv[1] if len(sys.argv) > 1 else 'dash/data2.json'
 OUT = sys.argv[2] if len(sys.argv) > 2 else 'dash/data3.json'
 DASH = sys.argv[3] if len(sys.argv) > 3 else 'dash'
-PROV = sys.argv[4] if len(sys.argv) > 4 else 'out/Dim_Unit.csv'
 
 d = json.load(open(DATA))
 Y = d['year']
-P = pd.read_csv(PROV, dtype=str)
-uk = {v: k for k, v in zip(P.ODS_Code, P.Unit)}
 
-W = [
-    'Normothermia + deferred cord clamping',
-    'Normothermia + immediate clamping (clinical indication)',
-    'Normothermia + cord clamping unrecorded',
-    'Normothermia + postnatal transfer within 24h',
-    'Normothermia + surgical or cardiac co-care',
-]
+dq = pd.read_csv(f'{DASH}/Dash_MSDSDataItems.csv', dtype={'ODS_Code': str})
+dq_y = dq[dq['Year'] == Y].groupby(['ODS_Code', 'Item_Label'])[['Valid', 'Denominator']].sum()
 
-s = pd.read_csv(f'{DASH}/Dash_ClinicalCohort.csv', dtype={'ODS_Code': str})
-s = s[s.Year == Y]
-s['Clinical_Cohort'] = s.Clinical_Cohort.str.replace(r'^\d\d ', '', regex=True)
-sp = s.pivot_table(index=['ODS_Code', 'Clinical_Cohort'], columns='Episode_Category', values='Number', aggfunc='sum').fillna(0)
+gest = pd.read_csv(f'{DASH}/Dash_GestationBand.csv', dtype={'ODS_Code': str})
+gest_y = gest[gest['Year'] == Y].pivot_table(index='ODS_Code', columns='Gestation_Band', values='Babies', aggfunc='sum').fillna(0)
+raw_band = lambda b: b.replace('<', 'Less than ').replace('–', ' - ')
 
-sl = pd.read_csv(f'{DASH}/Dash_GestationBand.csv', dtype={'ODS_Code': str})
-sl = sl[sl.Year == Y]
-sb = sl.pivot_table(index='ODS_Code', columns='Gestation_Band', values='Number', aggfunc='sum').fillna(0)
-raw = lambda b: b.replace('<', 'Less than ').replace('–', ' - ')
+comp = pd.read_csv(f'{DASH}/Dash_CompletenessSummary.csv', dtype={'ODS_Code': str})
+comp_y = comp[comp['Year'] == Y].set_index('ODS_Code')
 
 for u in d['unis']:
-    k = uk[u['u']]
+    ods = u['ods']
     u['sj'] = {}
     for name, _ in d['subj']:
-        if (k, name) in sp.index:
-            r = sp.loc[(k, name)]
-            kn = sum(r[c] for c in r.index if c not in ('Total admissions', 'Total with validated BadgerNet records', 'Unvalidated or incomplete records'))
-            u['sj'][name] = [round(r[W].sum() / kn, 4) if kn else 0, int(kn)]
-    if k in sb.index and sb.loc[k, 'Total'] > 0:
-        t = sb.loc[k, 'Total']
-        u['sal'] = [round(sb.loc[k, raw(b)] / t, 4) for b, _ in d['sal']]
+        if (ods, name) in dq_y.index:
+            r = dq_y.loc[(ods, name)]
+            den = int(r['Denominator'])
+            val = int(r['Valid'])
+            u['sj'][name] = [round(val / den, 4) if den > 0 else 0.0, den]
+        else:
+            u['sj'][name] = [0.0, 0]
+
+    if ods in gest_y.index and gest_y.loc[ods, 'Total'] > 0:
+        t = gest_y.loc[ods, 'Total']
+        u['sal'] = [round(float(gest_y.loc[ods, raw_band(b)] / t), 4) for b, _ in d['sal']]
         u['sn'] = int(t)
     else:
         u['sal'] = None
         u['sn'] = 0
 
-rr = pd.read_csv('out/Fact_SubmissionRate.csv', dtype={'ODS_Code': str})
-rr = rr[(rr.Year == Y) & (rr.Setting_Detail == 'All') & (rr.Cohort_Detail == 'All')].set_index('ODS_Code').Submission_Rate
+    u['pub'] = round(float(comp_y.loc[ods, 'Raw_Table_Rate']), 4)
 
-fa = pd.read_csv('out/Fact_Episodes_Sex.csv', dtype={'ODS_Code': str})
-fa = fa[(fa.Year == Y) & (fa.Care_Setting == 'All') & (fa.Gestation_Filter == 'All') & (fa.Admission_Source == 'All') & (fa.Sex == 'All') & (fa.Basis == 'Include transitional care <4h')]
-pv = fa.pivot_table(index='ODS_Code', columns='Episode_Category', values='Number', aggfunc='sum')
-
-for u in d['unis']:
-    u['pub'] = round(float(rr[uk[u['u']]]), 4)
-d['rg']['pub'] = round(float(pv['Total with validated BadgerNet records'].sum() / pv['Total admissions'].sum()), 4)
+d['rg']['pub'] = round(float(comp_y['Raw_Valid_Fields'].sum() / comp_y['Raw_Denom_Fields'].sum()), 4)
 
 json.dump(d, open(OUT, 'w'), separators=(',', ':'))
-print(len(open(OUT).read()), 'bytes;', sum(1 for u in d['unis'] if u['sn'] >= 8), 'units with >=8 gestation-band admissions;', sum(1 for u in d['unis'] for v in u['sj'].values() if v[1] < 8), 'cohort cells under 8 (NHS SDC suppressed)')
+print(
+    len(open(OUT).read()),
+    'bytes;',
+    sum(1 for u in d['unis'] if u['sn'] >= 8),
+    'units with >=8 gestation-band records;',
+    sum(1 for u in d['unis'] for v in u['sj'].values() if v[1] < 8),
+    'MSDS item cells under 8 (NHS SDC suppressed)',
+)

@@ -1,9 +1,10 @@
-"""Removes zero-count rows from the large count tables (a missing row means zero)."""
+"""Removes zero-count rows from the large MSDS count tables (a missing row means zero)."""
 import pandas as pd, os
-for n in ['Fact_ClinicalCohort', 'Fact_Episodes_Sex', 'Fact_DischargeNutrition']:
-    f = f'out/{n}.csv'
-    first = True
-    for ch in pd.read_csv(f, dtype=str, chunksize=500000, keep_default_na=False):
-        ch[ch.Number != '0'].to_csv(f + '.tmp', mode='w' if first else 'a', header=first, index=False)
-        first = False
-    os.replace(f + '.tmp', f)
+
+f_m = 'out/Fact_MSDS_Measures.csv'
+df_m = pd.read_csv(f_m, dtype=str, keep_default_na=False)
+df_m[df_m['Value'] != '0'].to_csv(f_m, index=False)
+
+f_dq = 'out/Fact_MSDS_DataQuality.csv'
+df_dq = pd.read_csv(f_dq, dtype=str, keep_default_na=False)
+df_dq[df_dq['Denominator'] != '0'].to_csv(f_dq, index=False)

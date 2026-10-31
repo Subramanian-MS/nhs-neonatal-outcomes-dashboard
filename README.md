@@ -55,11 +55,11 @@ The dashboard benchmarks **24 NHS Level 3 Neonatal Intensive Care Trusts** acros
 
 - **Headline metrics (`2023/24`)**:
   - **Validated baby records (`k`) & Core record completeness (`%`)**: Share of baby records valid across core `MSD401 Baby's Demographics and Birth Details` items (excluding unmapped optional `M401090`/`M401180` fields) — led nationally by **Leeds Children's Hospital (`RR8`) at `97.4%` (`8,220` of `8,440` babies)** vs **`87.5%`** across all 24 Level 3 trusts
-  - **1-hour skin-to-skin thermal care (`%`)**: Term babies receiving skin-to-skin contact within 1 hour of birth (`SkinToSkinContact1HourTerm`, `77.3%` pooled)
+  - **1-hour skin-to-skin thermal care (`%`)**: Term babies receiving skin-to-skin contact within 1 hour of birth (`SkinToSkinContact1HourTerm`, `76.8%` pooled; `99,455 / 129,565`)
   - **Early pathway booking `≤10 wks` (`%`)**: Mothers booked within 10 completed weeks / 0–70 days (`GestAgeFormalAntenatalBookingGroup`, `57.8%` pooled; **`70.4%` at Leeds (`RR8`), ranked 4th of 24**)
   - **Low 5-minute Apgar `<7` (`%`)**: Term babies born with a 5-minute Apgar score of `0 to 6` requiring clinical stabilisation (`ApgarScore5TermGroup7`, *lower is better*; `1.4%` pooled; **`1.0%` at Leeds (`RR8`), ranked 6th of 24**)
   - **Breastmilk first feed (`%`)**: Babies receiving maternal or donor breastmilk for their first feed (`BabyFirstFeedBreastMilkStatus`, `76.4%` pooled; **`75.6%` at Leeds (`RR8`), highest in Yorkshire & Humber ODN**)
-  - **Feeding status recorded (`%`)**: Completeness of first-feed breastmilk indication code (`UID M401210` in `MSD401`, `86.8%` pooled; **`91.0%` at Leeds (`RR8`)**)
+  - **Feeding status recorded (`%`)**: Completeness of first-feed breastmilk indication code (`UID M401210` in `MSD401`, `87.2%` pooled; **`91.0%` at Leeds (`RR8`)**)
 - **Colour coding**: 🟩 Green = better than National NICU benchmark · 🟧 Orange = behind benchmark · ⬜ White = within `±0.5 pt`
 
 ## 🔧 Reproducible Data Quality & Build Pipeline
@@ -67,11 +67,11 @@ The dashboard benchmarks **24 NHS Level 3 Neonatal Intensive Care Trusts** acros
 ```
 Official NHS England CSVs (work/real_nhs/msds_*.csv & msds_dq_*.csv)
   │
-  ├─► generate_source_data.py → Ingest 5 years of NHS England CSVs, harmonise 2019/20–2023/24 schemas, write work/flt/table-*.csv
-  ├─► clean.py                → Standardise headers, convert % to decimals, parse 95% CIs, deduplicate
-  ├─► dims.py                 → Build star-schema lookup tables (Dim_Unit, Dim_Year, Dim_ClinicalCohort, Dim_GestationBand, ...)
-  ├─► dropzeros.py            → Strip zero-count rows from large fact tables
-  ├─► dash.py / ext.py        → Extract headline slices (Dash_*.csv) & 5-year unit trajectories
+  ├─► generate_source_data.py → Filter 5 years of NHS England CSVs to 24 NICU Trusts → work/flt/msds-*.csv & msds-dq-*.csv
+  ├─► clean.py                → Harmonise 2019/20–2023/24 schemas, compute Wilson 95% CIs → work/out/Fact_*.csv
+  ├─► dims.py                 → Build native NHS lookup tables (Dim_Unit, Dim_Year, Dim_ClinicalIndicator, Dim_MSDSDataItem, Dim_GestationBand)
+  ├─► dropzeros.py            → Strip zero-denominator rows from large fact tables
+  ├─► dash.py / ext.py        → Extract Power BI slices (Dash_*.csv) & 5-year unit trajectories
   ├─► extend.py               → Compute 16 MSDS item completeness rates, 11 gestation bands & raw MSD401 table rates
   ├─► validate.py             → Run 22 independent reconciliation & disclosure checks → docs/Validation_Report.md
   └─► build_html.py           → Compile template + JSON → NHS_Neonatal_Dashboard.html & index.html

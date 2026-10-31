@@ -24,16 +24,16 @@ Basis for every figure: Official **NHS England Maternity Services Data Set (MSDS
 
 | Figure | Numerator | Denominator | NHS England Source |
 |---|---|---|---|
-| Total babies (`n`) | `TotalBabies` (`TOTAL BABIES` in 2019/20) | n/a | `msds_*.csv` (Table 1) |
-| Validated baby records (`k`) | `TotalBabies × Core MSD401 Completeness` (rounded to nearest 5) | n/a | `msds_*.csv` & `msds_dq_*.csv` (Table 1) |
-| Core record completeness (`resp`) | Sum of `Valid` records across core `MSD401` baby fields (excluding optional `M401090` & `M401180`) | Sum of `Denominator` records across core `MSD401` baby fields | `msds_dq_*.csv` (Table 1); raw `MSD401` table rate (Table 5) is shown separately on the KPI card |
-| 1-hr skin-to-skin (`work`) | `SkinToSkinContact1HourTerm` where `Measure = 'Yes'` | Known `SkinToSkinContact1HourTerm` (`Yes + No`, excluding `Missing value`) | `msds_*.csv` (Table 1) |
-| Early booking ≤10w (`study`) | `GestAgeFormalAntenatalBookingGroup` where `Measure = '0 to 70 days'` (`00-04` to `10 weeks` in 2019/20) | Known booking gestation (`0 to 70`, `71 to 90`, `91 to 140`, `141+ days`) | `msds_*.csv` (Table 1) |
-| Low 5-min Apgar <7 (`unemp`) | `ApgarScore5TermGroup7` where `Measure = '0 to 6'` | Known 5-minute Apgar score (`0 to 6` + `7 to 10`) | `msds_*.csv` (Table 1) |
-| Breastmilk first feed (`hs`) | `BabyFirstFeedBreastMilkStatus` where `Measure = 'Maternal or Donor Breast Milk'` | Known first-feed status (`Maternal or Donor Breast Milk` + `Not Breast Milk`) | `msds_*.csv` (Table 22) |
-| Feed status recorded (`agree`) | `Valid` records for `UID = M401210` (`BABY FIRST FEED BREAST MILK INDICATION CODE`) | `Denominator` records for `UID = M401210` in `MSD401` | `msds_dq_*.csv` (Table 8) |
-| MSDS item completeness (16 items) | `Valid` records for each `UID` (`M401050`..`M405909`) | `Denominator` records for that `UID` | `msds_dq_2023_24.csv` (Table 28) |
-| Gestational age band share (11 bands) | Babies in `GestationLengthBirth` band (`27 weeks and under` to `43 weeks and over`) | All babies with known `GestationLengthBirth` | `msds_2023_24.csv` & `pla_2023_24.xlsx` Table B (Table 26) |
+| Total babies (`n`) | `TotalBabies` (`TOTAL BABIES` in 2019/20) | n/a | `msds_*.csv` (`flt/msds-*.csv`) |
+| Validated baby records (`k`) | `TotalBabies × Core MSD401 Completeness` (rounded to nearest 5) | n/a | `msds_*.csv` & `msds_dq_*.csv` (`Fact_CompletenessSummary.csv`) |
+| Core record completeness (`resp`) | Sum of `Valid` records across core `MSD401` baby fields (excluding optional `M401090` & `M401180`) | Sum of `Denominator` records across core `MSD401` baby fields | `msds_dq_*.csv` (`flt/msds-dq-*.csv`); raw `MSD401` table rate is shown separately on the KPI card |
+| 1-hr skin-to-skin (`work`) | `SkinToSkinContact1HourTerm` where `Measure = 'Yes'` | Known `SkinToSkinContact1HourTerm` (`Yes + No`, excluding `Missing value`) | `msds_*.csv` (`Fact_ClinicalIndicators.csv`) |
+| Early booking ≤10w (`study`) | `GestAgeFormalAntenatalBookingGroup` where `Measure = '0 to 70 days'` (`00-04` to `10 weeks` in 2019/20) | Known booking gestation (`0 to 70`, `71 to 90`, `91 to 140`, `141+ days`) | `msds_*.csv` (`Fact_ClinicalIndicators.csv`) |
+| Low 5-min Apgar <7 (`unemp`) | `ApgarScore5TermGroup7` where `Measure = '0 to 6'` | Known 5-minute Apgar score (`0 to 6` + `7 to 10`) | `msds_*.csv` (`Fact_ClinicalIndicators.csv`) |
+| Breastmilk first feed (`hs`) | `BabyFirstFeedBreastMilkStatus` where `Measure = 'Maternal or Donor Breast Milk'` | Known first-feed status (`Maternal or Donor Breast Milk` + `Not Breast Milk`) | `msds_*.csv` (`Fact_FirstFeedNutrition.csv`) |
+| Feed status recorded (`agree`) | `Valid` records for `UID = M401210` (`BABY FIRST FEED BREAST MILK INDICATION CODE`) | `Denominator` records for `UID = M401210` in `MSD401` | `msds_dq_*.csv` (`Fact_CompletenessSummary.csv`) |
+| MSDS item completeness (16 items) | `Valid` records for each `UID` (`M401050`..`M405909`) | `Denominator` records for that `UID` | `msds_dq_2023_24.csv` (`Dash_MSDSDataItems.csv`) |
+| Gestational age band share (11 bands) | Babies in `GestationLengthBirth` band (`27 weeks and under` to `43 weeks and over`) | All babies with known `GestationLengthBirth` | `msds_2023_24.csv` & `pla_2023_24.xlsx` Table B (`Fact_GestationBand.csv`) |
 
 ## Data Engineering & Reconciliation Rules
 1. **National Level 3 NICU benchmark figures pool counts first** (sum of numerators ÷ sum of denominators across all 24 Trusts).

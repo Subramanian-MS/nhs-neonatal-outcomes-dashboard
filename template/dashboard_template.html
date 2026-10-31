@@ -117,7 +117,7 @@ const rk=(k,uName=sel,pool=U)=>[...pool].sort((a,b)=>LOW[k]?a[k]-b[k]:b[k]-a[k])
 function makeOdnPool(odnName){
   const grp=U.filter(x=>x.odn==odnName);
   const nSum=grp.reduce((a,x)=>a+x.n,0),kSum=grp.reduce((a,x)=>a+x.k,0),snSum=grp.reduce((a,x)=>a+x.sn,0);
-  const wAvg=k=>grp.reduce((a,x)=>a+x[k]*x.k,0)/kSum;
+  const wAvg=k=>{const dSum=grp.reduce((a,x)=>a+(x.den?x.den[k]:x.k),0);return grp.reduce((a,x)=>a+x[k]*(x.den?x.den[k]:x.k),0)/dSum};
   const tr=[0,1,2].map(m=>Y.map((_,yi)=>grp.reduce((a,x)=>a+x.tr[m][yi]*x.k,0)/kSum));
   const sj={};
   D.subj.forEach(([sName])=>{
@@ -131,7 +131,7 @@ function makeOdnPool(odnName){
     odn:odnName,count:grp.length,
     n:nSum,k:kSum,sn:snSum,
     resp:kSum/nSum,
-    pub:grp.reduce((a,x)=>a+x.pub*x.n,0)/nSum,
+    pub:wAvg('pub'),
     work:wAvg('work'),study:wAvg('study'),unemp:wAvg('unemp'),hs:wAvg('hs'),agree:wAvg('agree'),
     tr,sj,sal
   };
