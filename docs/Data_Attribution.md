@@ -5,7 +5,7 @@ The dashboard is structured around the clinical audit indicators and data-qualit
 ## Statistical disclosure control & patient confidentiality
 In compliance with NHS England / RCPCH small-number suppression and data governance rules:
 1. All episode counts are aggregated at NHS Trust / Level 3 NICU level and rounded to the nearest 5. No patient-identifiable data (PID) or NHS numbers are stored in the repository.
-2. Unit-cohort cells with fewer than 23 validated episodes are suppressed as *too few to rate*, and cells with 23 to 49 episodes are flagged `*` as indicative.
+2. Unit-cohort cells with fewer than 8 validated episodes (`1–7` episodes, or rounded count `5`) are suppressed in accordance with NHS England sub-national statistical disclosure control, and cells with 8 to 24 episodes (`<25`) are flagged `*` for wide 95% confidence intervals per RCPCH NNAP small-denominator reporting rules.
 3. This project is an independent analytical and data-quality engineering portfolio piece; it is not an official NHS England, RCPCH or NHS Trust publication.
 
 Suggested attribution wording (used in the dashboard footer):

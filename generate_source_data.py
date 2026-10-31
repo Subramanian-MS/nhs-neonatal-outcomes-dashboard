@@ -92,8 +92,11 @@ def r5(x):
 
 def make_breakdown(k, norm_r, cord_r, inf_r):
     """Splits k (multiple of 5) into 10 non-negative categories (each multiple of 5) summing to k."""
+    if k <= 5:
+        counts = [k, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        return dict(zip(OUTCOME_CATS, counts))
     if k <= 30:
-        # Compact valid split for small cohorts (k = 15, 20, 25, 30)
+        # Compact valid split for small cohorts (k = 10, 15, 20, 25, 30)
         w_tot = max(5, min(k - 5, r5(k * norm_r)))
         rem = k - w_tot
         s1 = min(rem, 5)
@@ -308,9 +311,9 @@ def generate_all(base_dir='.'):
                     # Give Leeds (RR8) especially strong results across key preterm & surgical cohorts
                     leeds_boost = 0.018 if (ods == 'RR8' and c_idx in (1, 6, 9, 10, 13)) else 0.0
                     c_k = max(5, r5(k_val * c_share * (1.0 + ((u_idx + c_idx) % 5 - 2) * 0.06)))
-                    # Create a few genuinely small cells (<23 or <50) in smaller units for cohorts 14, 15, 16
+                    # Create a few genuinely small cells (<8 suppressed -> 5, or <25 low-denominator -> 15) in smaller units for cohorts 14, 15, 16
                     if c_idx >= 13 and base_n < 800:
-                        c_k = 15 if (u_idx + c_idx) % 2 == 0 else 35
+                        c_k = 5 if (u_idx + c_idx) % 2 == 0 else 15
                     c_norm = np.clip(norm_r + c_delta + leeds_boost + ((u_idx * 3 + c_idx) % 7 - 3) * 0.004, 0.58, 0.96)
                     c_cord = np.clip(cord_r + c_delta * 0.5, 0.35, 0.82)
                     c_inf  = np.clip(inf_r - c_delta * 0.2, 0.02, 0.12)

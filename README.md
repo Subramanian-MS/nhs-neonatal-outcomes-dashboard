@@ -23,7 +23,7 @@
 | 🔍 **NICU & ODN Network Focus** | Click any unit (e.g. *Leeds Children's Hospital*, *Evelina London*, *Sheffield Jessop Wing*) or filter by **NHS Operational Delivery Network (ODN)** |
 | ✅ **BadgerNet Data Quality Tracking** | Compares headline validated BadgerNet completeness (excluding `<4h` transitional care observations) against raw submission rates |
 | 📈 **Seven-Year Clinical Trends** | Multi-year trajectories (`2017/18` → `2023/24`) for on-time normothermia, deferred cord clamping, and late-onset infection |
-| 📋 **16 Clinical Cohort Breakdown** | Diverging gap chart across 16 neonatal clinical & diagnostic cohorts with small-number disclosure controls (`<23` suppressed, `<50` flagged `*`) |
+| 📋 **16 Clinical Cohort Breakdown** | Diverging gap chart across 16 neonatal clinical & diagnostic cohorts with NHS statistical disclosure controls (`<8` suppressed, `<25` flagged `*`) |
 | 👶 **Gestational Age Acuity Profile** | 14-band gestational age distribution (`<24 wks` to `40+ wks`) comparing preterm (`<37 wks`) caseloads |
 | 🛡️ **Expandable Reconciliation Report** | Built-in methodology panel displaying all 22 automated data-quality checks against raw source tables |
 | 🌙 **Dark Mode & Print Ready** | Instant light/dark theme toggle and A4 landscape print stylesheet |
@@ -123,7 +123,7 @@ nhs-neonatal-outcomes-dashboard/
 
 | Document | Contents |
 |----------|----------|
-| [Calculation Rules](docs/Calculation_Rules.md) | Clinical numerators, denominators, rounding to nearest 5, and small-group suppression (`<23` / `<50`) |
+| [Calculation Rules](docs/Calculation_Rules.md) | Clinical numerators, denominators, rounding to nearest 5, and NHS small-number suppression (`<8` / `<25`) |
 | [Validation Report](docs/Validation_Report.md) | 22 automated checks reconciling dashboard figures against raw extract tables |
 | [Accessibility Check](docs/Accessibility_Check.md) | WCAG AA contrast ratios and non-colour visual encoding (`▲`/`▼`) |
 | [Browser Test Notes](docs/Browser_Test_Notes.md) | Responsive desktop/mobile and dark-mode verification |

@@ -57,4 +57,4 @@ for u in d['unis']:
 d['rg']['pub'] = round(float(pv['Total with validated BadgerNet records'].sum() / pv['Total admissions'].sum()), 4)
 
 json.dump(d, open(OUT, 'w'), separators=(',', ':'))
-print(len(open(OUT).read()), 'bytes;', sum(1 for u in d['unis'] if u['sn'] >= 23), 'units with >=23 gestation-band admissions;', sum(1 for u in d['unis'] for v in u['sj'].values() if v[1] < 23), 'cohort cells under 23')
+print(len(open(OUT).read()), 'bytes;', sum(1 for u in d['unis'] if u['sn'] >= 8), 'units with >=8 gestation-band admissions;', sum(1 for u in d['unis'] for v in u['sj'].values() if v[1] < 8), 'cohort cells under 8 (NHS SDC suppressed)')
