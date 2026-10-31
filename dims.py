@@ -18,7 +18,7 @@ short = {
     'RJ1': "Evelina London (St Thomas')",
     'RRV': 'UCLH Elizabeth Garrett Anderson',
     'RJZ': "King's College Hospital",
-    'RYJ': "Queen Charlotte's & Chelsea",
+    'RQM': 'Chelsea & Westminster Hospital',
     'RJ7': "St George's Hospital London",
     'RQX': 'Homerton University Hospital',
     'R0A': "St Mary's Hospital Manchester",
@@ -112,22 +112,19 @@ d = pd.DataFrame(rows, columns=['Clinical_Cohort', 'Cohort_Code', 'Cohort_Name',
 d['Cohort_Sort'] = range(1, len(d) + 1)
 d.to_csv(f'{OUT}/Dim_ClinicalCohort.csv', index=False)
 
-# Gestation Band
+# Gestation Band (11 Official NHS England GestationLengthBirth bands)
 bands = [
-    ('Less than 24 wks', 22, 23, 'Preterm (<37 wks)'),
-    ('24 - 25 wks', 24, 25, 'Preterm (<37 wks)'),
-    ('26 - 27 wks', 26, 27, 'Preterm (<37 wks)'),
-    ('28 - 29 wks', 28, 29, 'Preterm (<37 wks)'),
-    ('30 - 31 wks', 30, 31, 'Preterm (<37 wks)'),
-    ('32 wks', 32, 32, 'Preterm (<37 wks)'),
-    ('33 wks', 33, 33, 'Preterm (<37 wks)'),
-    ('34 wks', 34, 34, 'Preterm (<37 wks)'),
-    ('35 wks', 35, 35, 'Preterm (<37 wks)'),
-    ('36 wks', 36, 36, 'Preterm (<37 wks)'),
+    ('Less than 28 wks', 22, 27, 'Preterm (<37 wks)'),
+    ('28 - 31 wks', 28, 31, 'Preterm (<37 wks)'),
+    ('32 - 33 wks', 32, 33, 'Preterm (<37 wks)'),
+    ('34 - 36 wks', 34, 36, 'Preterm (<37 wks)'),
     ('37 wks', 37, 37, 'Term (37+ wks)'),
     ('38 wks', 38, 38, 'Term (37+ wks)'),
     ('39 wks', 39, 39, 'Term (37+ wks)'),
-    ('40+ wks', 40, 42, 'Term (37+ wks)'),
+    ('40 wks', 40, 40, 'Term (37+ wks)'),
+    ('41 wks', 41, 41, 'Term (37+ wks)'),
+    ('42 wks', 42, 42, 'Term (37+ wks)'),
+    ('43+ wks', 43, 44, 'Term (37+ wks)'),
     ('Total', np.nan, np.nan, 'Total'),
 ]
 sb = pd.DataFrame(bands, columns=['Gestation_Band', 'Week_Lower', 'Week_Upper', 'Maturity_Group'])

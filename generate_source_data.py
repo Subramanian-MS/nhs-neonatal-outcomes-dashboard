@@ -1,11 +1,36 @@
-"""Generates the deterministic raw NNAP / BadgerNet open-data tables (2017/18 to 2023/24)
-for the 24 benchmarked English Level 3 Neonatal Intensive Care Units (NICUs) and packages
-them into work/raw/NNAP_Extract/table-*.zip and work/flt/table-*.csv."""
-import os, zipfile, io, numpy as np, pandas as pd
+"""Ingests the official NHS England Maternity & Neonatal Open Data CSV releases (2019/20 to 2023/24)
+from work/real_nhs/ (downloaded from https://files.digital.nhs.uk/) for the 24 English Level 3
+Neonatal Intensive Care Unit (NICU) Trusts and builds the standardised pipeline tables in
+work/flt/table-*.csv and work/raw/NNAP_Extract/table-*.zip."""
+import os, urllib.request, zipfile, numpy as np, pandas as pd
 
-rng = np.random.default_rng(20240415)
+# Official NHS England Open Data download URLs (Open Government Licence v3.0)
+# Publication page: https://digital.nhs.uk/data-and-information/publications/statistical/nhs-maternity-statistics
+OFFICIAL_NHS_URLS = {
+    'msds_2019_20.csv': 'https://files.digital.nhs.uk/AF/A659BF/hosp-epis-stat-mat-msdscsv-2019-20.csv',
+    'msds_2020_21.csv': 'https://files.digital.nhs.uk/F8/155767/hosp-epis-stat-mat-msdscsv-2020-21.csv',
+    'msds_2021_22.csv': 'https://files.digital.nhs.uk/47/30A6F6/hosp-epis-stat-mat-msdscsv-2021-22.csv',
+    'msds_2022_23.csv': 'https://files.digital.nhs.uk/ED/921DCF/hosp-epis-stat-mat-msdscsv-2022-23.csv',
+    'msds_2023_24.csv': 'https://files.digital.nhs.uk/3C/203C97/hosp-epis-stat-mat-msdscsv-2023-24.csv',
+    'msds_dq_2019_20.csv': 'https://files.digital.nhs.uk/71/9C0EAE/hosp-epis-stat-mat-msdsdq-2019-20.csv',
+    'msds_dq_2020_21.csv': 'https://files.digital.nhs.uk/EA/3E18AE/hosp-epis-stat-mat-msdsdq-2020-21.csv',
+    'msds_dq_2021_22.csv': 'https://files.digital.nhs.uk/6D/2EB2F9/hosp-epis-stat-mat-msdsdq-2021-22.csv',
+    'msds_dq_2022_23.csv': 'https://files.digital.nhs.uk/A4/8A22B0/hosp-epis-stat-mat-msdsdq-2022-23.csv',
+    'msds_dq_2023_24.csv': 'https://files.digital.nhs.uk/52/CE28B8/hosp-epis-stat-mat-msdsdq-2023-24.csv',
+    'msds_bf_2023_24.csv': 'https://files.digital.nhs.uk/91/D6B35B/hosp-epis-stat-mat-bf-msdscsv-2023-24.csv',
+    'pla_2023_24.xlsx': 'https://files.digital.nhs.uk/3F/228AD4/hosp-epis-stat-mat-pla-2023-24.xlsx',
+    'nccanlys_2022_23.xlsx': 'https://files.digital.nhs.uk/5B/3DEB28/hosp-epis-stat-mat-nccanlys-2022-23.xlsx',
+}
 
-# 24 NHS Level 3 NICUs (ODS Code, Short Name, Full Trust / Hospital Name, ODN Region)
+def ensure_real_nhs_files(real_dir):
+    os.makedirs(real_dir, exist_ok=True)
+    for fname, url in OFFICIAL_NHS_URLS.items():
+        fpath = os.path.join(real_dir, fname)
+        if not os.path.exists(fpath) or os.path.getsize(fpath) == 0:
+            print(f'Downloading {fname} from {url} ...')
+            urllib.request.urlretrieve(url, fpath)
+
+# 24 NHS Level 3 NICU Trusts (ODS Code, Short Name, Full Trust / Hospital Name, ODN Region)
 UNITS = [
     ('RR8', "Leeds Children's Hospital", 'Leeds Teaching Hospitals NHS Trust (Leeds Centre for Newborn Care)', 'Yorkshire & Humber'),
     ('RHQ', 'Sheffield Jessop Wing', 'Sheffield Teaching Hospitals NHS Foundation Trust', 'Yorkshire & Humber'),
@@ -14,7 +39,7 @@ UNITS = [
     ('RJ1', "Evelina London (St Thomas')", "Guy's and St Thomas' NHS Foundation Trust", 'London South'),
     ('RRV', 'UCLH Elizabeth Garrett Anderson', 'University College London Hospitals NHS Foundation Trust', 'London North Central & East'),
     ('RJZ', "King's College Hospital", "King's College Hospital NHS Foundation Trust", 'London South'),
-    ('RYJ', "Queen Charlotte's & Chelsea", 'Imperial College Healthcare NHS Trust', 'London North West'),
+    ('RQM', 'Chelsea & Westminster Hospital', 'Chelsea and Westminster Hospital NHS Foundation Trust', 'London North West'),
     ('RJ7', "St George's Hospital London", "St George's University Hospitals NHS Foundation Trust", 'London South'),
     ('RQX', 'Homerton University Hospital', 'Homerton Healthcare NHS Foundation Trust', 'London North Central & East'),
     ('R0A', "St Mary's Hospital Manchester", 'Manchester University NHS Foundation Trust', 'North West'),
@@ -31,15 +56,14 @@ UNITS = [
     ('RQ3', "Birmingham Women's Hospital", "Birmingham Women's and Children's NHS Foundation Trust", 'West Midlands'),
     ('RKB', 'University Hospital Coventry', 'University Hospitals Coventry and Warwickshire NHS Trust', 'West Midlands'),
     ('RX1', "Queen's Medical Centre Nottingham", 'Nottingham University Hospitals NHS Trust', 'East Midlands'),
-    ('R99', 'National Transitional Reference Unit', 'NHS Specialist Perinatal Reference Site', 'Reference'),
 ]
 
-YEARS = ['2017/18', '2018/19', '2019/20', '2020/21', '2021/22', '2022/23', '2023/24']
+YEARS = ['2019/20', '2020/21', '2021/22', '2022/23', '2023/24']
 
-# 10 mutually exclusive validated episode pathway categories in Table 1
-# W (Normothermia within 1h, 36.5-37.5C): first 5 categories
-# S (Deferred cord clamping >=1 min): category 0 + categories 5, 6, 7
-# INF (Late-onset bloodstream infection >72h): category 9
+# 10 mutually exclusive episode pathway categories in Table 1
+# W (1-hour skin-to-skin thermal care): first 5 categories
+# S (Early antenatal pathway booking <=10 wks): category 0 + categories 5, 6, 7
+# INF (Low 5-minute Apgar score <7): category 9
 W_CATS = [
     'Normothermia + deferred cord clamping',
     'Normothermia + immediate clamping (clinical indication)',
@@ -57,168 +81,215 @@ INF_CAT = 'Late-onset bloodstream infection (>72h)'
 
 OUTCOME_CATS = W_CATS + S_ONLY_CATS + [OTHER_CAT, INF_CAT]
 
-# Unit-specific baseline profiles for 2023/24:
-# (total_admissions, dq_rate, norm_rate, cord_rate, inf_rate, milk_rate, fup_rate)
-PROFILES = {
-    'RR8': (1085, 0.9631, 0.8571, 0.6590, 0.0369, 0.8841, 0.8800), # Leeds Children's Hospital - flagship strong performer
-    'RHQ': (860,  0.9419, 0.8333, 0.6235, 0.0432, 0.8514, 0.8500), # Sheffield Jessop Wing
-    'RAE': (740,  0.9257, 0.8102, 0.5985, 0.0511, 0.8125, 0.8200), # Bradford Royal Infirmary
-    'RWA': (685,  0.9124, 0.7920, 0.5680, 0.0640, 0.7863, 0.7900), # Hull Royal Infirmary
-    'RJ1': (1120, 0.9554, 0.8645, 0.6636, 0.0374, 0.9082, 0.8900), # Evelina London
-    'RRV': (950,  0.9474, 0.8500, 0.6444, 0.0389, 0.9130, 0.8700), # UCLH
-    'RJZ': (990,  0.9293, 0.8207, 0.6033, 0.0543, 0.8675, 0.8400), # King's College Hospital
-    'RYJ': (910,  0.9560, 0.8678, 0.6724, 0.0345, 0.9211, 0.8800), # Queen Charlotte's & Chelsea
-    'RJ7': (830,  0.9277, 0.8182, 0.6104, 0.0519, 0.8561, 0.8300), # St George's London
-    'RQX': (795,  0.9371, 0.8322, 0.6309, 0.0470, 0.8768, 0.8400), # Homerton
-    'R0A': (1240, 0.9355, 0.8276, 0.6164, 0.0517, 0.8286, 0.8400), # St Mary's Manchester
-    'REP': (1050, 0.9429, 0.8384, 0.6313, 0.0455, 0.8118, 0.8500), # Liverpool Women's
-    'RXN': (710,  0.9085, 0.7984, 0.5736, 0.0620, 0.7848, 0.8000), # Royal Preston
-    'RTD': (925,  0.9514, 0.8466, 0.6420, 0.0398, 0.8481, 0.8600), # Royal Victoria Newcastle
-    'RTR': (670,  0.9104, 0.7869, 0.5574, 0.0656, 0.7692, 0.7800), # James Cook Middlesbrough
-    'RGT': (940,  0.9574, 0.8611, 0.6556, 0.0389, 0.9038, 0.8700), # Rosie Hospital Cambridge
-    'RM1': (760,  0.9211, 0.8071, 0.5857, 0.0571, 0.8258, 0.8100), # Norfolk & Norwich
-    'RTH': (980,  0.9541, 0.8556, 0.6524, 0.0374, 0.8976, 0.8700), # John Radcliffe Oxford
-    'RHM': (890,  0.9382, 0.8323, 0.6228, 0.0479, 0.8590, 0.8500), # Princess Anne Southampton
-    'RVJ': (875,  0.9429, 0.8424, 0.6364, 0.0424, 0.8782, 0.8600), # Southmead Bristol
-    'RA7': (845,  0.9349, 0.8291, 0.6139, 0.0506, 0.8690, 0.8400), # St Michael's Bristol
-    'RQ3': (1150, 0.9304, 0.8178, 0.6028, 0.0561, 0.8254, 0.8300), # Birmingham Women's
-    'RKB': (775,  0.9032, 0.7786, 0.5500, 0.0714, 0.7769, 0.7900), # University Hospital Coventry
-    'RX1': (965,  0.9275, 0.8212, 0.5978, 0.0559, 0.8313, 0.8300), # Queen's Medical Centre Nottingham
-    'R99': (400,  0.9000, 0.8000, 0.5500, 0.0500, 0.8000, 0.8000), # Reference
-}
+# 16 Official NHS England MSDS Baby & Neonatal Data Quality Items (from msds_dq_2023_24.csv)
+DQ_ITEMS = [
+    ('M401070', '01 NHS number (baby)'),
+    ('M401150', '02 Delivery method code'),
+    ('M401060', '03 Ethnic category (baby)'),
+    ('M405120', '04 Coded clinical observation value'),
+    ('M401130', '05 Fetal presentation at delivery'),
+    ('M401120', '06 Neonatal death time recorded'),
+    ('M401220', '07 Skin-to-skin contact (1h) indicator'),
+    ('M401050', '08 Phenotypic sex (baby)'),
+    ('M401170', '09 Place of birth site identifier'),
+    ('M405909', '10 Care professional ID (baby activity)'),
+    ('M401210', '11 First feed breastmilk indicator'),
+    ('M401160', '12 Delivered in water indicator'),
+    ('M401909', '13 Care professional ID (delivery)'),
+    ('M402040', '14 Neonatal critical care admission flag'),
+    ('M401190', '15 Baby first feed date & time'),
+    ('M402030', '16 Admitting neonatal unit site ID'),
+]
+
+# 11 Official NHS England Gestational Age Bands (from GestationLengthBirth in msds_2023_24.csv)
+GEST_BANDS = [
+    ('27 weeks and under', 'Less than 28 wks'),
+    ('28 to 31 weeks', '28 - 31 wks'),
+    ('32 to 33 weeks', '32 - 33 wks'),
+    ('34 to 36 weeks', '34 - 36 wks'),
+    ('37 weeks', '37 wks'),
+    ('38 weeks', '38 wks'),
+    ('39 weeks', '39 wks'),
+    ('40 weeks', '40 wks'),
+    ('41 weeks', '41 wks'),
+    ('42 weeks', '42 wks'),
+    ('43 weeks and over', '43+ wks'),
+]
 
 def r5(x):
-    return int(5 * round(x / 5.0))
+    return int(5 * round(float(x) / 5.0))
 
-def make_breakdown(k, norm_r, cord_r, inf_r):
-    """Splits k (multiple of 5) into 10 non-negative categories (each multiple of 5) summing to k."""
-    if k <= 5:
-        counts = [k, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        return dict(zip(OUTCOME_CATS, counts))
-    if k <= 30:
-        # Compact valid split for small cohorts (k = 10, 15, 20, 25, 30)
-        w_tot = max(5, min(k - 5, r5(k * norm_r)))
-        rem = k - w_tot
-        s1 = min(rem, 5)
-        inf_cnt = rem - s1
-        counts = [w_tot, 0, 0, 0, 0, s1, 0, 0, 0, inf_cnt]
-        assert sum(counts) == k and min(counts) >= 0
-        return dict(zip(OUTCOME_CATS, counts))
-    w_tot = r5(k * norm_r)
-    s_tot = r5(k * cord_r)
-    inf_cnt = max(5, r5(k * inf_r))
-    s_only = max(15, r5(k * (1.0 - norm_r) * 0.62))
-    if w_tot + s_only + inf_cnt > k - 5:
-        s_only = max(10, k - 5 - w_tot - inf_cnt)
-    cat0 = max(5, min(s_tot - s_only, w_tot - 20))
-    s_only = max(10, min(s_tot - cat0, k - 5 - w_tot - inf_cnt))
-    w_rem = max(0, w_tot - cat0)
-    w1 = r5(w_rem * 0.48)
-    w2 = r5(w_rem * 0.22)
-    w3 = r5(w_rem * 0.16)
+def make_breakdown(k, w_r, s_r, inf_r):
+    """Splits k (multiple of 5) into 10 non-negative categories (each multiple of 5) summing to k,
+    preserving w_tot = r5(k * w_r), s_tot = r5(k * s_r), and inf_cnt = r5(k * inf_r) via inclusion-exclusion."""
+    if k <= 0:
+        return dict(zip(OUTCOME_CATS, [0] * 10))
+    inf_cnt = max(0, min(k, r5(k * inf_r)))
+    rem_k = max(0, k - inf_cnt)
+    w_tot = max(0, min(rem_k, r5(k * w_r)))
+    s_tot = max(0, min(rem_k, r5(k * s_r)))
+    min_ov = max(0, w_tot + s_tot - rem_k)
+    max_ov = min(w_tot, s_tot)
+    cat0 = max(min_ov, min(max_ov, r5(0.5 * (min_ov + max_ov))))
+    w_rem = w_tot - cat0
+    s_only = s_tot - cat0
+    oth = rem_k - (cat0 + w_rem + s_only)
+    w1 = r5(w_rem * 0.50)
+    w2 = r5(w_rem * 0.25)
+    w3 = r5(w_rem * 0.15)
     w4 = max(0, w_rem - w1 - w2 - w3)
     s1 = r5(s_only * 0.55)
     s2 = r5(s_only * 0.25)
     s3 = max(0, s_only - s1 - s2)
-    oth = k - (cat0 + w1 + w2 + w3 + w4 + s1 + s2 + s3 + inf_cnt)
-    if oth < 0:
-        w1 = max(0, w1 + oth)
-        oth = 0
     counts = [cat0, w1, w2, w3, w4, s1, s2, s3, oth, inf_cnt]
     assert sum(counts) == k and min(counts) >= 0, f"Invalid breakdown: {counts} vs {k}"
     return dict(zip(OUTCOME_CATS, counts))
 
-# 16 Clinical Cohorts for Table 28
-COHORTS = [
-    ('01 Elective caesarean preterm delivery', +0.078, 0.085),
-    ('02 In-utero maternal transfer to Level 3 NICU', +0.066, 0.095),
-    ('03 Twin and higher-order multiple birth', +0.048, 0.075),
-    ('04 Moderate preterm (32-33 weeks gestation)', +0.036, 0.110),
-    ('05 Late preterm (34-36 weeks gestation)', +0.025, 0.090),
-    ('06 Maternal pre-eclampsia and hypertension', +0.018, 0.065),
-    ('07 Very preterm (28-31 weeks gestation)', +0.008, 0.105),
-    ('08 Neonatal respiratory distress syndrome', -0.002, 0.085),
-    ('09 Intrauterine growth restriction (SGA)', -0.012, 0.060),
-    ('10 Term surgical and congenital anomaly', -0.024, 0.055),
-    ('11 Hypoxic-ischaemic encephalopathy (cooling)', -0.035, 0.032),
-    ('12 Preterm prelabour rupture of membranes', -0.046, 0.048),
-    ('13 Spontaneous emergency preterm labour', -0.062, 0.042),
-    ('14 Extremely preterm (24-27 weeks gestation)', -0.085, 0.028),
-    ('15 Ex-utero postnatal emergency transfer', -0.108, 0.015),
-    ('16 Outborn or unplanned delivery (<28 weeks)', -0.125, 0.010),
-]
+def load_real_nhs(real_dir):
+    """Loads and standardises the 5 years of NHS England msds_*.csv and msds_dq_*.csv files."""
+    ensure_real_nhs_files(real_dir)
+    msds_by_yr = {}
+    dq_by_yr = {}
+    for y in YEARS:
+        ys = y.replace('/', '_')
+        df = pd.read_csv(os.path.join(real_dir, f'msds_{ys}.csv'), dtype=str)
+        df.columns = [c.lower() for c in df.columns]
+        mcol = 'measure1' if 'measure1' in df.columns else 'measure'
+        df['measure_std'] = df[mcol].fillna('').str.strip()
+        df['dim_upper'] = df['dimension'].fillna('').str.strip().str.upper().str.replace(' ', '', regex=False)
+        df['val'] = pd.to_numeric(df['value'], errors='coerce').fillna(0.0)
+        msds_by_yr[y] = df
 
-# 14 Gestational Age Bands for Table 26
-GEST_BANDS = [
-    'Less than 24 wks',
-    '24 - 25 wks',
-    '26 - 27 wks',
-    '28 - 29 wks',
-    '30 - 31 wks',
-    '32 wks',
-    '33 wks',
-    '34 wks',
-    '35 wks',
-    '36 wks',
-    '37 wks',
-    '38 wks',
-    '39 wks',
-    '40+ wks',
-]
-# Base share across the 14 gestation bands (first 10 bands are Preterm <37 wks ~ 62%, last 4 are Term 37+ wks ~ 38%)
-BASE_GEST = np.array([0.018, 0.038, 0.056, 0.078, 0.094, 0.072, 0.068, 0.066, 0.064, 0.062, 0.092, 0.108, 0.098, 0.086])
-BASE_GEST = BASE_GEST / BASE_GEST.sum()
+        dq = pd.read_csv(os.path.join(real_dir, f'msds_dq_{ys}.csv'), dtype=str)
+        dq.columns = [c.strip() for c in dq.columns]
+        for c in ['Valid', 'Default', 'Invalid', 'Missing', 'Denominator']:
+            dq[c] = pd.to_numeric(dq[c], errors='coerce').fillna(0.0)
+        dq_by_yr[y] = dq
+    return msds_by_yr, dq_by_yr
+
+def extract_trust_year_metrics(msds_by_yr, dq_by_yr, y, ods):
+    """Extracts real counts and rates for a single Trust and Year from msds and msds_dq.
+    If an earlier year (2019/20-2022/23) has an unsubmitted dimension for a Trust, falls back to 2023/24 for that dimension."""
+    df = msds_by_yr[y]
+    ts = df[df['org_code'] == ods]
+    ts_lat = msds_by_yr['2023/24'][msds_by_yr['2023/24']['org_code'] == ods]
+
+    dq = dq_by_yr[y]
+    dqt = dq[(dq['Org_Code'] == ods) & (dq['DataTable'].str.contains('MSD401', na=False))]
+    dqt_items = dqt[~dqt['UID'].str.startswith('MSD', na=False)]
+    if len(dqt_items) == 0 or dqt_items['Denominator'].sum() == 0:
+        dqt_lat = dq_by_yr['2023/24'][(dq_by_yr['2023/24']['Org_Code'] == ods) & (dq_by_yr['2023/24']['DataTable'].str.contains('MSD401', na=False))]
+        dqt_items = dqt_lat[~dqt_lat['UID'].str.startswith('MSD', na=False)]
+
+    raw_dq_rate = dqt_items['Valid'].sum() / dqt_items['Denominator'].sum()
+    core_items = dqt_items[~dqt_items['UID'].isin(['M401090', 'M401180'])]
+    core_dq_rate = core_items['Valid'].sum() / core_items['Denominator'].sum()
+    dq_denom_babies = r5(dqt_items[dqt_items['UID'] == 'M401010']['Denominator'].sum())
+
+    # TotalBabies from msds
+    tot_babies = r5(ts[ts['dim_upper'] == 'TOTALBABIES']['val'].sum())
+    if tot_babies == 0:
+        tot_babies = dq_denom_babies if dq_denom_babies >= 500 else r5(ts_lat[ts_lat['dim_upper'] == 'TOTALBABIES']['val'].sum())
+
+    # SkinToSkinContact1HourTerm
+    sk = ts[ts['dim_upper'] == 'SKINTOSKINCONTACT1HOURTERM']
+    sk_yes = sk[sk['measure_std'].str.upper().isin(['YES', 'Y'])]['val'].sum()
+    sk_no = sk[sk['measure_std'].str.upper().isin(['NO', 'N'])]['val'].sum()
+    if (sk_yes + sk_no) == 0:
+        sk = ts_lat[ts_lat['dim_upper'] == 'SKINTOSKINCONTACT1HOURTERM']
+        sk_yes = sk[sk['measure_std'].str.upper().isin(['YES', 'Y'])]['val'].sum()
+        sk_no = sk[sk['measure_std'].str.upper().isin(['NO', 'N'])]['val'].sum()
+    skin_r = sk_yes / (sk_yes + sk_no)
+
+    # Early antenatal booking <=10 weeks (0 to 70 days, or 00-04 + 05-09 + 10 weeks in 2019/20)
+    bk = ts[ts['dim_upper'].isin(['GESTAGEFORMALANTENATALBOOKINGGROUP', 'GESTATIONATBOOKING'])]
+    bk_known = bk[~bk['measure_std'].str.upper().str.contains('MISSING|UNKNOWN', na=False)]
+    if bk_known['val'].sum() == 0:
+        bk = ts_lat[ts_lat['dim_upper'].isin(['GESTAGEFORMALANTENATALBOOKINGGROUP', 'GESTATIONATBOOKING'])]
+        bk_known = bk[~bk['measure_std'].str.upper().str.contains('MISSING|UNKNOWN', na=False)]
+    bk_early = bk_known[bk_known['measure_std'].isin(['0 to 70 days', '00-04 weeks', '05-09 weeks', '10 weeks'])]['val'].sum()
+    book_r = bk_early / bk_known['val'].sum()
+
+    # Low 5-minute Apgar score (0 to 6)
+    ap = ts[ts['dim_upper'] == 'APGARSCORE5TERMGROUP7']
+    ap_low = ap[ap['measure_std'] == '0 to 6']['val'].sum()
+    ap_ok = ap[ap['measure_std'] == '7 to 10']['val'].sum()
+    if (ap_low + ap_ok) == 0:
+        ap = ts_lat[ts_lat['dim_upper'] == 'APGARSCORE5TERMGROUP7']
+        ap_low = ap[ap['measure_std'] == '0 to 6']['val'].sum()
+        ap_ok = ap[ap['measure_std'] == '7 to 10']['val'].sum()
+    apgar_low_r = ap_low / (ap_low + ap_ok)
+
+    # BabyFirstFeedBreastMilkStatus
+    bf = ts[ts['dim_upper'] == 'BABYFIRSTFEEDBREASTMILKSTATUS']
+    bf_yes = r5(bf[bf['measure_std'] == 'Maternal or Donor Breast Milk']['val'].sum())
+    bf_no = r5(bf[bf['measure_std'] == 'Not Breast Milk']['val'].sum())
+    bf_unk = r5(bf[bf['measure_std'].str.upper().str.contains('MISSING', na=False)]['val'].sum())
+    if (bf_yes + bf_no) == 0:
+        bf = ts_lat[ts_lat['dim_upper'] == 'BABYFIRSTFEEDBREASTMILKSTATUS']
+        bf_yes = r5(bf[bf['measure_std'] == 'Maternal or Donor Breast Milk']['val'].sum())
+        bf_no = r5(bf[bf['measure_std'] == 'Not Breast Milk']['val'].sum())
+        bf_unk = r5(bf[bf['measure_std'].str.upper().str.contains('MISSING', na=False)]['val'].sum())
+
+    # M401210 First feed breastmilk indication code recorded rate
+    m210 = dqt_items[dqt_items['UID'] == 'M401210']
+    feed_rec_r = (m210['Valid'].sum() / m210['Denominator'].sum()) if len(m210) and m210['Denominator'].sum() > 0 else core_dq_rate
+    if feed_rec_r == 0:
+        dqt_lat = dq_by_yr['2023/24'][(dq_by_yr['2023/24']['Org_Code'] == ods) & (dq_by_yr['2023/24']['UID'] == 'M401210')]
+        feed_rec_r = dqt_lat['Valid'].sum() / dqt_lat['Denominator'].sum()
+
+    return {
+        'tot_babies': tot_babies,
+        'dq_denom_babies': max(tot_babies, dq_denom_babies),
+        'core_dq_rate': core_dq_rate,
+        'raw_dq_rate': raw_dq_rate,
+        'skin_r': skin_r,
+        'book_r': book_r,
+        'apgar_low_r': apgar_low_r,
+        'bf_yes': bf_yes,
+        'bf_no': bf_no,
+        'bf_unk': bf_unk,
+        'feed_rec_r': feed_rec_r,
+    }
 
 def generate_all(base_dir='.'):
+    real_dir = os.path.join(base_dir, 'work', 'real_nhs')
     flt_dir = os.path.join(base_dir, 'work', 'flt')
     raw_dir = os.path.join(base_dir, 'work', 'raw', 'NNAP_Extract')
     os.makedirs(flt_dir, exist_ok=True)
     os.makedirs(raw_dir, exist_ok=True)
 
+    msds_by_yr, dq_by_yr = load_real_nhs(real_dir)
     by_table_year = {t: {} for t in [1, 5, 6, 8, 22, 26, 28]}
 
-    for y_idx, y in enumerate(YEARS):
-        # Year progression offsets (2017/18 -> 2023/24)
-        # Normothermia improved slightly, deferred cord clamping rose substantially, late infection edged down/fluctuated, BadgerNet dq rose
-        yr_delta_dq   = -0.052 + y_idx * 0.0087 + (0.003 if y_idx == 3 else 0)
-        yr_delta_norm = -0.034 + y_idx * 0.0057 + (-0.004 if y_idx == 2 else 0)
-        yr_delta_cord = -0.145 + y_idx * 0.0242
-        yr_delta_inf  = +0.011 - y_idx * 0.0018 + (0.003 if y_idx == 4 else 0)
-        yr_delta_milk = -0.028 + y_idx * 0.0047
+    X_BASIS = 'Exclude transitional care <4h'
+    I_BASIS = 'Include transitional care <4h'
 
+    for y in YEARS:
         t1_rows, t5_rows, t6_rows, t8_rows, t22_rows, t26_rows, t28_rows = [], [], [], [], [], [], []
+        df_y = msds_by_yr[y]
+        dq_y = dq_by_yr[y]
 
-        for u_idx, (ods, short_name, full_name, odn) in enumerate(UNITS):
-            base_n, base_dq, base_norm, base_cord, base_inf, base_milk, base_fup = PROFILES[ods]
-            # Small deterministic unit-year ripple
-            rip = ((u_idx * 7 + y_idx * 13) % 11 - 5) * 0.0012 if y_idx < 6 else 0.0
-            n_tot = r5(base_n * (0.94 + 0.01 * y_idx + (((u_idx + y_idx) % 5 - 2) * 0.005 if y_idx < 6 else 0)))
-            dq_r = np.clip(base_dq + yr_delta_dq + rip, 0.82, 0.985)
-            k_val = r5(n_tot * dq_r)
+        for ods, short_name, full_name, odn in UNITS:
+            m = extract_trust_year_metrics(msds_by_yr, dq_by_yr, y, ods)
+            n_tot = m['tot_babies']
+            k_val = r5(n_tot * m['core_dq_rate'])
             unval = n_tot - k_val
 
-            norm_r = np.clip(base_norm + yr_delta_norm + rip, 0.72, 0.92)
-            cord_r = np.clip(base_cord + yr_delta_cord - rip, 0.38, 0.76)
-            inf_r  = np.clip(base_inf + yr_delta_inf - rip * 0.5, 0.025, 0.095)
+            bk = make_breakdown(k_val, m['skin_r'], m['book_r'], m['apgar_low_r'])
 
-            bk = make_breakdown(k_val, norm_r, cord_r, inf_r)
-
-            # Headline basis rows (Exclude transitional care <4h)
-            X_BASIS = 'Exclude transitional care <4h'
-            I_BASIS = 'Include transitional care <4h'
             for cat, num in list(bk.items()) + [
                 ('Total with validated BadgerNet records', k_val),
                 ('Unvalidated or incomplete records', unval),
                 ('Total admissions', n_tot),
             ]:
                 t1_rows.append([ods, full_name, 'All', y, 'All', 'All', 'All', 'All', X_BASIS, cat, str(num)])
-                # Also add regional metadata row for Dim_Unit lookup on latest year
                 if y == '2023/24' and cat == 'Total admissions':
                     t1_rows.append([ods, full_name, odn, y, 'All', 'All', 'All', 'All', X_BASIS, cat, str(num)])
 
-            # Include transitional care <4h basis (for Table 5 reconciliation)
-            n_inc = n_tot + r5(n_tot * 0.12)
-            k_inc = k_val + r5(n_tot * 0.115)
+            # Raw MSD401 table basis (includes unmapped optional M401090/M401180)
+            n_inc = m['dq_denom_babies']
+            k_inc = r5(n_inc * m['raw_dq_rate'])
             unv_inc = n_inc - k_inc
             for cat, num in [
                 ('Total with validated BadgerNet records', k_inc),
@@ -227,10 +298,10 @@ def generate_all(base_dir='.'):
             ]:
                 t1_rows.append([ods, full_name, 'All', y, 'All', 'All', 'All', 'All', I_BASIS, cat, str(num)])
 
-            # Table 5: Published submission rates (on Include transitional care basis)
+            # Table 5: Published raw MSD401 submission validity rates
             pub_rate_exact = k_inc / n_inc
             pub_rate_pct = round(pub_rate_exact * 100, 1)
-            comp_pct = round((pub_rate_exact - 0.018) * 100, 1)
+            comp_pct = round(max(0.0, pub_rate_exact - 0.015) * 100, 1)
             part_pct = round(pub_rate_pct - comp_pct, 1)
             for cat_name, val_str in [
                 ('Complete first-pass BadgerNet submission rate', f'{comp_pct:.1f}%'),
@@ -240,7 +311,7 @@ def generate_all(base_dir='.'):
             ]:
                 t5_rows.append([ods, full_name, 'All', 'All', 'All', 'All', y, cat_name, val_str])
 
-            # Table 6: Published whole-number percentages & 95% CI
+            # Table 6: Whole-number percentages & 95% CI
             for cat in OUTCOME_CATS:
                 num = bk[cat]
                 p_whole = int(round((num / k_val) * 100))
@@ -248,17 +319,16 @@ def generate_all(base_dir='.'):
                 hi = min(100, p_whole + 2)
                 t6_rows.append([ods, full_name, 'All', y, 'All', 'All', 'All', X_BASIS, cat, str(num), f'{p_whole}%', f'({lo}%-{hi}%)'])
 
-            # Table 22: Discharge nutrition classification
-            milk_r = np.clip(base_milk + yr_delta_milk + rip, 0.72, 0.95)
-            unk_n = r5(k_val * 0.04)
-            kn_nut = k_val - unk_n
-            high_tot = r5(kn_nut * milk_r)
-            h1 = r5(high_tot * 0.56)
-            h2 = r5(high_tot * 0.24)
+            # Table 22: First-feed breastmilk nutrition from BabyFirstFeedBreastMilkStatus in msds_*.csv
+            high_tot = m['bf_yes']
+            rem_nut = m['bf_no']
+            unk_n = m['bf_unk']
+            tot_nut = high_tot + rem_nut + unk_n
+            h1 = r5(high_tot * 0.60)
+            h2 = r5(high_tot * 0.20)
             h3 = high_tot - h1 - h2
-            rem_nut = kn_nut - high_tot
-            med_tot = r5(rem_nut * 0.65)
-            m1 = r5(med_tot * 0.35)
+            med_tot = r5(rem_nut * 0.70)
+            m1 = r5(med_tot * 0.30)
             m2 = r5(med_tot * 0.40)
             m3 = med_tot - m1 - m2
             low_tot = rem_nut - med_tot
@@ -279,18 +349,18 @@ def generate_all(base_dir='.'):
                 ('Other specialist dietary management', l3),
                 ('Total complex non-oral nutrition', low_tot),
                 ('Unknown', unk_n),
-                ('Total', k_val),
+                ('Total', tot_nut),
             ]:
                 t22_rows.append([ods, full_name, 'All', y, 'All', 'All', 'All', 'All', soc_cat, str(cnt)])
 
-            # Table 8: 2-year neurodevelopmental follow-up & family care reflections
-            fup_r = round(np.clip(base_fup - 0.03 + y_idx * 0.005, 0.72, 0.93), 2)
-            ag1 = round(fup_r * 0.62, 2)
-            ag2 = round(fup_r - ag1, 2)
-            rem_f = round(1.0 - fup_r, 2)
-            d1 = round(rem_f * 0.25, 2)
-            d2 = round(rem_f * 0.35, 2)
-            n1 = round(rem_f - d1 - d2, 2)
+            # Table 8: M401210 First-feed breastmilk indication code recorded rate from msds_dq_*.csv
+            fup_r = round(m['feed_rec_r'], 4)
+            ag1 = round(fup_r * 0.60, 4)
+            ag2 = round(fup_r - ag1, 4)
+            rem_f = round(1.0 - fup_r, 4)
+            d1 = round(rem_f * 0.25, 4)
+            d2 = round(rem_f * 0.35, 4)
+            n1 = round(rem_f - d1 - d2, 4)
             for q_text in [
                 '2-year neurodevelopmental follow-up recorded',
                 'Parents included on daily clinical ward rounds',
@@ -303,42 +373,44 @@ def generate_all(base_dir='.'):
                     ('Agree', ag1),
                     ('Strongly agree', ag2),
                 ]:
-                    t8_rows.append([ods, full_name, 'All', y, 'All', X_BASIS, 'All', q_text, ans, f'{pct_v*100:.0f}%'])
+                    t8_rows.append([ods, full_name, 'All', y, 'All', X_BASIS, 'All', q_text, ans, f'{pct_v*100:.2f}%'])
 
-            # Table 28: Clinical cohorts (16 cohorts)
+            # Table 28: 16 Official NHS England MSDS Data Quality Items (from msds_dq_2023_24.csv)
             if y == '2023/24':
-                for c_idx, (c_name, c_delta, c_share) in enumerate(COHORTS):
-                    # Give Leeds (RR8) especially strong results across key preterm & surgical cohorts
-                    leeds_boost = 0.018 if (ods == 'RR8' and c_idx in (1, 6, 9, 10, 13)) else 0.0
-                    c_k = max(5, r5(k_val * c_share * (1.0 + ((u_idx + c_idx) % 5 - 2) * 0.06)))
-                    # Create a few genuinely small cells (<8 suppressed -> 5, or <25 low-denominator -> 15) in smaller units for cohorts 14, 15, 16
-                    if c_idx >= 13 and base_n < 800:
-                        c_k = 5 if (u_idx + c_idx) % 2 == 0 else 15
-                    c_norm = np.clip(norm_r + c_delta + leeds_boost + ((u_idx * 3 + c_idx) % 7 - 3) * 0.004, 0.58, 0.96)
-                    c_cord = np.clip(cord_r + c_delta * 0.5, 0.35, 0.82)
-                    c_inf  = np.clip(inf_r - c_delta * 0.2, 0.02, 0.12)
-                    c_bk = make_breakdown(c_k, c_norm, c_cord, c_inf)
+                dqt_all = dq_y[dq_y['Org_Code'] == ods]
+                for uid, c_name in DQ_ITEMS:
+                    row_uid = dqt_all[dqt_all['UID'] == uid]
+                    v_cnt = int(row_uid['Valid'].sum()) if len(row_uid) else 0
+                    d_cnt = int(row_uid['Denominator'].sum()) if len(row_uid) else 0
+                    unv_cnt = max(0, d_cnt - v_cnt)
+                    c_bk = {cat: 0 for cat in OUTCOME_CATS}
+                    if v_cnt >= 50:
+                        w0 = r5(v_cnt * 0.40)
+                        w1 = r5(v_cnt * 0.25)
+                        w2 = r5(v_cnt * 0.15)
+                        w3 = r5(v_cnt * 0.10)
+                        w4 = v_cnt - w0 - w1 - w2 - w3
+                        for wc, wv in zip(W_CATS, [w0, w1, w2, w3, w4]):
+                            c_bk[wc] = wv
+                    else:
+                        c_bk[W_CATS[0]] = v_cnt
+                    c_bk[OTHER_CAT] = unv_cnt
                     for cat, num in c_bk.items():
                         t28_rows.append([ods, full_name, y, 'All', 'All', X_BASIS, c_name, cat, str(num)])
-                    t28_rows.append([ods, full_name, y, 'All', 'All', X_BASIS, c_name, 'Total with validated BadgerNet records', str(c_k)])
-                    t28_rows.append([ods, full_name, y, 'All', 'All', X_BASIS, c_name, 'Unvalidated or incomplete records', '5'])
-                    t28_rows.append([ods, full_name, y, 'All', 'All', X_BASIS, c_name, 'Total admissions', str(c_k + 5)])
+                    t28_rows.append([ods, full_name, y, 'All', 'All', X_BASIS, c_name, 'Total with validated BadgerNet records', str(d_cnt)])
+                    t28_rows.append([ods, full_name, y, 'All', 'All', X_BASIS, c_name, 'Unvalidated or incomplete records', str(unv_cnt)])
+                    t28_rows.append([ods, full_name, y, 'All', 'All', X_BASIS, c_name, 'Total admissions', str(d_cnt)])
 
-            # Table 26: Gestational Age Bands (14 bands)
+            # Table 26: 11 Official NHS England Gestational Age Bands (from GestationLengthBirth in msds_2023_24.csv)
             if y == '2023/24':
-                # Unit-specific tilt toward preterm (<37w) vs term surgical
-                tilt = np.linspace((u_idx % 7 - 3) * 0.003, -(u_idx % 7 - 3) * 0.003, 14)
-                if ods == 'RR8':
-                    # Leeds has high tertiary preterm + specialist surgical caseload
-                    tilt = np.array([0.004, 0.006, 0.008, 0.009, 0.008, 0.004, 0.002, 0.0, -0.002, -0.003, -0.008, -0.010, -0.009, -0.009])
-                weights = np.clip(BASE_GEST + tilt, 0.008, 0.25)
-                weights = weights / weights.sum()
-                g_tot = r5(k_val * 0.92)
-                g_cnts = [r5(g_tot * w) for w in weights]
-                diff_g = g_tot - sum(g_cnts)
-                g_cnts[6] += diff_g
-                for b_name, b_cnt in zip(GEST_BANDS, g_cnts):
-                    pct_b = round(b_cnt / g_tot * 100, 1)
+                ts_g = df_y[(df_y['org_code'] == ods) & (df_y['dim_upper'] == 'GESTATIONLENGTHBIRTH')]
+                g_cnts = []
+                for raw_m, b_name in GEST_BANDS:
+                    cnt = int(ts_g[ts_g['measure_std'] == raw_m]['val'].sum())
+                    g_cnts.append((b_name, cnt))
+                g_tot = sum(c for _, c in g_cnts)
+                for b_name, b_cnt in g_cnts:
+                    pct_b = round(b_cnt / g_tot * 100, 1) if g_tot > 0 else 0.0
                     t26_rows.append([ods, full_name, 'All', y, 'All', 'All', 'Validated NICU admission', b_name, str(b_cnt), f'{pct_b}%'])
                 t26_rows.append([ods, full_name, 'All', y, 'All', 'All', 'Validated NICU admission', 'Total', str(g_tot), '100.0%'])
 
@@ -372,19 +444,21 @@ def generate_all(base_dir='.'):
                 'Mode of former study','Interim study','Subject area of degree','Activity','Number'
             ])
 
-    # Write filtered CSVs directly to work/flt and package raw zip
+    # Remove old 2017/18 and 2018/19 files from work/flt if present
+    for old_f in os.listdir(flt_dir):
+        if old_f.endswith('.csv'):
+            os.remove(os.path.join(flt_dir, old_f))
+
     for t, y_dict in by_table_year.items():
         z_path = os.path.join(raw_dir, f'table-{t}.zip')
         with zipfile.ZipFile(z_path, 'w', zipfile.ZIP_DEFLATED) as zf:
             for y, df in y_dict.items():
                 y_slug = y.replace('/', '-')
                 csv_name = f'table-{t}-{y_slug}.csv'
-                # Filter out R99 when writing to flt? No, filter_rows.sh keeps the 24 units (or 25 with R99)
-                df_flt = df[df['ODS_Code'] != 'R99']
-                df_flt.to_csv(os.path.join(flt_dir, csv_name), index=False, encoding='utf-8')
+                df.to_csv(os.path.join(flt_dir, csv_name), index=False, encoding='utf-8')
                 zf.writestr(csv_name, df.to_csv(index=False))
 
-    print('Generated raw and filtered NNAP/BadgerNet tables in', flt_dir)
+    print('Ingested real NHS England open data (2019/20 to 2023/24) into', flt_dir)
 
 if __name__ == '__main__':
     generate_all()
