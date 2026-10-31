@@ -1,31 +1,34 @@
-<!DOCTYPE html><html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="description" content="Interactive comparison of 24 NHS Level 3 Neonatal Intensive Care Units (NICUs) on BadgerNet completeness, normothermia, cord clamping, late-onset infection, breastmilk nutrition and 2-year follow-up (2023/24)."><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='16' fill='%23004b87'/%3E%3Ctext x='50' y='66' font-family='Segoe UI,Arial,sans-serif' font-weight='700' font-size='40' fill='%23fff' text-anchor='middle'%3ENHS%3C/text%3E%3C/svg%3E">
+<!DOCTYPE html><html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="description" content="Interactive comparison of the 24 English Level 3 Neonatal Intensive Care Units (NICUs) on BadgerNet completeness, normothermia, cord clamping, infection, breastmilk nutrition and 2-year follow-up (2023/24)."><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%23005EB8'/%3E%3Ctext x='50' y='66' font-family='Segoe UI,Arial,sans-serif' font-weight='800' font-size='44' fill='%23fff' text-anchor='middle'%3ENICU%3C/text%3E%3C/svg%3E">
 <title>NHS Neonatal Intensive Care Outcomes 2023/24</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap">
 <style>
-:root{--bg:#edf1f5;--card:#fff;--navy:#004b87;--ink:#0d2d4c;--txt:#243b53;--mut:#56697d;--line:#cfd8e3;--hl:#005eb8;--gbg:#b2dfdb;--gtx:#004d40;--obg:#f7cba8;--otx:#7a3406;--bm:#c5d3e2;--sel:#fff4c2;--gold:#855800;--grn:#00695c;--amber:#00857c;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root{--bg:#eef0f3;--card:#fff;--navy:#003087;--ink:#16285a;--txt:#2b3552;--mut:#5d6780;--line:#d3d8df;--hl:#005eb8;--gbg:#a9d8b8;--gtx:#1d5a34;--obg:#f3ae7b;--otx:#7a3a07;--bm:#c4cad8;--sel:#fff3c4;--gold:#7d6400;--grn:#3f7d4f;--amber:#00a499;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 
-:root[data-theme="dark"]{--bg:#11161d;--card:#19212b;--navy:#163a5f;--ink:#eaf1f8;--txt:#c6d2df;--mut:#8b9cb0;--line:#2c3949;--hl:#63b3ed;--gbg:#1b5249;--gtx:#d0f5ee;--obg:#7a4419;--otx:#ffe5cc;--bm:#2a3848;--sel:#383217;--gold:#e6be5a;--grn:#68d3b8;--amber:#26a69a;color-scheme:dark}
+:root[data-theme="dark"]{--bg:#121417;--card:#1c1f24;--navy:#16285a;--ink:#eef1f5;--txt:#c9ced8;--mut:#9099a8;--line:#323841;--hl:#9db4f5;--gbg:#2f6b4a;--gtx:#d6f5e0;--obg:#8a4f26;--otx:#ffe6d1;--bm:#3a4150;--sel:#3a3418;--gold:#e5c25a;--grn:#7fd29a;--amber:#20c997;color-scheme:dark}
 *{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
 body{margin:0;min-height:100vh;background:var(--bg);color:var(--txt);font:13px/1.45 "Segoe UI","Open Sans",system-ui,-apple-system,Roboto,sans-serif;display:grid;grid-template-rows:auto auto auto 1fr auto auto;gap:12px;padding:0 0 12px;grid-template-columns:minmax(0,1fr)}
-header{background:var(--navy);color:#fff;padding:14px 28px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;border-bottom:4px solid var(--amber)}
-header>div:first-child{min-width:0;flex:1 1 320px}
+header{background:linear-gradient(135deg,#003087 0%,#005eb8 65%,#0072ce 100%);color:#fff;padding:14px 28px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;border-bottom:4px solid var(--amber)}
+.hdr-left{display:flex;align-items:flex-start;gap:14px;min-width:0;flex:1 1 320px}
+.nhs-lozenge{background:#fff;color:#005eb8;font-weight:800;font-style:italic;font-size:19px;letter-spacing:.5px;padding:3px 10px;border-radius:4px;line-height:1.1;flex-shrink:0;margin-top:2px;box-shadow:0 2px 6px rgba(0,0,0,.15)}
+.nhs-lozenge small{display:block;font-style:normal;font-size:8.5px;font-weight:700;color:#00857c;letter-spacing:.08em;text-transform:uppercase}
 h1{margin:0;font-size:24px;font-weight:600}
-.lede{margin:4px 0 0;color:#d2e3f3;font-size:13px;max-width:880px}
-.brand{background:#fff;color:var(--navy);padding:5px 12px;font-size:14px;font-weight:600;text-align:right;line-height:1.25;border-radius:4px}
-.brand small{display:block;font-size:10px;font-weight:400;color:#56697d}
+.lede{margin:4px 0 0;color:#d8e6f8;font-size:13px;max-width:880px}
+.brand{background:#fff;color:#003087;padding:5px 12px;font-size:14px;font-weight:600;text-align:right;line-height:1.25;border-radius:4px}
+.brand small{display:block;font-size:10px;font-weight:400;color:#5d6780}
 .bar,.main,.charts,footer,.headline{margin:0 16px}
-.headline{display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--line);border-left:6px solid var(--amber);border-radius:10px;padding:10px 18px;font-size:15px;color:var(--ink);box-shadow:0 1px 2px rgba(13,45,76,.06)}
-.headline .tag{font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--mut);font-weight:700}
-.headline p{margin:0}.hn{color:var(--hl)}.mut{color:var(--mut)}
 .bar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;color:var(--ink)}
 .bar>div:first-child{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .bar b{font-size:15px}
-.pick{margin-left:10px;font-weight:600}
-.pick select{font:inherit;padding:3px 8px;border:1px solid var(--line);border-radius:6px;background:var(--card);color:var(--ink)}
-button{font:inherit;cursor:pointer;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:6px;padding:3px 10px}
+.bar button{margin-left:6px}
 .lg{display:flex;gap:18px;align-items:center;flex-wrap:wrap;font-weight:600}
 .lg i{display:inline-block;width:22px;height:22px;border-radius:3px;vertical-align:middle;margin:0 7px 0 0}
-.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;min-width:0;display:flex;flex-direction:column;box-shadow:0 1px 2px rgba(13,45,76,.06),0 6px 16px rgba(13,45,76,.05)}
-.main{display:grid;grid-template-columns:205px minmax(0,1fr) 255px;gap:14px;min-height:600px}
+button{font:inherit;cursor:pointer;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:6px;padding:3px 10px}
+.pick{margin-left:10px;font-weight:600}
+.pick select{font:inherit;padding:3px 8px;border:1px solid var(--line);border-radius:6px;background:var(--card);color:var(--ink)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;min-width:0;display:flex;flex-direction:column;box-shadow:0 1px 2px rgba(22,40,90,.06),0 6px 16px rgba(22,40,90,.05)}
+.headline{display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--line);border-left:6px solid var(--amber);border-radius:10px;padding:10px 18px;font-size:15px;color:var(--ink);box-shadow:0 1px 2px rgba(22,40,90,.06)}
+.headline .tag{font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--mut);font-weight:700}
+.headline p{margin:0}.hn{color:var(--hl)}.mut{color:var(--mut)}
+.main{display:grid;grid-template-columns:200px minmax(0,1fr) 250px;gap:14px;min-height:600px}
 .kp{padding:0;display:grid;grid-auto-rows:1fr}
 .kb{padding:9px 16px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;min-height:0}
 .kb:last-child{border:0}
@@ -35,18 +38,17 @@ button{font:inherit;cursor:pointer;border:1px solid var(--line);background:var(-
 .kb em{font-style:normal;font-weight:600;font-size:12px}
 .kb svg{margin-top:auto!important;height:18px!important;padding-top:4px!important}
 .up{color:var(--grn)}.dn{color:var(--gold)}
-.cap{margin:0 0 8px;color:var(--mut);font-size:12px}
 .tbw{overflow:auto;flex:1;display:flex}
 table{border-collapse:collapse;width:100%;font-size:12px;align-self:stretch;min-width:740px}
 table.short{align-self:flex-start}
 th{background:var(--navy);color:#fff;font-weight:600;padding:8px 6px;text-align:center;cursor:pointer;position:sticky;top:0;line-height:1.2;user-select:none}
-th:first-child{text-align:left;border-radius:8px 0 0 0;padding-left:10px}
+th:first-child{text-align:left;border-radius:8px 0 0 0}
 th:last-child{border-radius:0 8px 0 0}
 th.s:after{content:"\00a0\25BC";font-size:9px}
 th.s.a:after{content:"\00a0\25B2";font-size:9px}
-td{padding:0 6px;white-space:nowrap;text-align:center;border-bottom:1px solid var(--grid,#e4eaf1);height:24px}
-table.short td{height:34px}
-td:first-child{text-align:left;padding-left:10px;color:var(--ink);font-weight:600;white-space:nowrap}
+td{padding:0 6px;white-space:nowrap;text-align:center;border-bottom:1px solid var(--grid,#e6eaf2);height:24px}
+table.short td{height:32px}
+td:first-child{text-align:left;color:var(--ink);font-weight:600;white-space:nowrap}
 tbody tr{cursor:pointer}
 tbody tr:hover td:first-child{text-decoration:underline}
 tbody tr:hover td:not(.g):not(.o){background:var(--sel)}
@@ -70,11 +72,12 @@ tr.av:hover td:first-child{text-decoration:none}
 .charts small{color:var(--mut);font-weight:400}
 .ch{position:relative;flex:1;min-height:0}
 .ch svg{display:block}
-.k{display:flex;gap:4px 14px;flex-wrap:wrap;font-size:11px;color:var(--txt);margin-bottom:4px}
-.k i{display:inline-block;width:11px;height:11px;border-radius:2px;margin-right:4px;vertical-align:-1px}
 footer{color:var(--mut);font-size:11.5px}
 footer b{color:var(--txt)}
 footer a{color:var(--hl)}
+.cap{margin:0 0 8px;color:var(--mut);font-size:12px}
+.k{display:flex;gap:4px 14px;flex-wrap:wrap;font-size:11px;color:var(--txt);margin-bottom:4px}
+.k i{display:inline-block;width:11px;height:11px;border-radius:2px;margin-right:4px;vertical-align:-1px}
 @media screen and (max-width:1150px){
   .main{display:flex;flex-direction:column;grid-template-columns:none}
   .charts{grid-template-columns:1fr}
@@ -86,9 +89,9 @@ footer a{color:var(--hl)}
 }
 @page{size:A4 landscape;margin:8mm}
 @media print{
-  :root,:root[data-theme="dark"]{--bg:#fff;--card:#fff;--navy:#004b87;--ink:#0d2d4c;--txt:#243b53;--mut:#56697d;--line:#cfd8e3;--hl:#005eb8;--gbg:#b2dfdb;--gtx:#004d40;--obg:#f7cba8;--otx:#7a3406;--bm:#c5d3e2;--sel:#fff4c2;--gold:#855800;--grn:#00695c;color-scheme:light}
+  :root,:root[data-theme="dark"]{--bg:#fff;--card:#fff;--ink:#16285a;--txt:#2b3552;--mut:#5d6780;--line:#d3d8df;--hl:#005eb8;--gbg:#a9d8b8;--gtx:#1d5a34;--obg:#f3ae7b;--otx:#7a3a07;--bm:#c4cad8;--sel:#fff3c4;--gold:#7d6400;--grn:#3f7d4f;color-scheme:light}
   button,.pick{display:none}
-  body{background:#fff;padding:0}
+  body{padding:0}
   .tbw{overflow:visible}
   .ch svg{max-width:100%;height:auto}
   header,.card,.headline{-webkit-print-color-adjust:exact;print-color-adjust:exact}
@@ -97,8 +100,7 @@ footer a{color:var(--hl)}
   .main{min-height:0}
 }
 </style></head><body>
-<header><div><h1>NHS Neonatal Intensive Care Outcomes, 2023/24</h1><p class="lede">Compare all 24 English Level 3 Neonatal Intensive Care Units (NICUs) on BadgerNet completeness, admission normothermia, deferred cord clamping, late-onset infection, breastmilk nutrition and 2-year follow-up. Pick a unit or network to see how it sits against the group.</p></div><div class="brand"><small>Data source</small>NNAP &amp; BadgerNet Open Data</div></header>
-<div class="headline"><span class="tag">Headline</span><p id="lede2"></p></div>
+<header><div class="hdr-left"><div class="nhs-lozenge">NICU<small>Audit</small></div><div><h1>NHS Neonatal Intensive Care Outcomes, 2023/24</h1><p class="lede">Compare all 24 Level 3 Neonatal Intensive Care Units (NICUs) on BadgerNet completeness, admission normothermia, deferred cord clamping, late-onset infection, breastmilk nutrition and 2-year follow-up. Pick a unit to see how it sits against the group.</p></div></div><div class="brand"><small>Data source</small>NNAP &amp; BadgerNet Open Data</div></header><div class="headline"><span class="tag">Headline</span><p id="lede2"></p></div>
 <div class="bar"><div><b id="ent"></b><label class="pick">Network: <select id="odn"><option value="">All networks (24)</option></select></label><label class="pick">Compare a unit: <select id="pk"></select></label><button id="rs" hidden>Show all 24 units</button><button id="th">Dark mode</button></div><div class="lg">Scale Definition:<span><i style="background:var(--gbg)"></i>Better than National NICU average</span><span><i style="background:var(--obg)"></i>Behind National NICU average</span><span><i style="background:var(--bm)"></i>National NICU average row</span><span><i style="background:#fff;border:1px solid var(--line)"></i>Within 0.5 pt of average</span></div></div>
 <div class="main"><div class="card kp" id="kp"></div><div class="card"><p class="cap">Each row is one Level 3 neonatal unit, 2023/24. Colour shows better or worse than the National NICU average in the grey bottom row; ▲/▼ shows whether the figure is above or below it. Hover a heading for its definition, click it to sort, and click a unit to focus on it.</p><div class="tbw"><table id="tb"></table></div></div><div class="card hi"><h2>Key Highlights</h2><ul id="hi"></ul></div></div>
 <div class="charts"><div class="card"><h2>Outcome trend <small id="t1"></small></h2><div class="k"><span id="k1"></span></div><div class="ch" id="c1"></div></div><div class="card"><h2><span id="t2"></span> <small id="t2s"></small></h2><div class="k"><span><i style="background:var(--gbg)"></i>Above</span><span><i style="background:var(--obg)"></i>Below</span><span id="k2"></span></div><div class="ch" id="c2"></div></div><div class="card"><h2>Gestational age bands <small id="t3"></small></h2><div class="k" id="k3"></div><div class="ch" id="c3"></div></div></div>
@@ -106,10 +108,7 @@ footer a{color:var(--hl)}
 <script>
 const D=__DATA__,$=i=>document.getElementById(i),P=v=>(v*100).toFixed(1)+'%',N=v=>v.toLocaleString('en-GB'),fx=s=>s.replace(/'/g,'’');
 const U=D.unis.map(x=>({...x,u:fx(x.u)})),T=D.trend,Y=T.years,L=Y.length-1,RG={...D.rg,n:D.n,k:D.k,tr:[T.work,T.study,T.unemp],u:'National NICU (24 units)'};
-const C=[
-  ['u','Neonatal unit','Click to sort A to Z'],['k','Validated episodes','Number of admissions with complete, validated BadgerNet episode records'],['resp','BadgerNet completeness','Validated episodes divided by eligible admissions, excluding <4h transitional care. Raw submission rate is shown on the key-figure card'],['work','On-time normothermia','Babies admitted with temperature taken within 1 hour of birth inside 36.5°C–37.5°C'],['study','Deferred cord clamping','Babies receiving deferred umbilical cord clamping (>=1 minute) at birth, including babies who also achieved normothermia'],['unemp','Late-onset infection','Babies developing a bloodstream or CSF infection after 72 hours of age. Lower is better'],['hs','Breastmilk at discharge','Babies receiving their own mother’s breastmilk at discharge home, as a share of known feeding outcomes'],['agree','2-year follow-up','Eligible very preterm babies (<30 weeks) with a completed 2-year neurodevelopmental follow-up record in BadgerNet']
-],LOW={unemp:1};
-
+const C=[['u','Neonatal unit','Click to sort A to Z'],['k','Validated episodes','Number of admissions with complete, validated BadgerNet episode records'],['resp','BadgerNet completeness','Validated episodes divided by eligible admissions, excluding <4h transitional care. Raw submission rate is shown on the key-figure card'],['work','On-time normothermia','Babies admitted with temperature taken within 1 hour of birth inside 36.5°C–37.5°C'],['study','Deferred cord clamping','Babies receiving deferred umbilical cord clamping (>=1 minute) at birth, including babies who also achieved normothermia'],['unemp','Late-onset infection','Babies developing a bloodstream or CSF infection after 72 hours of age. Lower is better'],['hs','Breastmilk at discharge','Babies receiving their own mother’s breastmilk at discharge home, as a share of known feeding outcomes'],['agree','2-year follow-up','Eligible very preterm babies (<30 weeks) with a completed 2-year neurodevelopmental follow-up record in BadgerNet']],LOW={unemp:1};
 let sel=null,odnF='',sk='work',asc=false;
 const cs=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 const good=(k,d)=>LOW[k]?d<=0:d>=0,pt=d=>(d>=0?'+':'−')+Math.abs(d*100).toFixed(1)+' pt';
@@ -143,166 +142,59 @@ const isFocus=()=>!!(sel||odnF);
 
 function syncDropdown(){
   const pool=odnF?U.filter(x=>x.odn==odnF):U;
-  const topLabel=odnF?`All ${pool.length} ${odnF} units`:'All 24 Level 3 NICUs';
+  const topLabel=odnF?`All ${pool.length} ${odnF} units`:'All 24 NICUs';
   $('pk').innerHTML=`<option value="">${topLabel}</option>`+[...pool].sort((a,b)=>a.u.localeCompare(b.u,'en')).map(x=>`<option value="${x.u}">${x.u}</option>`).join('');
   $('pk').value=sel||'';
 }
 
-function dl(k){
-  const e=E();
-  if(isFocus()){
-    const d=e[k]-RG[k],g=good(k,d);
-    return `<em class="${g?'up':'dn'}">${d>=0?'▲':'▼'} ${pt(d)} vs National NICU</em>`;
-  }
-  const t=T[k];if(!t)return '';
-  const d=t[L]-t[L-1],g=good(k,d);
-  return `<em class="${g?'up':'dn'}">${d>=0?'▲':'▼'} ${pt(d)} vs last year</em>`;
-}
-
-function kp(){
-  const e=E(),foc=isFocus(),odnPool=odnF?U.filter(x=>x.odn==odnF):U;
-  const TS={resp:foc?null:T.resp,work:foc?e.tr[0]:T.work,unemp:foc?e.tr[2]:T.unemp,hs:foc?null:T.hs};
-  const CS={resp:'#00857c',work:'var(--ink)',unemp:'#d95f02',hs:'#005eb8'};
-  const sp=(a,c)=>a?`<svg viewBox="0 0 100 24" preserveAspectRatio="none" style="width:100%;height:24px;margin-top:4px"><polyline points="${a.map((v,i)=>(i*100/(a.length-1))+','+(22-(v-Math.min(...a))/((Math.max(...a)-Math.min(...a))||1)*20)).join(' ')}" fill="none" style="stroke:${c}" stroke-width="2" vector-effect="non-scaling-stroke"/></svg>`:'';
-  $('ent').textContent=sel?'Focus: '+e.u:e.u;
-  $('rs').hidden=!foc;
-  const R3=[['on-time normothermia','work'],['deferred cord clamping','study'],['breastmilk at discharge','hs']].map(([n,k])=>{const v=odnPool.map(x=>x[k]);return[n,Math.min(...v),Math.max(...v)]}).sort((a,b)=>(b[2]-b[1])-(a[2]-a[1]))[0];
-  $('lede2').innerHTML=sel
-    ?`<b>${e.u}</b> ranks <b class="hn">${rk('work')} of 24</b> on normothermia, <b class="hn">${rk('unemp')} of 24</b> on low late-onset infection and <b class="hn">${rk('resp')} of 24</b> on BadgerNet completeness${odnF?` (<b class="hn">${rk('work',sel,odnPool)} of ${odnPool.length}</b> in ${odnF})`:''} <span class="mut">(1 = best)</span>.`
-    :odnF
-      ?`<b>${odnF} (${odnPool.length} units):</b> <b class="hn">${P(e.work)}</b> of admissions achieve on-time normothermia and <b class="hn">${P(e.unemp)}</b> develop late-onset infection; pick one of the ${odnPool.length} units to focus on it.`
-      :`<b class="hn">${P(RG.work)}</b> of admissions achieve on-time normothermia and <b class="hn">${P(RG.unemp)}</b> develop late-onset infection; units differ most on ${R3[0]}, from <b class="hn">${P(R3[1])}</b> to <b class="hn">${P(R3[2])}</b>.`;
-  $('kp').innerHTML=`<div class="kb"><span>Validated episodes</span><b>${N(e.k)}</b><small>from ${N(e.n)} admissions</small></div>`+[['BadgerNet completeness (%)','resp'],['On-time normothermia (%)','work'],['Late-onset infection (%)','unemp'],['Breastmilk at discharge (%)','hs']].map(a=>`<div class="kb"><span>${a[0]}</span><b>${P(e[a[1]])}</b>${dl(a[1])}${a[1]=='resp'?`<small>Raw submission rate: ${P(e.pub)} (counts &lt;4h transitional care too)</small>`:''}${sp(TS[a[1]],CS[a[1]])}</div>`).join('');
-}
-
-function tb(){
-  const pool=odnF?U.filter(x=>x.odn==odnF):U;
-  const rows=[...pool].sort((a,b)=>sk=='u'?(asc?1:-1)*a.u.localeCompare(b.u,'en'):(asc?1:-1)*(a[sk]-b[sk]));
-  $('tb').className=rows.length<=8?'short':'';
-  const cl=(k,x)=>{if(k=='u'||k=='k')return '';const d=x[k]-RG[k];return Math.abs(d)<.005?'':good(k,d)?' class="g"':' class="o"'};
-  const v=(k,x)=>k=='u'?x.u:k=='k'?N(x.k):P(x[k]);
-  const td=(k,x)=>{
-    if(k=='u')return `<td title="${x.u} (${x.odn} ODN · ODS: ${x.ods})">${x.u}</td>`;
-    if(k=='k')return `<td>${v(k,x)}</td>`;
-    const d=x[k]-RG[k],m=Math.abs(d)<.005;
-    return `<td${cl(k,x)} title="${pt(d)} vs National NICU average">${m?'':d>0?'▲ ':'▼ '}${P(x[k])}</td>`;
-  };
-  $('tb').innerHTML=`<thead><tr>${C.map(c=>`<th data-k="${c[0]}" title="${c[2]||''}" class="${c[0]==sk?'s'+(asc?' a':''):''}">${c[1]}</th>`).join('')}</tr></thead><tbody>`+rows.map(x=>`<tr data-u="${x.u}" tabindex="0" class="${x.u==sel?'sel':''}">${C.map(c=>td(c[0],x)).join('')}</tr>`).join('')+`<tr class="av">${C.map(c=>`<td>${c[0]=='u'?'National NICU average (comparison row)':c[0]=='k'?N(RG.k):P(RG[c[0]])}</td>`).join('')}</tr></tbody>`;
-}
-
-function hi(){
-  const e=E(),B=k=>[...U].sort((a,b)=>LOW[k]?a[k]-b[k]:b[k]-a[k]),g=t=>`<span class="g">${t}</span>`,o=t=>`<span class="o">${t}</span>`,li=(a,b)=>`<li><b>${a}</b> ${b}</li>`;
-  let h;
-  if(sel){
-    const odnPool=odnF?U.filter(x=>x.odn==odnF):U;
-    const f=(k,a)=>{const d=e[k]-RG[k],gd=good(k,d);return li(a,`${(gd?g:o)(P(e[k]))} against ${P(RG[k])} for the National NICU group (${pt(d)}); ranked ${rk(k)} of 24${odnF?` (${rk(k,sel,odnPool)} of ${odnPool.length} in ${odnF})`:''}.`)};
-    h=[
-      f('work','Normothermia.'),
-      f('unemp','Late-onset infection.'),
-      f('hs','Breastmilk at discharge.'),
-      li('Compared with 2017/18.',`Normothermia moved from ${P(e.tr[0][0])} to ${P(e.tr[0][L])} and late-onset infection from ${P(e.tr[2][0])} to ${P(e.tr[2][L])}.`),
-      li('BadgerNet completeness.',`${(e.resp>=RG.resp?g:o)(P(e.resp))} validated (${N(e.k)} of ${N(e.n)}), against ${P(RG.resp)} across all 24 NICUs.`)
-    ];
-  }else if(odnF){
-    const grp=U.filter(x=>x.odn==odnF),bW=[...grp].sort((a,b)=>b.work-a.work),bI=[...grp].sort((a,b)=>a.unemp-b.unemp);
-    h=[
-      li('Network normothermia.',`${(e.work>=RG.work?g:o)(P(e.work))} across ${odnF}, led by ${bW[0].u} at ${g(P(bW[0].work))}.`),
-      li('Late-onset infection.',`${(e.unemp<=RG.unemp?g:o)(P(e.unemp))} across the ${grp.length} units, lowest at ${bI[0].u} (${g(P(bI[0].unemp))}).`),
-      li('Breastmilk at discharge.',`${(e.hs>=RG.hs?g:o)(P(e.hs))} of babies receive maternal breastmilk, against ${P(RG.hs)} nationally.`),
-      li('Since 2017/18.',`Normothermia moved from ${P(e.tr[0][0])} to ${P(e.tr[0][L])}; infection from ${P(e.tr[2][0])} to ${P(e.tr[2][L])}.`),
-      li('BadgerNet completeness.',`${(e.resp>=RG.resp?g:o)(P(e.resp))} of episodes validated (${N(e.k)} of ${N(e.n)} admissions).`)
-    ];
-  }else{
-    const u=B('unemp'),s=B('hs'),q=B('resp');
-    h=[
-      li('Thermal & delivery care.',`${g(P(RG.work))} achieve admission normothermia and ${P(RG.study)} receive deferred cord clamping; some do both.`),
-      li('Late-onset infection.',`${g(P(RG.unemp))} overall, from ${P(u[0].unemp)} at ${u[0].u} to ${o(P(u[23].unemp))} at ${u[23].u}.`),
-      li('Breastmilk at discharge.',`${g(P(RG.hs))} of babies receive maternal breastmilk at discharge; lowest is ${o(P(s[23].hs))} at ${s[23].u}.`),
-      li('Since 2017/18.',`Normothermia moved from ${P(T.work[0])} to ${P(T.work[L])}; late-onset infection from ${P(T.unemp[0])} to ${P(T.unemp[L])}.`),
-      li('BadgerNet completeness.',`${g(P(RG.resp))} of episodes validated (led by ${q[0].u} at ${g(P(q[0].resp))}), up from ${P(T.resp[0])} in 2017/18.`)
-    ];
-  }
-  $('hi').innerHTML=h.join('');
-}
-
+function dl(k){const e=E();if(isFocus()){const d=e[k]-RG[k],g=good(k,d);return `<em class="${g?'up':'dn'}">${d>=0?'▲':'▼'} ${pt(d)} vs National NICU</em>`}const t=T[k];if(!t)return '';const d=t[L]-t[L-1],g=good(k,d);return `<em class="${g?'up':'dn'}">${d>=0?'▲':'▼'} ${pt(d)} vs last year</em>`}
+function kp(){const e=E(),foc=isFocus(),odnPool=odnF?U.filter(x=>x.odn==odnF):U,TS={resp:foc?null:T.resp,work:foc?e.tr[0]:T.work,unemp:foc?e.tr[2]:T.unemp,hs:foc?null:T.hs},CS={resp:'#d9a400',work:'var(--ink)',unemp:'#e8833a',hs:'#5b7fd6'},sp=(a,c)=>a?`<svg viewBox="0 0 100 24" preserveAspectRatio="none" style="width:100%;height:24px;margin-top:4px"><polyline points="${a.map((v,i)=>(i*100/(a.length-1))+','+(22-(v-Math.min(...a))/((Math.max(...a)-Math.min(...a))||1)*20)).join(' ')}" fill="none" style="stroke:${c}" stroke-width="2" vector-effect="non-scaling-stroke"/></svg>`:'';$('ent').textContent=sel?'Focus: '+e.u:e.u;$('rs').hidden=!foc;{const R3=[['on-time normothermia','work'],['deferred cord clamping','study'],['breastmilk at discharge','hs']].map(([n,k])=>{const v=odnPool.map(x=>x[k]);return[n,Math.min(...v),Math.max(...v)]}).sort((a,b)=>(b[2]-b[1])-(a[2]-a[1]))[0];$('lede2').innerHTML=sel?`<b>${e.u}</b> ranks <b class="hn">${rk('work')} of 24</b> on normothermia, <b class="hn">${rk('unemp')} of 24</b> on low late-onset infection and <b class="hn">${rk('hs')} of 24</b> on breastmilk at discharge${odnF?` (<b class="hn">${rk('work',sel,odnPool)} of ${odnPool.length}</b> in ${odnF})`:''} <span class="mut">(1 = best)</span>.`:odnF?`<b>${odnF} (${odnPool.length} units):</b> <b class="hn">${P(e.work)}</b> of admissions achieve on-time normothermia and <b class="hn">${P(e.unemp)}</b> develop late-onset infection; pick one of the ${odnPool.length} units to focus on it.`:`<b class="hn">${P(RG.work)}</b> of admissions achieve on-time normothermia and <b class="hn">${P(RG.unemp)}</b> develop late-onset infection; units differ most on ${R3[0]}, from <b class="hn">${P(R3[1])}</b> to <b class="hn">${P(R3[2])}</b>.`}$('kp').innerHTML=`<div class="kb"><span>Validated episodes</span><b>${N(e.k)}</b><small>from ${N(e.n)} admissions</small></div>`+[['BadgerNet completeness (%)','resp'],['On-time normothermia (%)','work'],['Late-onset infection (%)','unemp'],['Breastmilk at discharge (%)','hs']].map(a=>`<div class="kb"><span>${a[0]}</span><b>${P(e[a[1]])}</b>${dl(a[1])}${a[1]=='resp'?`<small>Raw submission rate: ${P(e.pub)} (counts &lt;4h transitional care too)</small>`:''}${sp(TS[a[1]],CS[a[1]])}</div>`).join('')}
+function tb(){const pool=odnF?U.filter(x=>x.odn==odnF):U,rows=[...pool].sort((a,b)=>sk=='u'?(asc?1:-1)*a.u.localeCompare(b.u,'en'):(asc?1:-1)*(a[sk]-b[sk]));
+$('tb').className=rows.length<=8?'short':'';
+const cl=(k,x)=>{if(k=='u'||k=='k')return '';const d=x[k]-RG[k];return Math.abs(d)<.005?'':good(k,d)?' class="g"':' class="o"'},v=(k,x)=>k=='u'?x.u:k=='k'?N(x.k):P(x[k]),td=(k,x)=>{if(k=='u'||k=='k')return `<td>${v(k,x)}</td>`;const d=x[k]-RG[k],m=Math.abs(d)<.005;return `<td${cl(k,x)} title="${pt(d)} vs National NICU average">${m?'':d>0?'▲ ':'▼ '}${P(x[k])}</td>`};
+$('tb').innerHTML=`<thead><tr>${C.map(c=>`<th data-k="${c[0]}" title="${c[2]||''}" class="${c[0]==sk?'s'+(asc?' a':''):''}">${c[1]}</th>`).join('')}</tr></thead><tbody>`+rows.map(x=>`<tr data-u="${x.u}" tabindex="0" class="${x.u==sel?'sel':''}">${C.map(c=>td(c[0],x)).join('')}</tr>`).join('')+`<tr class="av">${C.map(c=>`<td>${c[0]=='u'?'National NICU average (comparison row)':c[0]=='k'?N(RG.k):P(RG[c[0]])}</td>`).join('')}</tr></tbody>`}
+function hi(){const e=E(),B=k=>[...U].sort((a,b)=>LOW[k]?a[k]-b[k]:b[k]-a[k]),g=t=>`<span class="g">${t}</span>`,o=t=>`<span class="o">${t}</span>`,li=(a,b)=>`<li><b>${a}</b> ${b}</li>`;let h;
+if(sel){const f=(k,a)=>{const d=e[k]-RG[k],gd=good(k,d);return li(a,`${(gd?g:o)(P(e[k]))} against ${P(RG[k])} for the National NICU group (${pt(d)}); ranked ${rk(k)} of 24.`)};
+h=[f('work','Normothermia.'),f('unemp','Late-onset infection.'),f('hs','Breastmilk at discharge.'),li('Compared with 2017/18.',`Normothermia moved from ${P(e.tr[0][0])} to ${P(e.tr[0][L])} and late-onset infection from ${P(e.tr[2][0])} to ${P(e.tr[2][L])}.`),li('BadgerNet completeness.',`${(e.resp>=RG.resp?g:o)(P(e.resp))} validated (${N(e.k)} of ${N(e.n)}), against ${P(RG.resp)} across all 24 NICUs.`)]}
+else if(odnF){const grp=U.filter(x=>x.odn==odnF),bW=[...grp].sort((a,b)=>b.work-a.work),bI=[...grp].sort((a,b)=>a.unemp-b.unemp);
+h=[li('Network normothermia.',`${(e.work>=RG.work?g:o)(P(e.work))} across ${odnF}, led by ${bW[0].u} at ${g(P(bW[0].work))}.`),li('Late-onset infection.',`${(e.unemp<=RG.unemp?g:o)(P(e.unemp))} across the ${grp.length} units, lowest at ${bI[0].u} (${g(P(bI[0].unemp))}).`),li('Breastmilk at discharge.',`${(e.hs>=RG.hs?g:o)(P(e.hs))} of babies receive maternal breastmilk, against ${P(RG.hs)} nationally.`),li('Since 2017/18.',`Normothermia moved from ${P(e.tr[0][0])} to ${P(e.tr[0][L])}; infection from ${P(e.tr[2][0])} to ${P(e.tr[2][L])}.`),li('BadgerNet completeness.',`${(e.resp>=RG.resp?g:o)(P(e.resp))} of episodes validated (${N(e.k)} of ${N(e.n)} admissions).`)]}
+else{const u=B('unemp'),s=B('hs'),q=B('resp');h=[li('Thermal & delivery care.',`${g(P(RG.work))} achieve admission normothermia and ${P(RG.study)} receive deferred cord clamping; some do both.`),li('Late-onset infection.',`${g(P(RG.unemp))} overall, from ${P(u[0].unemp)} at ${u[0].u} to ${o(P(u[23].unemp))} at ${u[23].u}.`),li('Breastmilk at discharge.',`${g(P(RG.hs))} of babies receive maternal breastmilk at discharge; lowest is ${o(P(s[23].hs))} at ${s[23].u}.`),li('Since 2017/18.',`Normothermia moved from ${P(T.work[0])} to ${P(T.work[L])}; late-onset infection from ${P(T.unemp[0])} to ${P(T.unemp[L])}.`),li('BadgerNet completeness.',`${g(P(RG.resp))} of episodes validated (led by ${q[0].u} at ${g(P(q[0].resp))}), up from ${P(T.resp[0])} in 2017/18.`)]}
+$('hi').innerHTML=h.join('')}
 const esc=s=>s.replace(/&/g,'&amp;'),snr=x=>(x.startsWith('In-utero')?'In-utero transfer to NICU':x.startsWith('Hypoxic')?'HIE therapeutic cooling':x.startsWith('Intrauterine')?'IUGR / small for gestation':x.startsWith('Preterm prelabour')?'Preterm PROM':x.replace(/ gestation\)/g,')').replace(/ and /g,' & '));
 const SV=(w,h,b,l)=>`<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" role="img" aria-label="${l}" font-size="11">${b}</svg>`,tx=(x,y,s,o='')=>`<text x="${x}" y="${y}" ${o}>${s}</text>`;
 const fit=(id,f)=>{const el=$(id);el.innerHTML=f(Math.max(160,el.clientWidth),Math.max(120,el.clientHeight))},SP=['Normothermia','Cord clamping','Late infection'];
-
-function trend(w,h){
-  const e=E(),foc=isFocus(),ml=40,mr=w<500?100:145,mt=12,mb=26,pw=w-ml-mr,ph=h-mt-mb,X=i=>ml+i*pw/L,V=v=>mt+ph-v*ph,col=[cs('--ink'),'#00857c','#d95f02'];
-  let s=[0,.25,.5,.75,1].map(v=>`<line x1="${ml}" x2="${ml+pw}" y1="${V(v)}" y2="${V(v)}" style="stroke:var(--line)"/>`+tx(ml-6,V(v)+4,v*100+'%','text-anchor="end" style="fill:var(--mut)"')).join('')+Y.map((y,i)=>pw/L>=52||i%2==0?tx(X(i),h-8,y.slice(2),'text-anchor="middle" style="fill:var(--txt)"'):'').join('');
-  const ln=(a,c,d,k)=>`<polyline points="${a.map((v,i)=>X(i)+','+V(v)).join(' ')}" fill="none" stroke="${c}" stroke-width="${k}" ${d?'stroke-dasharray="4 4"':''} stroke-linejoin="round"/>`;
-  if(foc)[T.work,T.study,T.unemp].forEach((a,k)=>s+=ln(a,col[k],1,1.5));
-  e.tr.forEach((a,k)=>{
-    s+=(k==0?`<polygon points="${a.map((v,i)=>X(i)+','+V(v)).join(' ')} ${X(L)},${V(0)} ${X(0)},${V(0)}" style="fill:var(--ink)" opacity=".07"/>`:'')+ln(a,col[k],0,2.5)+a.map((v,i)=>`<circle cx="${X(i)}" cy="${V(v)}" r="3.5" fill="${col[k]}"><title>${SP[k]} ${Y[i]}: ${P(v)}</title></circle>`).join('')+tx(X(L)+10,V(a[L])+4,(w<500?['Normo.','Cord','Infect.']:SP)[k]+' '+P(a[L]),`style="fill:${col[k]};font-weight:600"`);
-  });
-  return SV(w,h,s,'Line chart of normothermia, deferred cord clamping and late-onset infection rates, 2017/18 to 2023/24');
-}
-
-function subj(w,h){
-  const e=E(),foc=isFocus(),s=D.subj,it=s.map(x=>{const r=foc?e.sj[x[0]]:null;return{n:x[0],val:foc?(r?r[0]:0):x[1],ref:foc?x[1]:RG.work,k:foc?(r?r[1]:0):D.subjk[x[0]],ok:!foc||!!(r&&r[1]>=23)}}),gp=it.map(x=>x.ok?(x.val-x.ref)*100:0),m0=Math.max(...gp.map(Math.abs))+1,sp2=m0>25?20:10,bd=Math.ceil(m0/sp2)*sp2;
-  const nw=Math.min(180,w*.36),vw=48,pl=nw+vw+8,pw=w-pl-26,mt=4,mb=34,rh=(h-mt-mb)/it.length,X=v=>pl+(v+bd)/(2*bd)*pw,mc=Math.floor(nw/6.3),stp=pw<220?sp2*2:sp2;let o='';
-  for(let v=-bd;v<=bd;v+=sp2)o+=`<line x1="${X(v)}" x2="${X(v)}" y1="${mt}" y2="${h-mb}" style="stroke:var(--line)"/>`+(v%stp==0?tx(X(v),h-mb+14,(v>0?'+':v<0?'\u2212':'')+Math.abs(v)+' pt','text-anchor="middle" style="fill:var(--mut)" font-size="10"'):'');
-  it.forEach((x,i)=>{
-    const y=mt+i*rh,c=!x.ok||Math.abs(gp[i])<.5?'var(--bm)':gp[i]>0?'var(--gbg)':'var(--obg)',a=X(0),b=X(gp[i]),tip=x.n+'\n'+(x.ok?(foc?e.u+': '+P(x.val)+' normothermia\nNational NICU: '+P(x.ref):P(x.val)+' normothermia ('+pt(x.val-x.ref)+' vs average)'):'Too few to rate')+'\n'+N(x.k)+' validated episodes'+(x.ok&&foc&&x.k<50?'\nSmall group: counts rounded to the nearest 5, indicative only':'');
-    o+=`<g><title>${esc(tip)}</title><rect x="0" y="${y}" width="${w}" height="${rh}" fill="transparent"/>`+tx(0,y+rh/2+4,esc(snr(x.n).length>mc?snr(x.n).slice(0,mc-1)+'…':snr(x.n)),'style="fill:var(--ink)"')+tx(nw+vw,y+rh/2+4,x.ok?P(x.val)+(foc&&x.k<50?'*':''):'too few','text-anchor="end" style="fill:var(--ink);font-weight:600"')+(x.ok?`<rect x="${Math.min(a,b)}" y="${y+rh*.18}" width="${Math.abs(b-a)}" height="${rh*.64}" rx="2" style="fill:${c}"/>`:'')+'</g>';
-  });
-  o+=`<line x1="${X(0)}" x2="${X(0)}" y1="${mt}" y2="${h-mb}" style="stroke:var(--ink)" stroke-width="1.5"/>`+tx(pl+pw/2,h-3,foc?'Gap from National NICU, same cohort':w<500?'Gap from National NICU average':'Gap from National NICU average ('+P(RG.work)+')','text-anchor="middle" style="fill:var(--mut)" font-size="10"');
-  return SV(w,h,o,'Bar chart of the gap in normothermia rate by clinical cohort');
-}
-
-function sal(w,h){
-  const e=E(),foc=isFocus(),a=D.sal,r=a.map(x=>x[1]),cmp=foc&&e.sn>=23,hi=(x,i)=>i<10,lb=x=>x[0].replace(' wks','w').replace('–','-'),ml=38,mt=16,mb=36,pw=w-ml-6,ph=h-mt-mb,top=Math.ceil(Math.max(...r,...(cmp?e.sal:[0]),.01)*20)/20,bw=pw/a.length,V=v=>mt+ph-v/top*ph;
-  let o='';const st=top>.3?.1:.05;
-  for(let v=0;v<=top+1e-9;v+=st){
-    o+=`<line x1="${ml}" x2="${ml+pw}" y1="${V(v)}" y2="${V(v)}" style="stroke:var(--line)"/>`+tx(ml-6,V(v)+4,Math.round(v*100)+'%','text-anchor="end" style="fill:var(--mut)" font-size="10"');
-  }
-  a.forEach((x,i)=>{
-    const cx=ml+i*bw,bar=(v,k,n,c)=>`<rect x="${cx+bw*k}" y="${V(v)}" width="${bw*n}" height="${ph+mt-V(v)}" rx="2" style="fill:${c}"><title>${esc(x[0])}: ${P(v)} of admissions</title></rect>`;
-    o+=cmp
-      ?bar(r[i],.1,.38,'var(--bm)')+bar(e.sal[i],.52,.38,'var(--ink)')
-      :bar(r[i],.15,.7,hi(x,i)?'var(--ink)':'#8fb3cf')+(r[i]>=.01?tx(cx+bw/2,V(r[i])-4,Math.round(r[i]*100),'text-anchor="middle" style="fill:var(--ink);font-weight:600" font-size="9.5"'):'');
-    o+=bw>=24||i%2==0?tx(cx+bw/2,h-mb+13,lb(x),'text-anchor="middle" style="fill:var(--txt)" font-size="9.5"'):'';
-  });
-  o+=tx(ml+pw/2,h-3,'Gestational age at birth (completed weeks, <24w to 40w+)','text-anchor="middle" style="fill:var(--mut)" font-size="10"');
-  return SV(w,h,o,'Column chart of the share of admissions in each gestational age band');
-}
-
-function heads(){
-  const e=E(),foc=isFocus(),a=D.sal,r=a.map(x=>x[1]),cmp=foc&&e.sn>=23,key=(c,x)=>`<span><i style="background:${c}"></i>${x}</span>`;
-  const f37=v=>v.slice(0,10).reduce((q,y)=>q+y,0);
-  $('t1').textContent=foc?'\u2013 '+e.u:'\u2013 24 Level 3 NICUs, 2017/18 to 2023/24';
-  $('k1').textContent=(foc?'Solid = '+e.u+', dotted = National NICU. ':'')+'Lines don\u2019t add to 100%: babies with both normothermia and cord clamping count in both.';
-  $('t2').textContent=foc?'Normothermia by clinical cohort \u2013 '+e.u:'Normothermia by clinical cohort';
-  $('t2s').textContent=foc?'gap vs National NICU, same cohort':'24 Level 3 NICUs, all pooled';
-  $('k2').textContent=foc?'Centre line = National NICU result for the same cohort. Grey = fewer than 23 episodes, too few to rate. * = fewer than 50 episodes, indicative only.':'Centre line = National NICU average. Hover a bar to see validated episode counts.';
-  $('t3').textContent=!foc?'\u2013 '+P(f37(r))+' admitted preterm (<37 wks)':cmp?'\u2013 '+e.u+': '+P(f37(e.sal))+' preterm (<37 wks) (National NICU '+P(f37(r))+')':'\u2013 '+e.u+': fewer than 23 episodes, too few to show';
-  $('k3').innerHTML=cmp?key('var(--bm)','National NICU')+key('var(--ink)',e.u)+'<span>Bars = % of admissions in each band</span>':key('var(--ink)','Preterm (<37 weeks)')+key('#8fb3cf','Term (37+ weeks)')+'<span>Number above bar = % of admissions</span>';
-}
-
+function trend(w,h){const e=E(),foc=isFocus(),ml=40,mr=w<500?100:140,mt=12,mb=26,pw=w-ml-mr,ph=h-mt-mb,X=i=>ml+i*pw/L,V=v=>mt+ph-v*ph,col=[cs('--ink'),'#5b7fd6','#e8833a'];
+let s=[0,.25,.5,.75,1].map(v=>`<line x1="${ml}" x2="${ml+pw}" y1="${V(v)}" y2="${V(v)}" style="stroke:var(--line)"/>`+tx(ml-6,V(v)+4,v*100+'%','text-anchor="end" style="fill:var(--mut)"')).join('')+Y.map((y,i)=>pw/L>=52||i%2==0?tx(X(i),h-8,y.slice(2),'text-anchor="middle" style="fill:var(--txt)"'):'').join('');
+const ln=(a,c,d,k)=>`<polyline points="${a.map((v,i)=>X(i)+','+V(v)).join(' ')}" fill="none" stroke="${c}" stroke-width="${k}" ${d?'stroke-dasharray="4 4"':''} stroke-linejoin="round"/>`;
+if(foc)[T.work,T.study,T.unemp].forEach((a,k)=>s+=ln(a,col[k],1,1.5));
+e.tr.forEach((a,k)=>{s+=(k==0?`<polygon points="${a.map((v,i)=>X(i)+','+V(v)).join(' ')} ${X(L)},${V(0)} ${X(0)},${V(0)}" style="fill:var(--ink)" opacity=".07"/>`:'')+ln(a,col[k],0,2.5)+a.map((v,i)=>`<circle cx="${X(i)}" cy="${V(v)}" r="3.5" fill="${col[k]}"><title>${SP[k]} ${Y[i]}: ${P(v)}</title></circle>`).join('')+tx(X(L)+10,V(a[L])+4,(w<500?['Normo.','Cord','Infect.']:SP)[k]+' '+P(a[L]),`style="fill:${col[k]};font-weight:600"`)});
+return SV(w,h,s,'Line chart of normothermia, deferred cord clamping and late-onset infection rates, 2017/18 to 2023/24')}
+function subj(w,h){const e=E(),foc=isFocus(),s=D.subj,it=s.map(x=>{const r=foc?e.sj[x[0]]:null;return{n:x[0],val:foc?(r?r[0]:0):x[1],ref:foc?x[1]:RG.work,k:foc?(r?r[1]:0):D.subjk[x[0]],ok:!foc||!!(r&&r[1]>=23)}}),gp=it.map(x=>x.ok?(x.val-x.ref)*100:0),m0=Math.max(...gp.map(Math.abs))+1,sp2=m0>25?20:10,bd=Math.ceil(m0/sp2)*sp2;
+const nw=Math.min(180,w*.36),vw=48,pl=nw+vw+8,pw=w-pl-26,mt=4,mb=34,rh=(h-mt-mb)/it.length,X=v=>pl+(v+bd)/(2*bd)*pw,mc=Math.floor(nw/6.3),stp=pw<220?sp2*2:sp2;let o='';
+for(let v=-bd;v<=bd;v+=sp2)o+=`<line x1="${X(v)}" x2="${X(v)}" y1="${mt}" y2="${h-mb}" style="stroke:var(--line)"/>`+(v%stp==0?tx(X(v),h-mb+14,(v>0?'+':v<0?'\u2212':'')+Math.abs(v)+' pt','text-anchor="middle" style="fill:var(--mut)" font-size="10"'):'');
+it.forEach((x,i)=>{const y=mt+i*rh,c=!x.ok||Math.abs(gp[i])<.5?'var(--bm)':gp[i]>0?'var(--gbg)':'var(--obg)',a=X(0),b=X(gp[i]),tip=x.n+'\n'+(x.ok?(foc?e.u+': '+P(x.val)+' normothermia\nNational NICU: '+P(x.ref):P(x.val)+' normothermia ('+pt(x.val-x.ref)+' vs average)'):'Too few to rate')+'\n'+N(x.k)+' validated episodes'+(x.ok&&foc&&x.k<50?'\nSmall group: counts rounded to the nearest 5, indicative only':'');
+o+=`<g><title>${esc(tip)}</title><rect x="0" y="${y}" width="${w}" height="${rh}" fill="transparent"/>`+tx(0,y+rh/2+4,esc(snr(x.n).length>mc?snr(x.n).slice(0,mc-1)+'…':snr(x.n)),'style="fill:var(--ink)"')+tx(nw+vw,y+rh/2+4,x.ok?P(x.val)+(foc&&x.k<50?'*':''):'too few','text-anchor="end" style="fill:var(--ink);font-weight:600"')+(x.ok?`<rect x="${Math.min(a,b)}" y="${y+rh*.18}" width="${Math.abs(b-a)}" height="${rh*.64}" rx="2" style="fill:${c}"/>`:'')+'</g>'});
+o+=`<line x1="${X(0)}" x2="${X(0)}" y1="${mt}" y2="${h-mb}" style="stroke:var(--ink)" stroke-width="1.5"/>`+tx(pl+pw/2,h-3,foc?'Gap from National NICU, same cohort':w<500?'Gap from National NICU average':'Gap from National NICU average ('+P(RG.work)+')','text-anchor="middle" style="fill:var(--mut)" font-size="10"');
+return SV(w,h,o,'Bar chart of the gap in normothermia rate by clinical cohort')}
+function sal(w,h){const e=E(),foc=isFocus(),a=D.sal,r=a.map(x=>x[1]),cmp=foc&&e.sn>=23,hi=(x,i)=>i<10,lb=x=>x[0].replace(' wks','w').replace('–','-'),ml=38,mt=16,mb=36,pw=w-ml-6,ph=h-mt-mb,top=Math.ceil(Math.max(...r,...(cmp?e.sal:[0]),.01)*20)/20,bw=pw/a.length,V=v=>mt+ph-v/top*ph;
+let o='';const st=top>.3?.1:.05;for(let v=0;v<=top+1e-9;v+=st){o+=`<line x1="${ml}" x2="${ml+pw}" y1="${V(v)}" y2="${V(v)}" style="stroke:var(--line)"/>`+tx(ml-6,V(v)+4,Math.round(v*100)+'%','text-anchor="end" style="fill:var(--mut)" font-size="10"')}
+a.forEach((x,i)=>{const cx=ml+i*bw,bar=(v,k,n,c)=>`<rect x="${cx+bw*k}" y="${V(v)}" width="${bw*n}" height="${ph+mt-V(v)}" rx="2" style="fill:${c}"><title>${esc(x[0])}: ${P(v)} of admissions</title></rect>`;
+o+=cmp?bar(r[i],.1,.38,'var(--bm)')+bar(e.sal[i],.52,.38,'var(--ink)'):bar(r[i],.15,.7,hi(x,i)?'var(--ink)':'#9fb2d8')+(r[i]>=.01?tx(cx+bw/2,V(r[i])-4,Math.round(r[i]*100),'text-anchor="middle" style="fill:var(--ink);font-weight:600" font-size="9.5"'):'');
+o+=bw>=24||i%2==0?tx(cx+bw/2,h-mb+13,lb(x),'text-anchor="middle" style="fill:var(--txt)" font-size="9.5"'):''});
+o+=tx(ml+pw/2,h-3,'Gestational age at birth (completed weeks, <24w to 40w+)','text-anchor="middle" style="fill:var(--mut)" font-size="10"');
+return SV(w,h,o,'Column chart of the share of admissions in each gestational age band')}
+function heads(){const e=E(),foc=isFocus(),a=D.sal,r=a.map(x=>x[1]),cmp=foc&&e.sn>=23,key=(c,x)=>`<span><i style="background:${c}"></i>${x}</span>`,f37=v=>v.slice(0,10).reduce((q,y)=>q+y,0);
+$('t1').textContent=foc?'\u2013 '+e.u:'\u2013 24 Level 3 NICUs, 2017/18 to 2023/24';$('k1').textContent=(foc?'Solid = '+e.u+', dotted = National NICU. ':'')+'Lines don\u2019t add to 100%: babies with both normothermia and cord clamping count in both.';
+$('t2').textContent=foc?'Normothermia by clinical cohort \u2013 '+e.u:'Normothermia by clinical cohort';$('t2s').textContent=foc?'gap vs National NICU, same cohort':'24 Level 3 NICUs, all pooled';$('k2').textContent=foc?'Centre line = National NICU result for the same cohort. Grey = fewer than 23 episodes, too few to rate. * = fewer than 50 episodes, indicative only.':'Centre line = National NICU average. Hover a bar to see validated episode counts.';
+$('t3').textContent=!foc?'\u2013 '+P(f37(r))+' admitted preterm (<37 wks)':cmp?'\u2013 '+e.u+': '+P(f37(e.sal))+' preterm (<37 wks) (National NICU '+P(f37(r))+')':'\u2013 '+e.u+': fewer than 23 episodes, too few to show';
+$('k3').innerHTML=cmp?key('var(--bm)','National NICU')+key('var(--ink)',e.u)+'<span>Bars = % of admissions in each band</span>':key('var(--ink)','Preterm (<37 weeks)')+key('#9fb2d8','Term (37+ weeks)')+'<span>Number above bar = % of admissions</span>'}
 function charts(){heads();fit('c1',trend);fit('c2',subj);fit('c3',sal)}
 let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(charts,120)});
-
 const odns=[...new Set(U.map(x=>x.odn))].sort();
 $('odn').innerHTML+=odns.map(o=>`<option value="${o}">${o} (${U.filter(x=>x.odn==o).length})</option>`).join('');
-
-function upd(){
-  $('odn').value=odnF||'';
-  syncDropdown();
-  kp();tb();hi();charts();
-}
-
-$('tb').onclick=ev=>{
-  const h=ev.target.closest('th'),r=ev.target.closest('tbody tr:not(.av)');
-  if(h){const k=h.dataset.k;asc=k==sk?!asc:k=='u';sk=k;tb()}
-  else if(r){sel=sel==r.dataset.u?null:r.dataset.u;upd()}
-};
-$('odn').onchange=ev=>{
-  odnF=ev.target.value||'';
-  if(sel&&odnF&&U.find(x=>x.u==sel).odn!=odnF)sel=null;
-  upd();
-};
+function upd(){$('odn').value=odnF||'';syncDropdown();kp();tb();hi();charts()}
+$('tb').onclick=ev=>{const h=ev.target.closest('th'),r=ev.target.closest('tbody tr:not(.av)');if(h){const k=h.dataset.k;asc=k==sk?!asc:k=='u';sk=k;tb()}else if(r){sel=sel==r.dataset.u?null:r.dataset.u;upd()}};
+$('odn').onchange=ev=>{odnF=ev.target.value||'';if(sel&&odnF&&U.find(x=>x.u==sel).odn!=odnF)sel=null;upd()};
 $('pk').onchange=ev=>{sel=ev.target.value||null;upd()};
 $('tb').onkeydown=ev=>{const r=ev.target.closest('tbody tr:not(.av)');if(r&&ev.key=='Enter'){sel=r.dataset.u;upd()}};
 $('rs').onclick=()=>{sel=null;odnF='';upd()};
