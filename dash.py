@@ -78,7 +78,7 @@ for ods in sorted(nm.keys()):
         'u': nm[ods],
         'ods': ods,
         'odn': odn_map[ods],
-        'resp': R(c_row['Core_Completeness_Rate']),
+        'resp': R(c_row['Raw_Table_Rate']),
         'work': R(w_row['Rate']),
         'study': R(s_row['Rate']),
         'unemp': R(u_row['Rate']),
@@ -86,7 +86,7 @@ for ods in sorted(nm.keys()):
         'agree': R(c_row['FirstFeed_Recorded_Rate']),
         'k': int(c_row['Validated_Babies']),
         'den': {
-            'resp': int(c_row['Core_Denom_Fields']),
+            'resp': int(c_row['Raw_Denom_Fields']),
             'pub': int(c_row['Raw_Denom_Fields']),
             'work': int(w_row['Denominator']),
             'study': int(s_row['Denominator']),

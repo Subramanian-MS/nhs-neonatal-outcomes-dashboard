@@ -21,7 +21,7 @@
 |---------|-------------|
 | 📊 **Interactive 24-NICU Benchmark Table** | Sort by any clinical or data-quality measure — click column headers to rank trusts |
 | 🔍 **NICU & ODN Network Focus** | Click any unit (e.g. *Leeds Children's Hospital*, *Evelina London*, *Sheffield Jessop Wing*) or filter by **NHS Operational Delivery Network (ODN)** |
-| ✅ **MSDS Baby Record Data Quality (`MSD401`)** | Compares core baby demographic & birth record completeness (excluding unmapped optional `M401090`/`M401180` fields) against raw `MSD401` table validity rates |
+| ✅ **MSDS Baby Record Data Quality (`MSD401`)** | Completeness across all 27 baby demographic & birth details fields in NHS England's `MSD401` table — led by *Hull Royal Infirmary (`RWA`)* at `96.0%`, *Rosie Hospital Cambridge (`RGT`)* at `93.0%`, and *Leeds Children's Hospital (`RR8`)* at `89.6%` (3rd of 24) |
 | 📈 **Five-Year Clinical Trends (`2019/20`–`2023/24`)** | Multi-year trajectories across 5 official NHS England annual releases for 1-hour skin-to-skin care, early pathway booking (`≤10 wks`), and low 5-minute Apgar (`<7`) |
 | 📋 **16 MSDS Data Item Breakdown** | Diverging gap chart across 16 baby & neonatal data items (`M401050`..`M405909`) from `msds_dq_2023_24.csv` with NHS statistical disclosure controls (`<8` suppressed, `<25` flagged `*`) |
 | 👶 **Gestational Age Acuity Profile** | 11 official NHS England `GestationLengthBirth` bands (`<28 wks` to `43+ wks`) comparing preterm (`<37 wks`) vs term (`37+ wks`) caseloads |
@@ -51,10 +51,10 @@ All figures in this repository are extracted and reconciled directly from offici
 
 ## 🏥 Dashboard Overview
 
-The dashboard benchmarks **24 NHS Level 3 Neonatal Intensive Care Trusts** across England (`149,105` total babies, `130,410` validated core `MSD401` records in `2023/24`), including all four **Yorkshire & Humber ODN Level 3 units** (*Leeds Children's Hospital (`RR8`)*, *Sheffield Jessop Wing (`RHQ`)*, *Bradford Royal Infirmary (`RAE`)*, and *Hull Royal Infirmary (`RWA`)*):
+The dashboard benchmarks **24 NHS Level 3 Neonatal Intensive Care Trusts** across England (`149,105` total babies, `126,690` validated `MSD401` records in `2023/24`), including all four **Yorkshire & Humber ODN Level 3 units** (*Leeds Children's Hospital (`RR8`)*, *Sheffield Jessop Wing (`RHQ`)*, *Bradford Royal Infirmary (`RAE`)*, and *Hull Royal Infirmary (`RWA`)*):
 
 - **Headline metrics (`2023/24`)**:
-  - **Validated baby records (`k`) & Core record completeness (`%`)**: Share of baby records valid across core `MSD401 Baby's Demographics and Birth Details` items (excluding unmapped optional `M401090`/`M401180` fields) — led nationally by **Leeds Children's Hospital (`RR8`) at `97.4%` (`8,220` of `8,440` babies)** vs **`87.5%`** across all 24 Level 3 trusts
+  - **Validated baby records (`k`) & Record completeness (`%`)**: Share of baby records valid across all 27 `MSD401 Baby's Demographics and Birth Details` items — led nationally by **Hull Royal Infirmary (`RWA`) at `96.0%`**, **Rosie Hospital Cambridge (`RGT`) at `93.0%`**, and **Leeds Children's Hospital (`RR8`) at `89.6%` (`7,565` of `8,440` babies, ranked 3rd of 24)** vs **`85.0%`** across all 24 Level 3 trusts
   - **1-hour skin-to-skin thermal care (`%`)**: Term babies receiving skin-to-skin contact within 1 hour of birth (`SkinToSkinContact1HourTerm`, `76.8%` pooled; `99,455 / 129,565`)
   - **Early pathway booking `≤10 wks` (`%`)**: Mothers booked within 10 completed weeks / 0–70 days (`GestAgeFormalAntenatalBookingGroup`, `57.8%` pooled; **`70.4%` at Leeds (`RR8`), ranked 4th of 24**)
   - **Low 5-minute Apgar `<7` (`%`)**: Term babies born with a 5-minute Apgar score of `0 to 6` requiring clinical stabilisation (`ApgarScore5TermGroup7`, *lower is better*; `1.4%` pooled; **`1.0%` at Leeds (`RR8`), ranked 6th of 24**)

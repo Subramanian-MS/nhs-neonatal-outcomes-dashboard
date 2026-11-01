@@ -6,7 +6,7 @@ Tolerances: 0.01 pt (the precision values are stored at) where the dashboard val
 
 | Check | Source table | Rule | Items | Max difference | Tolerance | Result | Note |
 |---|---|---|---|---|---|---|---|
-| Core MSD401 baby record completeness (24 NICUs) | msds-dq-2023-24.csv (MSD401) | sum(Valid) / sum(Denominator) excluding M401090/M401180 vs dashboard | 24 | 0.0049 | 0.01 | PASS |  |
+| MSD401 baby record completeness (24 NICUs) | msds-dq-2023-24.csv (MSD401) | sum(Valid) / sum(Denominator) across all 27 MSD401 fields vs dashboard | 24 | 0.0050 | 0.01 | PASS |  |
 | 1-hour skin-to-skin thermal care % (24 NICUs) | msds-2023-24.csv (SkinToSkinContact1HourTerm) | Yes / (Yes + No) recomputed from raw NHS MSDS rows vs dashboard | 24 | 0.0043 | 0.01 | PASS |  |
 | Early antenatal booking (<=10 wks) % (24 NICUs) | msds-2023-24.csv (GestAgeFormalAntenatalBookingGroup) | (0 to 70 days) / known bookings recomputed from raw NHS MSDS rows vs dashboard | 24 | 0.0050 | 0.01 | PASS |  |
 | Low 5-minute Apgar (<7) % (24 NICUs) | msds-2023-24.csv (ApgarScore5TermGroup7) | (0 to 6) / (0 to 6 + 7 to 10) recomputed from raw NHS MSDS rows vs dashboard | 24 | 0.0042 | 0.01 | PASS |  |

@@ -139,11 +139,11 @@ for y in years:
         ff_v = int(m210['Valid'].sum())
         ff_d = int(m210['Denominator'].sum())
 
-        is_rep = 1 if (tb > 0 and core_d > 0) else 0
+        is_rep = 1 if (tb > 0 and raw_d > 0) else 0
         core_rate = (core_v / core_d) if core_d > 0 else np.nan
         raw_rate = (raw_v / raw_d) if raw_d > 0 else np.nan
         ff_rate = (ff_v / ff_d) if ff_d > 0 else np.nan
-        k_babies = r5(tb * core_rate) if (tb > 0 and core_d > 0) else 0
+        k_babies = r5(tb * raw_rate) if (tb > 0 and raw_d > 0) else 0
 
         comp_rows.append({
             'ODS_Code': ods,

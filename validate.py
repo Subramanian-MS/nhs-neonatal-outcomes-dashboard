@@ -75,16 +75,16 @@ u = {x['ods']: x for x in D['unis']}
 msds_y = rd_msds(Y)
 dq_y = rd_dq(Y)
 
-# 1. Core MSD401 baby record completeness (24 NICUs)
+# 1. MSD401 baby record completeness (24 NICUs, all 27 fields)
 m401_y = dq_y[dq_y['DataTable'].str.startswith('MSD401') & (dq_y['UID'] != 'MSD401')]
-core_y = m401_y[~m401_y['UID'].isin(['M401090', 'M401180'])].groupby('ODS_Code')[['Valid', 'Denominator']].sum()
-core_rates = core_y['Valid'] / core_y['Denominator']
+raw_y = m401_y.groupby('ODS_Code')[['Valid', 'Denominator']].sum()
+raw_rates = raw_y['Valid'] / raw_y['Denominator']
 add(
-    'Core MSD401 baby record completeness (24 NICUs)',
+    'MSD401 baby record completeness (24 NICUs)',
     f'msds-dq-{y_slug}.csv (MSD401)',
-    'sum(Valid) / sum(Denominator) excluding M401090/M401180 vs dashboard',
+    'sum(Valid) / sum(Denominator) across all 27 MSD401 fields vs dashboard',
     24,
-    max(abs(core_rates[ods] - u[ods]['resp']) for ods in u) * 100,
+    max(abs(raw_rates[ods] - u[ods]['resp']) for ods in u) * 100,
     0.01,
 )
 
@@ -132,7 +132,7 @@ add(
 
 # 5. Validated + unvalidated = Total babies
 tb_y = msds_y[msds_y['Dimension'] == 'TotalBabies'].groupby('ODS_Code')['Val'].sum()
-k_recomp = ((tb_y * core_rates) / 5.0).round() * 5
+k_recomp = ((tb_y * raw_rates) / 5.0).round() * 5
 add(
     'Validated + unvalidated = Total babies',
     f'msds-{y_slug}.csv & msds-dq-{y_slug}.csv',
@@ -166,7 +166,7 @@ for j, yr in enumerate(D['trend']['years']):
     h_yr = bfy[bfy['Measure'] == 'Maternal or Donor Breast Milk']['Val'].sum() / bfy[bfy['Measure'].isin(['Maternal or Donor Breast Milk', 'Not Breast Milk'])]['Val'].sum()
 
     tby = my[my['Dimension'].str.upper().isin(['TOTALBABIES', 'TOTAL BABIES'])].groupby('ODS_Code')['Val'].sum()
-    c_y = dqy[dqy['DataTable'].str.startswith('MSD401') & (~dqy['UID'].isin(['MSD401', 'M401090', 'M401180']))].groupby('ODS_Code')[['Valid', 'Denominator']].sum()
+    c_y = dqy[dqy['DataTable'].str.startswith('MSD401') & (dqy['UID'] != 'MSD401')].groupby('ODS_Code')[['Valid', 'Denominator']].sum()
     common = [o for o in tby.index if o in c_y.index and tby[o] > 0 and c_y.loc[o, 'Denominator'] > 0]
     k_sum = sum(int(5 * round(tby[o] * (c_y.loc[o, 'Valid'] / c_y.loc[o, 'Denominator']) / 5.0)) for o in common)
     n_sum = sum(int(tby[o]) for o in common)
